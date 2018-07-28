@@ -1,17 +1,16 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="box">
+      <h1>Restore your dotfiles</h1>
+      <vs-button vs-color="primary" vs-type="filled">Restore</vs-button>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue';
-
 export default {
   name: 'app',
   components: {
-    HelloWorld,
   },
 };
 </script>
@@ -23,6 +22,16 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin: 60px 50px 0;
+}
+
+.box {
+  width: 500px;
+  margin: auto;
+
+  h1 {
+    text-transform: capitalize;
+    margin-bottom: 20px;
+  }
 }
 </style>

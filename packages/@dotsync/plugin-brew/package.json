@@ -1,0 +1,22 @@
+{
+  "name": "@dotsync/plugin-brew",
+  "version": "0.1.0",
+  "description": "Homebrew plugin for dotsync",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pksunkara/dotsync.git"
+  },
+  "keywords": [
+    "homebrew",
+    "dotsync",
+    "plugin",
+    "dotsync-plugin"
+  ],
+  "author": "Pavan Kumar Sunkara <pavan.sss1991@gmail.com> (pksunkara.github.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pksunkara/dotsync/issues"
+  },
+  "dependencies": {}
+}

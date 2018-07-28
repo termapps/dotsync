@@ -1,0 +1,23 @@
+{
+  "name": "@dotsync/storage-git",
+  "version": "0.1.0",
+  "description": "Git repository store for dotsync",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pksunkara/dotsync.git"
+  },
+  "keywords": [
+    "git",
+    "repository",
+    "dotsync",
+    "store",
+    "dotsync-store"
+  ],
+  "author": "Pavan Kumar Sunkara <pavan.sss1991@gmail.com> (pksunkara.github.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pksunkara/dotsync/issues"
+  },
+  "dependencies": {}
+}
