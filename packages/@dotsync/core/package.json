@@ -1,0 +1,19 @@
+{
+  "name": "@dotsync/core",
+  "version": "0.1.0",
+  "description": "Core for dotsync",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pksunkara/dotsync.git"
+  },
+  "keywords": [
+    "dotsync"
+  ],
+  "author": "Pavan Kumar Sunkara <pavan.sss1991@gmail.com> (pksunkara.github.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pksunkara/dotsync/issues"
+  },
+  "dependencies": {}
+}

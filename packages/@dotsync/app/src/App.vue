@@ -1,8 +1,7 @@
 <template>
   <div id="app">
     <div class="box">
-      <h1>Restore your dotfiles</h1>
-      <vs-button vs-color="primary" vs-type="filled">Restore</vs-button>
+      <h1>Choose a storage method</h1>
     </div>
   </div>
 </template>
