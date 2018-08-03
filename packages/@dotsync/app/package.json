@@ -1,5 +1,5 @@
 {
-  "name": "app",
+  "name": "@dotsync/app",
   "version": "0.1.0",
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -9,6 +9,7 @@
     "serve:electron": "vue-cli-service serve:electron"
   },
   "dependencies": {
+    "electron": "^2.0.2",
     "material-icons": "^0.2.3",
     "vue": "^2.5.16",
     "vue-router": "^3.0.1",
@@ -21,7 +22,6 @@
     "@vue/cli-plugin-eslint": "^3.0.0-rc.7",
     "@vue/cli-service": "^3.0.0-rc.7",
     "@vue/eslint-config-airbnb": "^3.0.0-rc.7",
-    "electron": "^2.0.2",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
     "postcss-import": "^11.0.0",

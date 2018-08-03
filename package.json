@@ -1,8 +1,14 @@
 {
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": {
+    "packages": [
+      "packages/@dotsync/*"
+    ],
+    "nohoist": [
+      "**/material-icons",
+      "**/vuesax"
+    ]
+  },
   "scripts": {},
   "devDependencies": {
     "lerna": "^3.0.0-rc.0"
