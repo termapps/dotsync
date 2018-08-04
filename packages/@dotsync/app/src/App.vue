@@ -2,14 +2,35 @@
   <div id="app">
     <div class="box">
       <h1>Choose a storage method</h1>
+      <vs-select v-model="storageSelected">
+        <vs-select-item v-for="item in storageOptions" :key="item.value" :vs-value="item.value" :vs-text="item.text" />
+      </vs-select>
     </div>
   </div>
 </template>
 
 <script>
+import { configdir } from '@dotsync/core';
+
 export default {
   name: 'app',
   components: {
+  },
+  data() {
+    console.log(configdir('dotsync'));
+    return {
+      storageSelected: 'git',
+      storageOptions: [
+        {
+          text: 'Git',
+          value: 'git',
+        },
+        {
+          text: 'Folder',
+          value: 'folder',
+        },
+      ],
+    };
   },
 };
 </script>

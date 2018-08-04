@@ -11,17 +11,22 @@ module.exports = {
         ]
       }
     ],
+    'unicorn/filename-case': 'off',
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   },
+  plugins: [
+    'unicorn'
+  ],
+  'extends': [
+    'plugin:unicorn/recommended',
+    'plugin:vue/essential',
+    '@vue/airbnb'
+  ],
   root: true,
   env: {
     node: true
   },
-  'extends': [
-    'plugin:vue/essential',
-    '@vue/airbnb'
-  ],
   parserOptions: {
     parser: 'babel-eslint'
   }

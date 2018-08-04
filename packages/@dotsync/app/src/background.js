@@ -1,7 +1,7 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { app, protocol, BrowserWindow } from 'electron';
 import * as path from 'path';
 import { format as formatUrl } from 'url';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
