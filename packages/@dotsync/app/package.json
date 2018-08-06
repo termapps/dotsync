@@ -29,7 +29,7 @@
     "postcss-import": "^11.0.0",
     "postcss-url": "^7.0.0",
     "vue-cli-plugin-electron-builder": "^1.0.0-beta.6",
-    "vue-cli-plugin-route": "0.0.3",
+    "vue-cli-plugin-route": "0.0.4",
     "vue-cli-plugin-store": "0.0.6",
     "vue-template-compiler": "^2.5.16"
   },
