@@ -1,7 +1,13 @@
 export default {
   namespaced: true,
-  state: {},
+  state: {
+    configdir: '',
+  },
   getters: {},
-  mutations: {},
+  mutations: {
+    setConfigdir(state, value) {
+      state.configdir = value;
+    },
+  },
   actions: {},
 };

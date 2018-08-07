@@ -1,9 +1,21 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import StoreSettings from '../components/StoreSettings.vue';
+import VersionSettings from '../components/VersionSettings.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
+  {
+    path: '/store',
+    name: 'StoreSettings',
+    component: StoreSettings,
+  },
+  {
+    path: '/version',
+    name: 'VersionSettings',
+    component: VersionSettings,
+  },
 ];
 
 // eslint-disable-next-line no-new

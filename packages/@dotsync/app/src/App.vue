@@ -1,19 +1,22 @@
 <template>
   <div id="app">
-    <StoreSettings></StoreSettings>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import { configdir, Settings } from '@dotsync/core';
-import StoreSettings from './components/StoreSettings.vue';
+import { mapMutations } from 'vuex';
+import { configdir } from '@dotsync/core';
 
 export default {
-  components: {
-    StoreSettings,
+  methods: {
+    ...mapMutations('Global', [
+      'setConfigdir',
+    ]),
   },
-  data() {
-    return {};
+  created() {
+    this.setConfigdir(configdir('Dotsync'));
+    this.$router.push('/store');
   },
 };
 </script>
@@ -41,10 +44,6 @@ export default {
   .vs-row {
     margin-top: 20px;
   }
-}
-
-.con-select {
-  width: 154px;
 }
 
 .vs-select-options ul .vs-select-item-btn {
