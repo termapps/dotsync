@@ -14,7 +14,7 @@ module.exports = (appname) => {
     dir = window.process.env.XDG_CONFIG_HOME || path.join(home, '.config');
   }
 
-  const configdir = path.join(dir, appname);
+  const configdir = path.resolve(path.join(dir, appname));
   mkdirp.sync(configdir);
 
   return configdir;

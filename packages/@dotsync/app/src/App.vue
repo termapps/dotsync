@@ -1,35 +1,19 @@
 <template>
   <div id="app">
-    <div class="box">
-      <h1>Data Store Settings</h1>
-      <vs-select v-model="storage">
-        <vs-select-item v-for="item in storageOptions" :key="item.value" :vs-value="item.value" :vs-text="item.text" />
-      </vs-select>
-      <vs-input vs-label-placeholder="Location" v-model="location"/>
-    </div>
+    <StoreSettings></StoreSettings>
   </div>
 </template>
 
 <script>
+import { configdir, Settings } from '@dotsync/core';
+import StoreSettings from './components/StoreSettings.vue';
+
 export default {
-  name: 'app',
   components: {
+    StoreSettings,
   },
   data() {
-    return {
-      location: '',
-      storage: 'git',
-      storageOptions: [
-        {
-          text: 'Git',
-          value: 'git',
-        },
-        {
-          text: 'Folder',
-          value: 'folder',
-        },
-      ],
-    };
+    return {};
   },
 };
 </script>
@@ -47,14 +31,27 @@ export default {
 .box {
   width: 500px;
   margin: auto;
+  line-height: 29px;
 
   h1 {
     text-transform: capitalize;
-    margin-bottom: 20px;
+    padding-bottom: 20px;
   }
 
-  div {
-    margin: auto;
+  .vs-row {
+    margin-top: 20px;
   }
+}
+
+.con-select {
+  width: 154px;
+}
+
+.vs-select-options ul .vs-select-item-btn {
+  display: inline;
+}
+
+.vs-inputx {
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
 }
 </style>
