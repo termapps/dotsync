@@ -1,7 +1,7 @@
 <template>
-  <div class="box">
+  <div class="main-box">
     <h1>Data Store Settings</h1>
-    <vs-row v-if="!this.dataIsGood()">
+    <vs-row>
       <vs-col vs-w="5" vs-type="flex" vs-justify="flex-end">Method</vs-col>
       <vs-col vs-w="6" vs-offset="1">
         <vs-select v-model="method">
@@ -9,13 +9,13 @@
         </vs-select>
       </vs-col>
     </vs-row>
-    <vs-row v-if="!this.dataIsGood()">
+    <vs-row>
       <vs-col vs-w="5" vs-type="flex" vs-justify="flex-end">Location</vs-col>
       <vs-col vs-w="6" vs-offset="1">
         <vs-input v-model="location" />
       </vs-col>
     </vs-row>
-    <vs-row v-if="!this.dataIsGood()">
+    <vs-row>
       <vs-col vs-w="12">
         <vs-button id="confirm-store-settings" @click="confirm">Confirm Settings</vs-button>
       </vs-col>
@@ -33,6 +33,28 @@ export default {
       'configdir',
       'storeSettings',
     ]),
+    method: {
+      get() {
+        return this.storeSettings.method || 'git';
+      },
+      set(value) {
+        this.setStoreSettings({
+          ...this.storeSettings,
+          method: value,
+        });
+      },
+    },
+    location: {
+      get() {
+        return this.storeSettings.location || '';
+      },
+      set(value) {
+        this.setStoreSettings({
+          ...this.storeSettings,
+          location: value,
+        });
+      },
+    },
   },
   methods: {
     dataIsGood() {
@@ -43,12 +65,6 @@ export default {
       return true;
     },
     confirm() {
-      const storeData = {
-        method: this.method,
-        location: this.location,
-      };
-
-      this.setStoreSettings(storeData);
       // new Settings(this.configdir, 'store').write(storeData);
     },
     ...mapMutations('Global', [
@@ -58,12 +74,16 @@ export default {
   created() {
     if (this.dataIsGood()) {
       this.$router.push({ name: 'VersionSettings' });
+    } else {
+      this.setStoreSettings({
+        method: 'git',
+        location: '',
+        ...this.storeSettings,
+      });
     }
   },
   data() {
     return {
-      location: '',
-      method: 'git',
       options: [
         {
           text: 'Git',

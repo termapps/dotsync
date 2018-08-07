@@ -28,7 +28,7 @@ export default {
     this.setStoreSettings(new Settings(this.configdir, 'store').read());
     this.setVersionSettings(new Settings(this.configdir, 'version').read());
 
-    // this.$router.push({ name: 'StoreSettings' });
+    this.$router.push({ name: 'StoreSettings' });
   },
 };
 </script>
@@ -43,7 +43,7 @@ export default {
   margin: 60px 50px 0;
 }
 
-.box {
+.main-box {
   width: 500px;
   margin: auto;
   line-height: 29px;
