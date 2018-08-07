@@ -2,20 +2,16 @@ const path = require('path');
 const fs = require('fs');
 
 class Settings {
-  // TODO: Catch fs error
   constructor(folder, type) {
-    this.file = path.join(folder, `${type}.json`);
+    this.file = path.resolve(folder, `${type}.json`);
   }
 
   read() {
-    if (!exists()) {
+    if (!this.exists()) {
       return {};
     }
 
-    const data = fs.readFileSync(this.file, { encoding: 'utf8' });
-
-    // TODO: Catch JSON.parse error
-    return JSON.parse(data);
+    return JSON.parse(fs.readFileSync(this.file, { encoding: 'utf8' }));
   }
 
   exists() {
@@ -23,7 +19,7 @@ class Settings {
   }
 
   write(data) {
-    return fs.writeFileSync(this.file, JSON.stringify(data, null, 2), { en})
+    return fs.writeFileSync(this.file, JSON.stringify(data, null, 2), { encoding: 'utf8' })
   }
 };
 

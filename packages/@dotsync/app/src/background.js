@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { app, protocol, BrowserWindow } from 'electron';
+import { app, protocol, BrowserWindow, Menu } from 'electron';
 import * as path from 'path';
 import { format as formatUrl } from 'url';
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib';
@@ -65,4 +65,16 @@ app.on('ready', async () => {
   }
 
   mainWindow = createMainWindow();
+
+  Menu.getApplicationMenu().items[2].submenu.items[0].click = (item, window) => {
+    if (isDevelopment) {
+      window.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
+    } else {
+      window.loadURL(formatUrl({
+        pathname: path.join(__dirname, 'index.html'),
+        protocol: 'file',
+        slashes: true,
+      }));
+    }
+  };
 });

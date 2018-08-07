@@ -3,18 +3,18 @@ const path = require('path');
 
 module.exports = (appname) => {
   let dir;
-  const platform = process.platform;
+  const platform = window.process.platform;
   const home = window.process.env.HOME;
 
   if (platform == 'win32') {
     dir = window.process.env.APPDATA;
   } else if (platform == 'darwin') {
-    dir = path.join(home, 'Library', 'Application Support');
+    dir = path.resolve(home, 'Library', 'Application Support');
   } else {
-    dir = window.process.env.XDG_CONFIG_HOME || path.join(home, '.config');
+    dir = window.process.env.XDG_CONFIG_HOME || path.resolve(home, '.config');
   }
 
-  const configdir = path.resolve(path.join(dir, appname));
+  const configdir = path.resolve(dir, appname);
   mkdirp.sync(configdir);
 
   return configdir;
