@@ -1,6 +1,7 @@
 class Folder {
   constructor() {
-    this.name = 'folder';
+    this.name = 'Folder';
+    this.location = 'Path to the folder';
     this.description = 'Use a folder (backed up by other ways) to store your dotfiles';
   }
 

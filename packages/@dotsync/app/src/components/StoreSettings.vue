@@ -5,14 +5,14 @@
       <vs-col vs-w="5" vs-type="flex" vs-justify="flex-end">Method</vs-col>
       <vs-col vs-w="6" vs-offset="1">
         <vs-select v-model="method">
-          <vs-select-item v-for="item in options" :key="item.value" :vs-value="item.value" :vs-text="item.text" />
+          <vs-select-item v-for="item in options()" :key="item.value" :vs-value="item.value" :vs-text="item.text" />
         </vs-select>
       </vs-col>
     </vs-row>
     <vs-row>
       <vs-col vs-w="5" vs-type="flex" vs-justify="flex-end">Location</vs-col>
       <vs-col vs-w="6" vs-offset="1">
-        <vs-input v-model="location" />
+        <vs-input v-model="location" :vs-danger="locationBad" :vs-danger-text="locationText" :vs-description-text="locationDescription" />
       </vs-col>
     </vs-row>
     <vs-row>
@@ -25,7 +25,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
-import { Settings } from '@dotsync/core';
+import { Settings, stores } from '@dotsync/core';
 
 export default {
   computed: {
@@ -55,8 +55,16 @@ export default {
         });
       },
     },
+    locationDescription() {
+      return !this.locationBad ? stores[this.storeSettings.method].location : '';
+    },
   },
   methods: {
+    options() {
+      return Object.keys(stores).map(key => {
+        return { text: stores[key].name, value: key };
+      });
+    },
     dataIsGood() {
       if (this.storeSettings.method === void 0 || this.storeSettings.location === void 0 || this.storeSettings.location === '') {
         return false;
@@ -64,7 +72,17 @@ export default {
 
       return true;
     },
+    validate() {
+      this.locationBad = false;
+      this.locationText = '';
+
+      if (this.storeSettings.location.length <= 0) {
+        this.locationBad = true;
+        this.locationText = 'This is required';
+      }
+    },
     confirm() {
+      this.validate();
       // new Settings(this.configdir, 'store').write(storeData);
     },
     ...mapMutations('Global', [
@@ -84,16 +102,8 @@ export default {
   },
   data() {
     return {
-      options: [
-        {
-          text: 'Git',
-          value: 'git',
-        },
-        {
-          text: 'Folder',
-          value: 'folder',
-        },
-      ],
+      locationBad: false,
+      locationText: '',
     };
   },
 };

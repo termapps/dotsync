@@ -2,7 +2,8 @@ const exec = require('child_process').exec;
 
 class Git {
   constructor() {
-    this.name = 'git';
+    this.name = 'Git';
+    this.location = 'URL to git repository';
     this.description = 'Use git repository to store your dotfiles';
   }
 

@@ -65,4 +65,8 @@ export default {
 .vs-inputx {
   border: 1px solid rgba(0, 0, 0, 0.1) !important;
 }
+
+.vs-con-input {
+  height: 29px;
+}
 </style>
