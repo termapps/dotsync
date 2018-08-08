@@ -27,6 +27,8 @@
 import { mapState, mapMutations } from 'vuex';
 import { Settings, stores } from '@dotsync/core';
 
+let methods;
+
 export default {
   computed: {
     ...mapState('Global', [
@@ -56,13 +58,16 @@ export default {
       },
     },
     locationDescription() {
-      return !this.locationBad ? stores[this.storeSettings.method].location : '';
+      return !this.locationBad ? methods[this.storeSettings.method].location : '';
+    },
+    locationBad() {
+      return this.locationText !== '';
     },
   },
   methods: {
     options() {
-      return Object.keys(stores).map(key => {
-        return { text: stores[key].name, value: key };
+      return Object.keys(methods).map(key => {
+        return { text: methods[key].name, value: key };
       });
     },
     dataIsGood() {
@@ -72,25 +77,39 @@ export default {
 
       return true;
     },
+    locationIsGood() {
+      return methods[this.storeSettings.method].valid(this.storeSettings.location);
+    },
     validate() {
-      this.locationBad = false;
-      this.locationText = '';
-
       if (this.storeSettings.location.length <= 0) {
-        this.locationBad = true;
-        this.locationText = 'This is required';
+        return 'This is required';
       }
+
+      return this.locationIsGood();
     },
     confirm() {
-      this.validate();
-      // new Settings(this.configdir, 'store').write(storeData);
+      // TODO: Loading for the button which was pressed
+      // TODO: Maybe show what exactly we are doing instead of the form
+      this.locationText = this.validate();
+
+      if (!this.locationBad) {
+        console.log('instantiating store');
+        this.locationText = methods[this.storeSettings.method].init(this.storeSettings.location);
+
+        if (!this.locationBad) {
+          console.log('storing the given settings');
+          new Settings(this.configdir, 'store').write(this.storeSettings);
+        }
+      }
     },
     ...mapMutations('Global', [
       'setStoreSettings',
     ]),
   },
   created() {
-    if (this.dataIsGood()) {
+    methods = stores(this.configdir);
+
+    if (this.dataIsGood() && this.locationIsGood() === '') {
       this.$router.push({ name: 'VersionSettings' });
     } else {
       this.setStoreSettings({
@@ -102,7 +121,6 @@ export default {
   },
   data() {
     return {
-      locationBad: false,
       locationText: '',
     };
   },

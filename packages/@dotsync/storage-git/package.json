@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/pksunkara/dotsync/issues"
   },
-  "dependencies": {}
+  "dependencies": {
+    "mkdirp": "^0.5.1",
+    "rimraf": "^2.6.2"
+  }
 }
