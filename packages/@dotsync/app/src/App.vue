@@ -9,10 +9,11 @@ import { mapState, mapMutations } from 'vuex';
 import { configdir, Settings } from '@dotsync/core';
 
 // TODO: Catch the thrown errors from everywhere
+// TODO: Loading should be shown until a view is rendered
 export default {
   computed: {
     ...mapState('Global', [
-      'configdir'
+      'configdir',
     ]),
   },
   methods: {

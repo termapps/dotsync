@@ -23,6 +23,10 @@ class Folder {
     return '';
   }
 
+  latestVersion() {
+
+  }
+
   beforeRestore() {
     // Do nothing
   }

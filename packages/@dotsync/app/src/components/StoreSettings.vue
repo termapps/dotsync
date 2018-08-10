@@ -27,6 +27,7 @@
 import { mapState, mapMutations } from 'vuex';
 import { Settings, stores } from '@dotsync/core';
 
+// TODO: Find better way for this
 let methods;
 
 export default {
@@ -99,6 +100,7 @@ export default {
         if (!this.locationBad) {
           console.log('storing the given settings');
           new Settings(this.configdir, 'store').write(this.storeSettings);
+          this.$router.push({ name: 'VersionSettings' });
         }
       }
     },

@@ -43,6 +43,10 @@ class Git {
     return '';
   }
 
+  latestVersion() {
+
+  }
+
   beforeRestore() {
     // Git pull
   }
