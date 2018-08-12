@@ -3,7 +3,7 @@ const Git = require('@dotsync/storage-git');
 
 module.exports = (configdir) => {
   return {
-    git: new Git(configdir),
-    folder: new Folder(configdir),
+    '@dotsync/storage-git': new Git(configdir),
+    '@dotsync/storage-folder': new Folder(configdir),
   };
 };

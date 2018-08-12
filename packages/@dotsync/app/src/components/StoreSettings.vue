@@ -119,7 +119,7 @@ export default {
       this.$router.push({ name: 'VersionSettings' });
     } else {
       this.setStoreSettings({
-        method: 'git',
+        method: '@dotsync/storage-git',
         location: '',
         ...this.storeSettings,
       });

@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Loading from '../components/Loading.vue';
+import Home from '../components/Home.vue';
 import StoreSettings from '../components/StoreSettings.vue';
 import VersionSettings from '../components/VersionSettings.vue';
 import Restore from '../components/Restore.vue';
@@ -11,8 +11,8 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: '/',
-    name: 'Loading',
-    component: Loading,
+    name: 'Home',
+    component: Home,
   },
   {
     path: '/store',

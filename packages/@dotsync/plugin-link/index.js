@@ -15,7 +15,7 @@ class Link {
       if (path.isAbsolute(item.destination)) {
         const source = path.resolve(this.datadir, item.source);
 
-        exec(`ln -sfn ${source} ${item.destination}`, {
+        exec(`ln -sfn '${source}' '${item.destination}'`, {
           cwd: this.datadir,
           encoding: 'utf8',
         }, (err, stdout, stderr) => {
