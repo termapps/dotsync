@@ -1,6 +1,6 @@
 {
   "name": "@dotsync/plugin-brew",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Homebrew plugin for dotsync",
   "main": "index.js",
   "repository": {
@@ -17,8 +17,5 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/pksunkara/dotsync/issues"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }

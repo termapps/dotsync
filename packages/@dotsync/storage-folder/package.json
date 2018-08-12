@@ -1,6 +1,6 @@
 {
   "name": "@dotsync/storage-folder",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Folder store for dotsync",
   "main": "index.js",
   "repository": {
@@ -16,8 +16,5 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/pksunkara/dotsync/issues"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }

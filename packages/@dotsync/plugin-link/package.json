@@ -1,6 +1,6 @@
 {
   "name": "@dotsync/plugin-link",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Folder linking plugin for dotsync",
   "main": "index.js",
   "repository": {
@@ -21,8 +21,5 @@
   },
   "dependencies": {
     "async": "^2.6.1"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }

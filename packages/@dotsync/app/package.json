@@ -1,6 +1,6 @@
 {
   "name": "@dotsync/app",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -9,10 +9,10 @@
     "serve:electron": "vue-cli-service serve:electron"
   },
   "dependencies": {
-    "@dotsync/core": "^0.1.0",
-    "@dotsync/plugin-link": "^0.1.0",
-    "@dotsync/storage-folder": "^0.1.0",
-    "@dotsync/storage-git": "^0.1.0",
+    "@dotsync/core": "^0.1.1",
+    "@dotsync/plugin-link": "^0.1.1",
+    "@dotsync/storage-folder": "^0.1.1",
+    "@dotsync/storage-git": "^0.1.1",
     "material-icons": "^0.2.3",
     "vue": "^2.5.16",
     "vue-logdown": "^0.1.0",
@@ -37,8 +37,5 @@
     "vue-cli-plugin-store": "0.0.6",
     "vue-template-compiler": "^2.5.16"
   },
-  "main": "dist_electron/bundled/background.js",
-  "publishConfig": {
-    "access": "public"
-  }
+  "main": "dist_electron/bundled/background.js"
 }

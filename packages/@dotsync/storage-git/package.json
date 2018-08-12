@@ -1,6 +1,6 @@
 {
   "name": "@dotsync/storage-git",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Git repository store for dotsync",
   "main": "index.js",
   "repository": {
@@ -22,8 +22,5 @@
   "dependencies": {
     "mkdirp": "^0.5.1",
     "rimraf": "^2.6.2"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }
