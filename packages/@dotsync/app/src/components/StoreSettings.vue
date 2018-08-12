@@ -88,7 +88,6 @@ export default {
     },
     confirm() {
       // TODO: Loading for the button which was pressed
-      // TODO: Maybe show what exactly we are doing instead of the form
       this.locationText = this.validate();
 
       if (!this.locationBad) {
@@ -105,6 +104,8 @@ export default {
       'setStoreSettings',
     ]),
   },
+  // TODO: Make this mounted
+  // TODO: Maybe show what exactly we are doing instead of the form
   created() {
     methods = stores(this.configdir);
 

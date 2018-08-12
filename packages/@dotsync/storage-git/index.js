@@ -1,4 +1,5 @@
-const exec = require('child_process').execSync;
+const execSync = require('child_process').execSync;
+const exec = require('child_process').exec;
 const mkdirp = require('mkdirp');
 const path = require('path');
 const rimraf = require('rimraf');
@@ -13,13 +14,17 @@ class Git {
     this.dataFolder = path.join(this.configdir, 'data');
   }
 
-  run(cmd) {
-    return exec(cmd, { cwd: this.dataFolder, encoding: 'utf8' });
+  runSync(cmd) {
+    return execSync(cmd, { cwd: this.dataFolder, encoding: 'utf8' });
+  }
+
+  run(cmd, cb) {
+    return exec(cmd, { cwd: this.dataFolder, encoding: 'utf8' }, cb);
   }
 
   valid(value) {
     try {
-      exec(`git ls-remote ${value}`);
+      execSync(`git ls-remote ${value}`);
     } catch (e) {
       return 'Repository not found';
     }
@@ -31,9 +36,9 @@ class Git {
     mkdirp.sync(this.dataFolder);
 
     try {
-      this.run(`git init`);
-      this.run(`git remote add dotsync ${value}`);
-      this.run(`git fetch dotsync`);
+      this.runSync(`git init`);
+      this.runSync(`git remote add dotsync ${value}`);
+      this.runSync(`git fetch dotsync`);
     } catch (e) {
       rimraf.sync(this.dataFolder);
       // TODO: Pinpoint error
@@ -43,14 +48,16 @@ class Git {
     return '';
   }
 
-  latestVersion() {
-    try {
-      this.run(`git fetch dotsync`);
-      return this.run(`git log --format='%H' -n 1 dotsync/master`);
-    } catch (e) {
-      // TODO: Pinpoint error
-      return 'Unable to get the latest version';
-    }
+  latestVersion(cb) {
+    this.run(`git fetch dotsync`, (err, stdout, stderr) => {
+      if (err) {
+        return cb(err);
+      }
+
+      this.run(`git log --format='%H' -n 1 dotsync/master`, (err, stdout, stderr) => {
+        cb(err, stdout.trim());
+      });
+    });
   }
 
   beforeRestore() {

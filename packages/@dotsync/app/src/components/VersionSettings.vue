@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 import { stores } from '@dotsync/core';
 
 export default {
@@ -14,16 +14,24 @@ export default {
       'versionSettings',
     ]),
   },
-  created() {
+  methods: {
+    ...mapMutations('Global', [
+      'setVersionSettings',
+    ]),
+  },
+  mounted() {
     const methods = stores(this.configdir);
-    // TODO: Make this async
-    const upstreamVersion = methods[this.storeSettings.method].latestVersion();
 
-    if (upstreamVersion !== this.versionSettings) {
-      this.$router.push({ name: 'Restore' });
-    } else {
-      this.$router.push({ name: 'Dashboard' });
-    }
+    methods[this.storeSettings.method].latestVersion((err, version) => {
+      // TODO: Display error
+
+      if (version !== this.versionSettings.version) {
+        this.setVersionSettings({ version });
+        this.$router.push({ name: 'Restore' });
+      } else {
+        this.$router.push({ name: 'Dashboard' });
+      }
+    });
   },
 };
 </script>

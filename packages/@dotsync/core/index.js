@@ -1,5 +1,6 @@
 [
   'configdir',
+  'restore',
   'Settings',
   'stores',
 ].forEach(mod => {

@@ -5,32 +5,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
-import { configdir, Settings } from '@dotsync/core';
-
-// TODO: Catch the thrown errors from everywhere
-// TODO: Loading should be shown until a view is rendered
 export default {
-  computed: {
-    ...mapState('Global', [
-      'configdir',
-    ]),
-  },
-  methods: {
-    ...mapMutations('Global', [
-      'setConfigdir',
-      'setStoreSettings',
-      'setVersionSettings',
-    ]),
-  },
-  created() {
-    this.setConfigdir(configdir('Dotsync'));
-
-    this.setStoreSettings(new Settings(this.configdir, 'store').read());
-    this.setVersionSettings(new Settings(this.configdir, 'version').read());
-
-    this.$router.push({ name: 'StoreSettings' });
-  },
 };
 </script>
 

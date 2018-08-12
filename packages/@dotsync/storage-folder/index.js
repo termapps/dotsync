@@ -23,8 +23,9 @@ class Folder {
     return '';
   }
 
-  latestVersion() {
+  latestVersion(cb) {
     // TODO: Last modified time
+    cb(new Error('Not implemented'));
   }
 
   beforeRestore() {

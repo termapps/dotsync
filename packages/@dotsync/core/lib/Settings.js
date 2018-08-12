@@ -19,7 +19,7 @@ class Settings {
   }
 
   write(data) {
-    return fs.writeFileSync(this.file, JSON.stringify(data, null, 2), { encoding: 'utf8' })
+    return fs.writeFileSync(this.file, `${JSON.stringify(data, null, 2)}\n`, { encoding: 'utf8' })
   }
 };
 
