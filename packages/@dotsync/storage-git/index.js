@@ -45,19 +45,28 @@ class Git {
 
   latestVersion() {
     try {
-      this.run(`git`);
+      this.run(`git fetch dotsync`);
+      return this.run(`git log --format='%H' -n 1 dotsync/master`);
     } catch (e) {
-      // TODO: Better error message here
+      // TODO: Pinpoint error
       return 'Unable to get the latest version';
     }
   }
 
   beforeRestore() {
-    // Git pull
+    try {
+      this.run(`git reset --hard dotsync/master`);
+    } catch (e) {
+      return 'Unable to reset local repository to upstream';
+    }
   }
 
   afterBackup() {
-    // Git push
+    try {
+      this.run(`git push dotsync master`);
+    } catch (e) {
+      return 'Unable to push to git repository';
+    }
   }
 };
 

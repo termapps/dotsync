@@ -67,12 +67,10 @@ export default {
   },
   methods: {
     options() {
-      return Object.keys(methods).map(key => {
-        return { text: methods[key].name, value: key };
-      });
+      return Object.keys(methods).map(key => ({ text: methods[key].name, value: key }));
     },
     dataIsGood() {
-      if (this.storeSettings.method === void 0 || this.storeSettings.location === void 0 || this.storeSettings.location === '') {
+      if (this.storeSettings.method === undefined || this.storeSettings.location === undefined || this.storeSettings.location === '') {
         return false;
       }
 
@@ -94,12 +92,10 @@ export default {
       this.locationText = this.validate();
 
       if (!this.locationBad) {
-        console.log('instantiating store');
         // TODO: Make this method async
         this.locationText = methods[this.storeSettings.method].init(this.storeSettings.location);
 
         if (!this.locationBad) {
-          console.log('storing the given settings');
           new Settings(this.configdir, 'store').write(this.storeSettings);
           this.$router.push({ name: 'VersionSettings' });
         }

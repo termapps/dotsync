@@ -24,15 +24,15 @@ class Folder {
   }
 
   latestVersion() {
-
+    // TODO: Last modified time
   }
 
   beforeRestore() {
-    // Do nothing
+    return '';
   }
 
   afterBackup() {
-    // Do nothing
+    return '';
   }
 };
 

@@ -1,41 +1,29 @@
 <template>
-  <div class="main-box">
-    <h1>Version Settings</h1>
-    <vs-row>
-      <vs-col vs-w="12">
-        <vs-button id="confirm-version-settings" @click="confirm">Confirm Version</vs-button>
-      </vs-col>
-    </vs-row>
-  </div>
+  <div></div>
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
-import { Settings, stores } from '@dotsync/core';
-
-let methods;
+import { mapState } from 'vuex';
+import { stores } from '@dotsync/core';
 
 export default {
   computed: {
     ...mapState('Global', [
       'configdir',
+      'storeSettings',
       'versionSettings',
     ]),
   },
-  methods: {
-    confirm() {
-
-    },
-    ...mapMutations('Global', [
-      'setVersionSettings',
-    ]),
-  },
   created() {
-    methods = stores(this.configdir);
-  },
-  data() {
-    return {
-    };
+    const methods = stores(this.configdir);
+    // TODO: Make this async
+    const upstreamVersion = methods[this.storeSettings.method].latestVersion();
+
+    if (upstreamVersion !== this.versionSettings) {
+      this.$router.push({ name: 'Restore' });
+    } else {
+      this.$router.push({ name: 'Dashboard' });
+    }
   },
 };
 </script>

@@ -3,6 +3,8 @@ import VueRouter from 'vue-router';
 import Loading from '../components/Loading.vue';
 import StoreSettings from '../components/StoreSettings.vue';
 import VersionSettings from '../components/VersionSettings.vue';
+import Restore from '../components/Restore.vue';
+import Dashboard from '../components/Dashboard.vue';
 
 Vue.use(VueRouter);
 
@@ -21,6 +23,16 @@ const routes = [
     path: '/version',
     name: 'VersionSettings',
     component: VersionSettings,
+  },
+  {
+    path: '/restore',
+    name: 'Restore',
+    component: Restore,
+  },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: Dashboard,
   },
 ];
 
