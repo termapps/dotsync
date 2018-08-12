@@ -37,5 +37,8 @@
     "vue-cli-plugin-store": "0.0.6",
     "vue-template-compiler": "^2.5.16"
   },
-  "main": "dist_electron/bundled/background.js"
+  "main": "dist_electron/bundled/background.js",
+  "publishConfig": {
+    "access": "public"
+  }
 }

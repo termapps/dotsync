@@ -13,6 +13,6 @@ module.exports = (datadir, cb) => {
   config.presets.default.plugins.forEach((item) => {
     const plugin = new (plugins[item.name])(datadir);
 
-    plugin.execute(item.data, cb);
+    plugin.restore(item.data, cb);
   });
 };

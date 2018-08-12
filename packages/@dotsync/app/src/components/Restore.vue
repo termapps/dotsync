@@ -26,7 +26,7 @@ export default {
 
       restore(datadir, (err) => {
         if (err) {
-          // TODO: Display erro
+          // TODO: Display error
           return console.log(err);
         }
 

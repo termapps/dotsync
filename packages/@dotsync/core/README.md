@@ -2,14 +2,6 @@
 
 Core for dotsync
 
-## Installation
-
-```
-$
-```
-
-## Usage
-
 ## License
 MIT/X11
 

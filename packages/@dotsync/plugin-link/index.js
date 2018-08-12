@@ -10,7 +10,7 @@ class Link {
     this.datadir = datadir;
   }
 
-  execute(data, cb) {
+  restore(data, cb) {
     async.each(data.paths, (item, callback) => {
       if (path.isAbsolute(item.destination)) {
         const source = path.resolve(this.datadir, item.source);
