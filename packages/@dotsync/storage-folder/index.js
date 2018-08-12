@@ -28,12 +28,12 @@ class Folder {
     cb(new Error('Not implemented'));
   }
 
-  beforeRestore() {
-    return '';
+  beforeRestore(datadir, cb) {
+    cb(null, datadir);
   }
 
-  afterBackup() {
-    return '';
+  afterBackup(cb) {
+    cb(null);
   }
 };
 

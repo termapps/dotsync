@@ -1,3 +1,5 @@
-module.exports = (configdir, cb) => {
+module.exports = (datadir, cb) => {
+  
+
   cb(null);
 };

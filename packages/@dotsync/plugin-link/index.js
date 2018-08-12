@@ -1,12 +1,13 @@
+const exec = require('child_process').execSync;
+
 class Link {
-  name: 'link',
-  description: '',
+  constructor(datadir) {
+    this.name = 'link';
+    this.description = 'Symlink files to different locations';
+  }
 
-  constructor() {
-
-  },
-
-
+  execute(data) {
+  }
 };
 
 module.exports = Link;

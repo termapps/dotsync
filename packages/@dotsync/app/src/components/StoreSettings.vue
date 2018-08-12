@@ -98,8 +98,9 @@ export default {
         this.locationText = methods[this.storeSettings.method].init(this.storeSettings.location);
 
         if (!this.locationBad) {
-          log.info('Writing storage settings');
           new Settings(this.configdir, 'store').write(this.storeSettings);
+
+          log.info('Wrote storage settings');
           this.$router.push({ name: 'VersionSettings' });
         }
       }

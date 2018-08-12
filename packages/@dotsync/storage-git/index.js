@@ -60,20 +60,42 @@ class Git {
     });
   }
 
-  beforeRestore() {
-    try {
-      this.run(`git reset --hard dotsync/master`);
-    } catch (e) {
-      return 'Unable to reset local repository to upstream';
-    }
+  beforeRestore(repo, cb) {
+    // TODO: Check if async/await pattern fits here
+    this.run(`git status --porcelain`, (err, stdout, stderr) => {
+      if (err) {
+        return cb(err);
+      }
+
+      if (stdout !== '') {
+        return cb(new Error('Your local copy is dirty. Please save those changes somewhere else first.'));
+      }
+
+      this.run(`git reset --hard dotsync/master`, (err, stdout, stderr) => {
+        if (err) {
+          return cb(err);
+        }
+
+        if (stdout.match(/^HEAD is now at /) === null) {
+          return cb(new Error(`Unable to download the data. Failed 'git reset --hard'.`));
+        }
+
+        this.run(`git submodule update --init --recursive`, (err, stdout, stderr) => {
+          if (err) {
+            return cb(err);
+          }
+
+          return cb(null, this.dataFolder);
+        });
+      });
+    });
   }
 
-  afterBackup() {
-    try {
-      this.run(`git push dotsync master`);
-    } catch (e) {
-      return 'Unable to push to git repository';
-    }
+  // TODO: What if a previous `afterBackup` failed from device "A", and a
+  // backup from another device "B" succeeded, then restoring the succeeded
+  // backup on "A" would erase the stuff that was added there.
+  afterBackup(cb) {
+    this.run(`git push dotsync master`, cb);
   }
 };
 
