@@ -18,7 +18,6 @@
   "bugs": {
     "url": "https://github.com/pksunkara/dotsync/issues"
   },
-  "dependencies": {},
   "publishConfig": {
     "access": "public"
   }
