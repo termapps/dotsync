@@ -91,10 +91,14 @@ export default {
       this.locationText = this.validate();
 
       if (!this.locationBad) {
+        const log = this.$createLogger('store');
+        log.info('Getting ready to write storage settings');
+
         // TODO: Make this method async
         this.locationText = methods[this.storeSettings.method].init(this.storeSettings.location);
 
         if (!this.locationBad) {
+          log.info('Writing storage settings');
           new Settings(this.configdir, 'store').write(this.storeSettings);
           this.$router.push({ name: 'VersionSettings' });
         }

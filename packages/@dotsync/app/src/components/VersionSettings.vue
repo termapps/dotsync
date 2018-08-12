@@ -23,6 +23,7 @@ export default {
     const methods = stores(this.configdir);
 
     methods[this.storeSettings.method].latestVersion((err, version) => {
+      this.$createLogger('version').info(`Latest version ${version}`);
       // TODO: Display error
 
       if (version !== this.versionSettings.version) {

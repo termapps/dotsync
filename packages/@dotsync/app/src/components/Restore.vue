@@ -14,7 +14,10 @@ export default {
     ]),
   },
   mounted() {
+    this.$createLogger('restore').info('Restoring');
+
     restore(this.configdir, (err) => {
+      this.$createLogger('version').info('Writing version settings');
       new Settings(this.configdir, 'version').write(this.versionSettings);
       this.$router.push({ name: 'Dashboard' });
     });
