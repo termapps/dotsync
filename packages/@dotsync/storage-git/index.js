@@ -44,7 +44,12 @@ class Git {
   }
 
   latestVersion() {
-
+    try {
+      this.run(`git`);
+    } catch (e) {
+      // TODO: Better error message here
+      return 'Unable to get the latest version';
+    }
   }
 
   beforeRestore() {

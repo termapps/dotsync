@@ -95,6 +95,7 @@ export default {
 
       if (!this.locationBad) {
         console.log('instantiating store');
+        // TODO: Make this method async
         this.locationText = methods[this.storeSettings.method].init(this.storeSettings.location);
 
         if (!this.locationBad) {

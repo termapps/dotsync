@@ -20,10 +20,10 @@
     "vuex-persistedstate": "^2.5.4"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.0.0-rc.10",
-    "@vue/cli-plugin-eslint": "^3.0.0-rc.10",
-    "@vue/cli-service": "^3.0.0-rc.10",
-    "@vue/eslint-config-airbnb": "^3.0.0-rc.10",
+    "@vue/cli-plugin-babel": "^3.0.0",
+    "@vue/cli-plugin-eslint": "^3.0.0",
+    "@vue/cli-service": "^3.0.0",
+    "@vue/eslint-config-airbnb": "^3.0.0",
     "electron": "^2.0.2",
     "eslint-plugin-unicorn": "^4.0.0",
     "less": "^3.0.4",
