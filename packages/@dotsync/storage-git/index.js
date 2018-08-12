@@ -33,9 +33,9 @@ class Git {
   }
 
   init(value) {
-    mkdirp.sync(this.dataFolder);
-
     try {
+      mkdirp.sync(this.dataFolder);
+
       this.runSync(`git init`);
       this.runSync(`git remote add dotsync ${value}`);
       this.runSync(`git fetch dotsync`);
@@ -61,7 +61,6 @@ class Git {
   }
 
   beforeRestore(repo, cb) {
-    // TODO: Check if async/await pattern fits here
     this.run(`git status --porcelain`, (err, stdout, stderr) => {
       if (err) {
         return cb(err);

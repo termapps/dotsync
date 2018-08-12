@@ -98,6 +98,7 @@ export default {
         this.locationText = methods[this.storeSettings.method].init(this.storeSettings.location);
 
         if (!this.locationBad) {
+          // TODO: Store the full resolved path for the folder plugin
           new Settings(this.configdir, 'store').write(this.storeSettings);
 
           log.info('Wrote storage settings');

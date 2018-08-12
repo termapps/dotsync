@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@dotsync/core": "^0.1.0",
+    "@dotsync/plugin-link": "^0.1.0",
     "@dotsync/storage-folder": "^0.1.0",
     "@dotsync/storage-git": "^0.1.0",
     "material-icons": "^0.2.3",

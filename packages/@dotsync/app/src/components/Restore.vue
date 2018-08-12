@@ -4,7 +4,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
-import { Settings, stores, restore, dummy } from '@dotsync/core';
+import { Settings, stores, restore } from '@dotsync/core';
 
 export default {
   computed: {
@@ -25,6 +25,11 @@ export default {
       }
 
       restore(datadir, (err) => {
+        if (err) {
+          // TODO: Display erro
+          return console.log(err);
+        }
+
         new Settings(this.configdir, 'version').write(this.versionSettings);
 
         this.$createLogger('version').info('Wrote version settings');
