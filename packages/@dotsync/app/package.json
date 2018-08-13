@@ -1,11 +1,12 @@
 {
+  "private": true,
   "name": "@dotsync/app",
   "version": "0.1.1",
   "description": "",
   "main": "dist_electron/bundled/background.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pksunkara/dotsync.git"
+    "url": "git+https://github.com/osapps/dotsync.git"
   },
   "keywords": [
     "dotsync"
@@ -13,7 +14,7 @@
   "author": "Pavan Kumar Sunkara <pavan.sss1991@gmail.com> (pksunkara.github.com)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pksunkara/dotsync/issues"
+    "url": "https://github.com/osapps/dotsync/issues"
   },
   "scripts": {
     "serve": "vue-cli-service serve",

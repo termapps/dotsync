@@ -6,7 +6,7 @@ Core for dotsync
 MIT/X11
 
 ## Bug Reports
-Report [here](http://github.com/pksunkara/dotsync/issues). __Guaranteed reply within a day__.
+Report [here](http://github.com/osapps/dotsync/issues). __Guaranteed reply within a day__.
 
 ## Contact
 Pavan Kumar Sunkara (pavan.sss1991@gmail.com)

@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 
-## 0.0.1 - 2018-08-12
+## 0.1.0 - 2018-08-12
 
 ### Added
 - Basic working electron app
@@ -15,4 +15,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added "folder" storage method
 - Added "link" plugin
 
-[Unreleased]: https://github.com/pksunkara/dotsync/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/osapps/dotsync/compare/v0.1.0...HEAD

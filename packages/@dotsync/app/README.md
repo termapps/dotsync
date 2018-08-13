@@ -1,21 +1,28 @@
-# app
+# @dotsync/app
 
-## Project setup
+## Installation
+
 ```
-npm install
+$
 ```
+
+## Usage
+
+## License
+MIT/X11
+
+## Bug Reports
+Report [here](http://github.com/osapps/dotsync/issues). __Guaranteed reply within a day__.
+
+
+## Contributing
 
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+yarn run serve:electron
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## Contact
+Pavan Kumar Sunkara (pavan.sss1991@gmail.com)
 
-### Lints and fixes files
-```
-npm run lint
-```
+Follow me on [github](https://github.com/users/follow?target=pksunkara), [twitter](http://twitter.com/pksunkara)

@@ -1,4 +1,5 @@
 {
+  "private": true,
   "workspaces": {
     "packages": [
       "packages/@dotsync/*"
@@ -8,7 +9,9 @@
       "**/vuesax"
     ]
   },
-  "scripts": {},
+  "scripts": {
+    "release": "lerna publish --force-publish=*"
+  },
   "devDependencies": {
     "lerna": "^3.0.3"
   }
