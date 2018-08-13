@@ -1,6 +1,6 @@
 {
   "name": "@dotsync/storage-folder",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Folder store for dotsync",
   "main": "index.js",
   "repository": {

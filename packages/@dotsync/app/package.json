@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@dotsync/app",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "",
   "main": "dist_electron/bundled/background.js",
   "repository": {
@@ -24,10 +24,10 @@
     "serve:electron": "vue-cli-service serve:electron"
   },
   "dependencies": {
-    "@dotsync/core": "^0.1.1",
-    "@dotsync/plugin-link": "^0.1.1",
-    "@dotsync/storage-folder": "^0.1.1",
-    "@dotsync/storage-git": "^0.1.1",
+    "@dotsync/core": "^0.1.2",
+    "@dotsync/plugin-link": "^0.1.2",
+    "@dotsync/storage-folder": "^0.1.2",
+    "@dotsync/storage-git": "^0.1.2",
     "material-icons": "^0.2.3",
     "vue": "^2.5.16",
     "vue-logdown": "^0.1.0",
