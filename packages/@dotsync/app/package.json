@@ -2,8 +2,8 @@
   "private": true,
   "name": "@dotsync/app",
   "version": "0.1.2",
-  "description": "",
-  "main": "dist_electron/bundled/background.js",
+  "description": "Dotfiles manager",
+  "main": "electron/bundled/background.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/osapps/dotsync.git"

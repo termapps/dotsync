@@ -19,7 +19,7 @@ Report [here](http://github.com/osapps/dotsync/issues). __Guaranteed reply withi
 
 ### Compiles and hot-reloads for development
 ```
-yarn run serve:electron
+yarn serve:electron
 ```
 
 ## Contact
