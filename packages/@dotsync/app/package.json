@@ -28,6 +28,7 @@
     "@dotsync/plugin-link": "^0.1.2",
     "@dotsync/storage-folder": "^0.1.2",
     "@dotsync/storage-git": "^0.1.2",
+    "electron-updater": "^3.1.1",
     "material-icons": "^0.2.3",
     "vue": "^2.5.16",
     "vue-logdown": "^0.1.0",

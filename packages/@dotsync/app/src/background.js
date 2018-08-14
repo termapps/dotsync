@@ -3,6 +3,7 @@ import { app, protocol, BrowserWindow, Menu } from 'electron';
 import * as path from 'path';
 import { format as formatUrl } from 'url';
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib';
+import { autoUpdater } from 'electron-updater';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -60,6 +61,8 @@ app.on('activate', () => {
 
 // create main BrowserWindow when electron is ready
 app.on('ready', async () => {
+  autoUpdater.checkForUpdatesAndNotify();
+
   if (isDevelopment && !process.env.IS_TEST) {
     await installVueDevtools();
   }

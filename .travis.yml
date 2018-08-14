@@ -17,3 +17,7 @@ cache:
 
 script:
   - yarn build:electron
+
+branches:
+  only:
+    - /^v\d+\.\d+\.\d+(-\S*)?$/
