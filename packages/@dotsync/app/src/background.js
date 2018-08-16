@@ -11,7 +11,7 @@ const isDevelopment = process.env.NODE_ENV !== 'production';
 let mainWindow;
 
 // Standard scheme must be registered before the app is ready
-protocol.registerStandardSchemes(['app'], { secure: true });
+protocol.registerStandardSchemes(['dotsync'], { secure: true });
 
 function createMainWindow() {
   const window = new BrowserWindow();
@@ -21,7 +21,7 @@ function createMainWindow() {
     window.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
     if (!process.env.IS_TEST) window.webContents.openDevTools();
   } else {
-    createProtocol('app');
+    createProtocol('dotsync');
     // Load the index.html when not in development
     window.loadURL(formatUrl({
       pathname: path.join(__dirname, 'index.html'),

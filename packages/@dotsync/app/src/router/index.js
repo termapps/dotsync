@@ -38,8 +38,7 @@ const routes = [
 
 // eslint-disable-next-line no-new
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
+  base: '/',
   routes,
 });
 

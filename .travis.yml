@@ -16,6 +16,7 @@ cache:
     - $HOME/.cache/electron-builder
 
 script:
+  - cd packages/@dotsync/app
   - yarn build:electron
 
 branches:

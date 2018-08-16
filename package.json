@@ -10,8 +10,7 @@
     ]
   },
   "scripts": {
-    "release": "lerna publish --force-publish=*",
-    "build:electron": "cd packages/@dotsync/app && yarn build:electron"
+    "release": "lerna publish --force-publish=*"
   },
   "devDependencies": {
     "lerna": "^3.0.3"
