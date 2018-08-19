@@ -10,6 +10,7 @@ module.exports = {
         appId: 'com.pksunkara.dotsync',
         productName: 'Dotsync',
         copyright: 'Copyright © 2018 Pavan Kumar Sunkara',
+        publish: 'github',
       },
     },
   },

@@ -10,7 +10,8 @@
     ]
   },
   "scripts": {
-    "release": "lerna publish --force-publish=*"
+    "release": "lerna publish",
+    "release:force": "lerna publish --force-publish=*"
   },
   "devDependencies": {
     "lerna": "^3.1.1"

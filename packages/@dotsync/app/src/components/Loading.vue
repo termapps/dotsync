@@ -16,6 +16,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
+import { remote } from 'electron';
 import { configdir, Settings } from '@dotsync/core';
 
 // TODO: Catch the thrown errors from everywhere
@@ -33,7 +34,7 @@ export default {
     ]),
   },
   mounted() {
-    this.setConfigdir(configdir('Dotsync'));
+    this.setConfigdir(configdir(remote.app.getPath('appData')));
 
     this.setStoreSettings(new Settings(this.configdir, 'store').read());
     this.setVersionSettings(new Settings(this.configdir, 'version').read());

@@ -1,12 +1,14 @@
 class Brew {
-  name: 'brew',
-  description: '',
+  constructor(datadir) {
+    this.name = 'brew';
+    this.description = 'Homebrew ...';
 
-  constructor() {
+    this.datadir = datadir;
+  }
 
-  },
-
-
+  restore(data, cb) {
+    cb();
+  }
 };
 
 module.exports = Brew;
