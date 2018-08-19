@@ -8,6 +8,7 @@ const plugins = {
 };
 
 module.exports = (datadir, cb) => {
+  console.log(require('child_process').execSync(`npm root`));
   const config = JSON.parse(fs.readFileSync(path.resolve(datadir, 'config.json'), 'utf8'));
 
   config.presets.default.plugins.forEach((item) => {
