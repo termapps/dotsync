@@ -110,8 +110,8 @@ export default {
       'setStoreSettings',
     ]),
   },
-  // TODO: Make this mounted
   // TODO: Maybe show what exactly we are doing instead of the form
+  // TODO: Make this mounted (need to do proper storage plugin system)
   created() {
     methods = stores(this.configdir);
 

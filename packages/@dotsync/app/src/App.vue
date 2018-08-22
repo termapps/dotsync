@@ -1,6 +1,18 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <div class="top-bar">
+      <vs-row>
+        <vs-col vs-w="2" vs-offset="4" vs-type="flex" vs-justify="center" vs-align="center">
+          <router-link :to="{ name: 'Home' }">Dashboard</router-link>
+        </vs-col>
+        <vs-col vs-w="2" vs-type="flex" vs-justify="center" vs-align="center">
+          <router-link :to="{ name: 'Plugins' }">Plugins</router-link>
+        </vs-col>
+      </vs-row>
+    </div>
+    <div class="content-view">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -16,7 +28,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin: 60px 50px 0;
 }
 
 .main-box {
@@ -32,6 +43,16 @@ export default {
   .vs-row {
     margin-top: 20px;
   }
+}
+
+.top-bar {
+  .vs-row {
+    height: 50px;
+  }
+}
+
+.content-view {
+  margin: 20px 50px 0;
 }
 
 .vs-select-options ul .vs-select-item-btn {

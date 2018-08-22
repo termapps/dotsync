@@ -5,6 +5,7 @@ import StoreSettings from '../components/StoreSettings.vue';
 import VersionSettings from '../components/VersionSettings.vue';
 import Restore from '../components/Restore.vue';
 import Dashboard from '../components/Dashboard.vue';
+import Plugins from '../components/Plugins.vue';
 
 Vue.use(VueRouter);
 
@@ -33,6 +34,11 @@ const routes = [
     path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard,
+  },
+  {
+    path: '/plugins',
+    name: 'Plugins',
+    component: Plugins,
   },
 ];
 

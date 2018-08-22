@@ -2,8 +2,8 @@ const path = require('path');
 const fs = require('fs');
 
 class Settings {
-  constructor(folder, type) {
-    this.file = path.resolve(folder, `${type}.json`);
+  constructor(dir, type) {
+    this.file = path.resolve(dir, `${type}.json`);
   }
 
   read() {
