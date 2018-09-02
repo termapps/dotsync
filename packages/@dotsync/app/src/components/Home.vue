@@ -21,12 +21,14 @@ export default {
   },
   methods: {
     ...mapMutations('Global', [
+      'clearMessages',
       'setConfigdir',
       'setStoreSettings',
       'setVersionSettings',
     ]),
   },
   mounted() {
+    this.clearMessages();
     this.setConfigdir(configdir(remote.app.getPath('appData')));
 
     this.setStoreSettings(new Settings(this.configdir, 'store').read());

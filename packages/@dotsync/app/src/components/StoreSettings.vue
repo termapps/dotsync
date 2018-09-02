@@ -27,7 +27,7 @@
 import { mapState, mapMutations } from 'vuex';
 import { Settings, stores } from '@dotsync/core';
 
-// TODO: Find better way for this
+// TODO: Find better way for this (need to do proper storage plugin system)
 let methods;
 
 export default {
@@ -110,11 +110,11 @@ export default {
       'setStoreSettings',
     ]),
   },
-  // TODO: Maybe show what exactly we are doing instead of the form
-  // TODO: Make this mounted (need to do proper storage plugin system)
   created() {
     methods = stores(this.configdir);
-
+  },
+  // TODO: Maybe show what exactly we are doing instead of the form
+  mounted() {
     if (this.dataIsGood() && this.locationIsGood() === '') {
       this.$router.push({ name: 'VersionSettings' });
     } else {

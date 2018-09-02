@@ -3,12 +3,17 @@
     <div class="top-bar">
       <vs-row>
         <vs-col vs-w="2" vs-offset="4" vs-type="flex" vs-justify="center" vs-align="center">
-          <router-link :to="{ name: 'Home' }">Dashboard</router-link>
+          <router-link :to="{ name: 'Home' }">Home</router-link>
         </vs-col>
         <vs-col vs-w="2" vs-type="flex" vs-justify="center" vs-align="center">
           <router-link :to="{ name: 'Plugins' }">Plugins</router-link>
         </vs-col>
       </vs-row>
+    </div>
+    <div class="alerts">
+      <vs-alert active=true v-for="(item, index) in messages" :key="index" :icon="item.icon" :color="item.color">
+        {{item.message}}
+      </vs-alert>
     </div>
     <div class="content-view">
       <router-view></router-view>
@@ -17,7 +22,14 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
+  computed: {
+    ...mapState('Global', [
+      'messages',
+    ]),
+  },
 };
 </script>
 
@@ -48,6 +60,16 @@ export default {
 .top-bar {
   .vs-row {
     height: 50px;
+  }
+}
+
+.alerts {
+  margin: 20px 50px 0;
+
+  .con-vs-alert {
+    margin-top: 10px;
+    box-shadow: none !important;
+    height: auto !important;
   }
 }
 

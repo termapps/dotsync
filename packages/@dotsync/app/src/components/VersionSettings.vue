@@ -16,6 +16,7 @@ export default {
   },
   methods: {
     ...mapMutations('Global', [
+      'pushMessage',
       'setVersionSettings',
     ]),
   },
@@ -34,6 +35,11 @@ export default {
         this.setVersionSettings({ version });
         this.$router.push({ name: 'Restore' });
       } else {
+        this.pushMessage({
+          message: 'Already synced to the latest version of your dotfiles',
+          icon: 'sync',
+          color: 'success',
+        });
         this.$router.push({ name: 'Dashboard' });
       }
     });
