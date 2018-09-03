@@ -32,10 +32,10 @@ export default {
         });
       }
 
-      restore(datadir, (err) => {
-        if (err) {
+      restore(datadir, (error) => {
+        if (error) {
           return this.pushMessage({
-            message: err.message,
+            message: error.message,
             icon: 'error',
             color: 'danger',
           });
@@ -43,9 +43,9 @@ export default {
 
         try {
           new Settings(this.configdir, 'version').write(this.versionSettings);
-        } catch (error) {
+        } catch (e) {
           return this.pushMessage({
-            message: `Unable to write version settings: ${error.message}`,
+            message: `Unable to write version settings: ${e.message}`,
             icon: 'error',
             color: 'danger',
           });

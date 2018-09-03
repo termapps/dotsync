@@ -3,8 +3,9 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { remote } from 'electron';
+import { mapState, mapMutations } from 'vuex';
 import { configdir, Settings } from '@dotsync/core';
 
 import Loading from './Loading.vue';

@@ -7,27 +7,27 @@ module.exports = {
         ignorePropertyModificationsFor: [
           'state',
           'acc',
-          'e'
-        ]
-      }
+          'e',
+        ],
+      },
     ],
     'unicorn/filename-case': 'off',
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
   },
   plugins: [
-    'unicorn'
+    'unicorn',
   ],
-  'extends': [
+  extends: [
     'plugin:unicorn/recommended',
     'plugin:vue/essential',
-    '@vue/airbnb'
+    '@vue/airbnb',
   ],
   root: true,
   env: {
-    node: true
+    node: true,
   },
   parserOptions: {
-    parser: 'babel-eslint'
-  }
-}
+    parser: 'babel-eslint',
+  },
+};

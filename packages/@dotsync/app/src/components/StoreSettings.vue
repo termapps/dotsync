@@ -135,13 +135,13 @@ export default {
 
       if (!this.locationBad) {
         return this.$router.push({ name: 'VersionSettings' });
-      } else {
-        this.pushMessage({
-          message: 'The saved storage settings are not valid anymore',
-          icon: 'error',
-          color: 'danger',
-        });
       }
+
+      this.pushMessage({
+        message: 'The saved storage settings are not valid anymore',
+        icon: 'error',
+        color: 'danger',
+      });
     }
 
     this.setStoreSettings({

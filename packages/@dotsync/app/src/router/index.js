@@ -6,6 +6,7 @@ import VersionSettings from '../components/VersionSettings.vue';
 import Restore from '../components/Restore.vue';
 import Dashboard from '../components/Dashboard.vue';
 import Plugins from '../components/Plugins.vue';
+import Config from '../components/Config.vue';
 
 Vue.use(VueRouter);
 
@@ -39,6 +40,11 @@ const routes = [
     path: '/plugins',
     name: 'Plugins',
     component: Plugins,
+  },
+  {
+    path: '/config',
+    name: 'Config',
+    component: Config,
   },
 ];
 

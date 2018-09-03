@@ -3,7 +3,10 @@
     <div class="top-bar">
       <vs-row>
         <vs-col vs-w="2" vs-offset="4" vs-type="flex" vs-justify="center" vs-align="center">
-          <router-link :to="{ name: 'Home' }">Home</router-link>
+          <router-link :to="{ name: 'Dashboard' }">Dashboard</router-link>
+        </vs-col>
+        <vs-col vs-w="2" vs-type="flex" vs-justify="center" vs-align="center">
+          <router-link :to="{ name: 'Plugins' }">Config</router-link>
         </vs-col>
         <vs-col vs-w="2" vs-type="flex" vs-justify="center" vs-align="center">
           <router-link :to="{ name: 'Plugins' }">Plugins</router-link>
