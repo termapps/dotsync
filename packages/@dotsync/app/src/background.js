@@ -4,6 +4,7 @@ import * as path from 'path';
 import { format as formatUrl } from 'url';
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib';
 import { autoUpdater } from 'electron-updater';
+import log from 'electron-log';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -69,7 +70,7 @@ const loadUrl = (win) => {
 const createMainWindow = () => {
   const window = new BrowserWindow();
 
-  if (isDevelopment && !process.env.IS_TEST) {
+  if (isDevelopment) {
     window.webContents.openDevTools();
   }
 
@@ -115,10 +116,17 @@ app.on('activate', () => {
 
 // create main BrowserWindow when electron is ready
 app.on('ready', async () => {
-  autoUpdater.checkForUpdatesAndNotify();
-
-  if (isDevelopment && !process.env.IS_TEST) {
+  if (isDevelopment) {
     await installVueDevtools();
+  } else {
+    autoUpdater.logger = log;
+    autoUpdater.logger.transports.file.level = 'debug';
+
+    autoUpdater.checkForUpdatesAndNotify();
+
+    setInterval(() => {
+      autoUpdater.checkForUpdatesAndNotify();
+    }, 3600000);
   }
 
   mainWindow = createMainWindow();
