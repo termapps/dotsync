@@ -25,8 +25,11 @@ export default {
 
     methods[this.storeSettings.method].latestVersion((err, version) => {
       if (err) {
-        // TODO: Display error
-        return console.log(err);
+        return this.pushMessage({
+          message: err.message,
+          icon: 'error',
+          color: 'danger',
+        });
       }
 
       this.$createLogger('version').info(`Latest version ${version}`);

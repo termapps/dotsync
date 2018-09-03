@@ -9,7 +9,6 @@ import { configdir, Settings } from '@dotsync/core';
 
 import Loading from './Loading.vue';
 
-// TODO: Catch the thrown errors from everywhere
 export default {
   components: {
     Loading,
@@ -21,6 +20,7 @@ export default {
   },
   methods: {
     ...mapMutations('Global', [
+      'pushMessage',
       'clearMessages',
       'setConfigdir',
       'setStoreSettings',
@@ -29,12 +29,33 @@ export default {
   },
   mounted() {
     this.clearMessages();
-    this.setConfigdir(configdir(remote.app.getPath('appData')));
 
-    this.setStoreSettings(new Settings(this.configdir, 'store').read());
-    this.setVersionSettings(new Settings(this.configdir, 'version').read());
+    configdir(remote.app.getPath('appData'), (err, dir) => {
+      if (err) {
+        return this.pushMessage({
+          message: `Unable to create config directory ${dir}: ${err.message}`,
+          icon: 'error',
+          color: 'danger',
+        });
+      }
 
-    this.$router.push({ name: 'StoreSettings' });
+      this.setConfigdir(dir);
+
+      try {
+        this.setStoreSettings(new Settings(this.configdir, 'store').read());
+        this.setVersionSettings(new Settings(this.configdir, 'version').read());
+      } catch (error) {
+        if (error) {
+          return this.pushMessage({
+            message: `Unable to read settings: ${error.message}`,
+            icon: 'error',
+            color: 'danger',
+          });
+        }
+      }
+
+      this.$router.push({ name: 'StoreSettings' });
+    });
   },
 };
 </script>

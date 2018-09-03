@@ -76,15 +76,12 @@ export default {
 
       return true;
     },
-    locationIsGood() {
-      return methods[this.storeSettings.method].valid(this.storeSettings.location);
-    },
     validate() {
-      if (this.storeSettings.location.length <= 0) {
+      if (this.storeSettings.location === '') {
         return 'This is required';
       }
 
-      return this.locationIsGood();
+      return methods[this.storeSettings.method].valid(this.storeSettings.location);
     },
     confirm() {
       // TODO: Loading for the button which was pressed
@@ -94,36 +91,64 @@ export default {
         const log = this.$createLogger('store');
         log.info('Getting ready to write storage settings');
 
-        // TODO: Make this method async
-        this.locationText = methods[this.storeSettings.method].init(this.storeSettings.location);
+        methods[this.storeSettings.method].init(this.storeSettings.location, (err, text = '', patch = {}) => {
+          this.locationText = text;
+          this.storeSettings = Object.assign(patch, this.storeSettings);
 
-        if (!this.locationBad) {
-          // TODO: Store the full resolved path for the folder plugin
-          new Settings(this.configdir, 'store').write(this.storeSettings);
+          if (err) {
+            return this.pushMessage({
+              message: err.message,
+              icon: 'error',
+              color: 'danger',
+            });
+          }
 
-          log.info('Wrote storage settings');
-          this.$router.push({ name: 'VersionSettings' });
-        }
+          if (!this.locationBad) {
+            try {
+              new Settings(this.configdir, 'store').write(this.storeSettings);
+            } catch (error) {
+              if (error) {
+                return this.pushMessage({
+                  message: `Unable to write storage settings: ${error.message}`,
+                  icon: 'error',
+                  color: 'danger',
+                });
+              }
+
+              log.info('Wrote storage settings');
+              this.$router.push({ name: 'VersionSettings' });
+            }
+          }
+        });
       }
     },
     ...mapMutations('Global', [
+      'pushMessage',
       'setStoreSettings',
     ]),
   },
   created() {
     methods = stores(this.configdir);
-  },
-  // TODO: Maybe show what exactly we are doing instead of the form
-  mounted() {
-    if (this.dataIsGood() && this.locationIsGood() === '') {
-      this.$router.push({ name: 'VersionSettings' });
-    } else {
-      this.setStoreSettings({
-        method: '@dotsync/storage-git',
-        location: '',
-        ...this.storeSettings,
-      });
+
+    if (this.dataIsGood()) {
+      this.locationText = this.validate();
+
+      if (!this.locationBad) {
+        return this.$router.push({ name: 'VersionSettings' });
+      } else {
+        this.pushMessage({
+          message: 'The saved storage settings are not valid anymore',
+          icon: 'error',
+          color: 'danger',
+        });
+      }
     }
+
+    this.setStoreSettings({
+      method: '@dotsync/storage-git',
+      location: '',
+      ...this.storeSettings,
+    });
   },
   data() {
     return {

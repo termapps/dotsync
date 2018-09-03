@@ -1,9 +1,10 @@
 const mkdirp = require('mkdirp');
 const path = require('path');
 
-module.exports = (dir) => {
+module.exports = (dir, cb) => {
   const configdir = path.resolve(dir, 'Dotsync');
-  mkdirp.sync(configdir);
 
-  return configdir;
+  mkdirp(configdir, (err) => {
+    return cb(err, configdir);
+  });
 };

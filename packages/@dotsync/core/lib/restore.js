@@ -3,6 +3,7 @@ const path = require('path');
 
 const Link = require('@dotsync/plugin-link');
 
+// TODO: More modular plugin system
 const plugins = {
   '@dotsync/plugin-link': Link,
 };

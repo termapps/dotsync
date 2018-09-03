@@ -11,11 +11,7 @@ class Settings {
       return {};
     }
 
-    try {
-      return JSON.parse(fs.readFileSync(this.file, { encoding: 'utf8' }));
-    } catch (e) {
-      return {};
-    }
+    return JSON.parse(fs.readFileSync(this.file, { encoding: 'utf8' }));
   }
 
   exists() {

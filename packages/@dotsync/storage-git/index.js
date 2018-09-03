@@ -14,10 +14,6 @@ class Git {
     this.dataFolder = path.join(this.configdir, 'data');
   }
 
-  runSync(cmd) {
-    return execSync(cmd, { cwd: this.dataFolder, encoding: 'utf8' });
-  }
-
   run(cmd, cb) {
     return exec(cmd, { cwd: this.dataFolder, encoding: 'utf8' }, cb);
   }
@@ -32,30 +28,57 @@ class Git {
     return '';
   }
 
-  init(value) {
-    try {
-      mkdirp.sync(this.dataFolder);
+  init(value, cb) {
+    const callback = (err) => {
+      rimraf(this.dataFolder, (error) => {
+        return cb(err, 'Unable to fetch git repository');
+      });
+    };
 
-      this.runSync(`git init`);
-      this.runSync(`git remote add dotsync ${value}`);
-      this.runSync(`git fetch dotsync`);
-    } catch (e) {
-      rimraf.sync(this.dataFolder);
-      // TODO: Pinpoint error
-      return 'Unable to fetch git repository';
-    }
+    mkdirp(this.dataFolder, (err) => {
+      if (err) {
+        return cb(err, 'Bad file system permissions');
+      }
 
-    return '';
+      this.run('git init', (err) => {
+        if (err) {
+          err.message = `Unable to init local git repository: ${err.message}`;
+          return callback(err);
+        }
+
+        this.run(`git remote add dotsync ${value}`, (err) => {
+          if (err) {
+            err.message = `Unable to add git remote: ${err.message}`;
+            return callback(err);
+          }
+
+          this.run('git fetch dotsync', (err) => {
+            if (err) {
+              err.message = `Unable to fetch git repository: ${err.message}`;
+              return callback(err);
+            }
+
+            cb(null);
+          });
+        });
+      });
+    });
   }
 
   latestVersion(cb) {
     this.run(`git fetch dotsync`, (err, stdout, stderr) => {
       if (err) {
+        err.message = `Unable to fetch git repository: ${err.message}`;
         return cb(err);
       }
 
       this.run(`git log --format='%H' -n 1 dotsync/master`, (err, stdout, stderr) => {
-        cb(err, stdout.trim());
+        if (err) {
+          err.message = `Unable to run 'git log': ${err.message}`;
+          return cb(err);
+        }
+
+        cb(null, stdout.trim());
       });
     });
   }
@@ -63,6 +86,7 @@ class Git {
   beforeRestore(repo, cb) {
     this.run(`git status --porcelain`, (err, stdout, stderr) => {
       if (err) {
+        err.message = `Unable to run 'git status': ${err.message}`;
         return cb(err);
       }
 
@@ -72,6 +96,7 @@ class Git {
 
       this.run(`git reset --hard dotsync/master`, (err, stdout, stderr) => {
         if (err) {
+          err.message = `Unable to run 'git reset': ${err.message}`;
           return cb(err);
         }
 
@@ -81,6 +106,7 @@ class Git {
 
         this.run(`git submodule update --init --recursive`, (err, stdout, stderr) => {
           if (err) {
+            err.message = `Unable to update git submodules: ${err.message}`;
             return cb(err);
           }
 

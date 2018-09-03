@@ -14,23 +14,42 @@ export default {
       'versionSettings',
     ]),
   },
+  methods: {
+    ...mapMutations('Global', [
+      'pushMessage',
+    ]),
+  },
   mounted() {
     const methods = stores(this.configdir);
     this.$createLogger('restore').info('Restoring');
 
     methods[this.storeSettings.method].beforeRestore(this.storeSettings.location, (err, datadir) => {
       if (err) {
-        // TODO: Display error
-        return console.log(err);
+        return this.pushMessage({
+          message: err.message,
+          icon: 'error',
+          color: 'danger',
+        });
       }
 
       restore(datadir, (err) => {
         if (err) {
-          // TODO: Display error
-          return console.log(err);
+          return this.pushMessage({
+            message: err.message,
+            icon: 'error',
+            color: 'danger',
+          });
         }
 
-        new Settings(this.configdir, 'version').write(this.versionSettings);
+        try {
+          new Settings(this.configdir, 'version').write(this.versionSettings);
+        } catch (error) {
+          return this.pushMessage({
+            message: `Unable to write version settings: ${error.message}`,
+            icon: 'error',
+            color: 'danger',
+          });
+        }
 
         this.$createLogger('version').info('Wrote version settings');
         this.$router.push({ name: 'Dashboard' });

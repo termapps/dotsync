@@ -19,8 +19,8 @@ class Folder {
     return '';
   }
 
-  init(value) {
-    return '';
+  init(value, cb) {
+    cb(null, '', { location: path.resolve(__dirname, value) });
   }
 
   latestVersion(cb) {
