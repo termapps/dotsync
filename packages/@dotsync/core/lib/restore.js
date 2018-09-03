@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const async = require('async');
 
 const Link = require('@dotsync/plugin-link');
 
@@ -11,10 +12,8 @@ const plugins = {
 module.exports = (datadir, cb) => {
   const config = JSON.parse(fs.readFileSync(path.resolve(datadir, 'config.json'), 'utf8'));
 
-  config.presets.default.plugins.forEach((item) => {
+  async.eachSeries(config.presets.default.plugins, (item, callback) => {
     const plugin = new (plugins[item.name])(datadir);
-
-    // TODO: Many plugins
-    plugin.restore(item.data, cb);
-  });
+    plugin.restore(item.data, callback);
+  }, cb);
 };
