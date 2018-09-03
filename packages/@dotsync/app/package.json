@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "Dotsync",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Dotfiles manager",
   "main": "electron/bundled/background.js",
   "repository": {
@@ -24,7 +24,7 @@
     "serve:electron": "vue-cli-service serve:electron"
   },
   "dependencies": {
-    "@dotsync/core": "^0.2.0",
+    "@dotsync/core": "^0.2.1",
     "@dotsync/plugin-link": "^0.2.0",
     "@dotsync/storage-folder": "^0.2.0",
     "@dotsync/storage-git": "^0.2.0",
