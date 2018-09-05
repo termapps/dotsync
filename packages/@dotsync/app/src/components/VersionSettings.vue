@@ -16,8 +16,10 @@ export default {
   },
   methods: {
     ...mapMutations('Global', [
-      'pushMessage',
       'setVersionSettings',
+    ]),
+    ...mapMutations('Progress', [
+      'pushMessage',
     ]),
   },
   mounted() {

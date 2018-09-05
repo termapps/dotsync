@@ -123,8 +123,10 @@ export default {
       }
     },
     ...mapMutations('Global', [
-      'pushMessage',
       'setStoreSettings',
+    ]),
+    ...mapMutations('Progres', [
+      'pushMessage',
     ]),
   },
   created() {

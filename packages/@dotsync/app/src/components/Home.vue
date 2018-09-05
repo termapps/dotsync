@@ -21,11 +21,13 @@ export default {
   },
   methods: {
     ...mapMutations('Global', [
-      'pushMessage',
-      'clearMessages',
       'setConfigdir',
       'setStoreSettings',
       'setVersionSettings',
+    ]),
+    ...mapMutations('Progress', [
+      'pushMessage',
+      'clearMessages',
     ]),
   },
   mounted() {

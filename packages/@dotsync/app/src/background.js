@@ -120,7 +120,7 @@ app.on('ready', async () => {
     await installVueDevtools();
   } else {
     autoUpdater.logger = log;
-    autoUpdater.logger.transports.file.level = 'debug';
+    autoUpdater.logger.transports.file.level = 'info';
 
     autoUpdater.checkForUpdatesAndNotify();
 

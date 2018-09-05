@@ -15,7 +15,7 @@ export default {
     ]),
   },
   methods: {
-    ...mapMutations('Global', [
+    ...mapMutations('Progress', [
       'pushMessage',
     ]),
   },
