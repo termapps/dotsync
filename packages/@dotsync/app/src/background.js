@@ -70,7 +70,7 @@ const loadUrl = (win) => {
 const createMainWindow = () => {
   const window = new BrowserWindow();
 
-  if (isDevelopment) {
+  if (isDevelopment && !process.env.IS_TEST) {
     window.webContents.openDevTools();
   }
 
@@ -116,9 +116,11 @@ app.on('activate', () => {
 
 // create main BrowserWindow when electron is ready
 app.on('ready', async () => {
-  if (isDevelopment) {
+  if (isDevelopment && !process.env.IS_TEST) {
     await installVueDevtools();
-  } else {
+  }
+
+  if (!isDevelopment) {
     autoUpdater.logger = log;
     autoUpdater.logger.transports.file.level = 'info';
 

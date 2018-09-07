@@ -11,9 +11,10 @@
   },
   "scripts": {
     "release": "lerna publish",
-    "release:force": "lerna publish --force-publish=*"
+    "release:force": "lerna publish --force-publish",
+    "test": "lerna exec --scope='Dotsync' -- mocha tests"
   },
   "devDependencies": {
-    "lerna": "^3.1.1"
+    "lerna": "^3.3.0"
   }
 }

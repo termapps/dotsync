@@ -19,9 +19,12 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "test": "mocha tests",
     "lint": "vue-cli-service lint",
     "build:electron": "vue-cli-service build:electron",
-    "serve:electron": "vue-cli-service serve:electron"
+    "serve:electron": "vue-cli-service serve:electron",
+    "serve:storybook": "vue-cli-service serve:storybook -p 6006 -c config/storybook",
+    "build:storybook": "vue-cli-service build:storybook -c config/storybook"
   },
   "dependencies": {
     "@dotsync/core": "^0.2.1",
@@ -39,18 +42,24 @@
     "vuex-persistedstate": "^2.5.4"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^4.0.0-alpha.21",
+    "@storybook/addon-links": "^4.0.0-alpha.21",
     "@vue/cli-plugin-babel": "^3.0.1",
     "@vue/cli-plugin-eslint": "^3.0.1",
     "@vue/cli-service": "^3.0.1",
     "@vue/eslint-config-airbnb": "^3.0.1",
+    "chai": "^4.1.2",
     "eslint-plugin-unicorn": "^4.0.0",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
+    "mocha": "^5.2.0",
     "postcss-import": "^11.0.0",
     "postcss-url": "^7.0.0",
+    "spectron": "^4.0.0",
     "vue-cli-plugin-electron-builder": "^1.0.0-beta.6",
     "vue-cli-plugin-route": "0.0.7",
     "vue-cli-plugin-store": "0.0.7",
+    "vue-cli-plugin-storybook": "^0.4.7",
     "vue-template-compiler": "^2.5.16"
   }
 }

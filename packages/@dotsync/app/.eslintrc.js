@@ -1,5 +1,7 @@
 module.exports = {
   rules: {
+    'consistent-return': 'off',
+    'max-len': 'off',
     'no-param-reassign': [
       'error',
       {
@@ -26,6 +28,7 @@ module.exports = {
   root: true,
   env: {
     node: true,
+    mocha: true,
   },
   parserOptions: {
     parser: 'babel-eslint',
