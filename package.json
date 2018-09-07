@@ -12,7 +12,8 @@
   "scripts": {
     "release": "lerna publish",
     "release:force": "lerna publish --force-publish",
-    "test": "lerna exec --scope='Dotsync' -- mocha tests"
+    "test": "lerna exec --scope='Dotsync' -- npm run test",
+    "lint": "lerna exec --scope='Dotsync' -- npm run lint"
   },
   "devDependencies": {
     "lerna": "^3.3.0"

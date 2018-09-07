@@ -1,12 +1,13 @@
-/* eslint-disable import/no-extraneous-dependencies */
+const isDevelopment = process.env.NODE_ENV !== 'production';
+const isOnlyDevelopment = isDevelopment && !process.env.IS_TEST;
+
+/* eslint-disable import/no-extraneous-dependencies, import/first */
 import { app, protocol, BrowserWindow, Menu } from 'electron';
 import * as path from 'path';
 import { format as formatUrl } from 'url';
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-
-const isDevelopment = process.env.NODE_ENV !== 'production';
 
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
 let mainWindow;
@@ -70,7 +71,7 @@ const loadUrl = (win) => {
 const createMainWindow = () => {
   const window = new BrowserWindow();
 
-  if (isDevelopment && !process.env.IS_TEST) {
+  if (isOnlyDevelopment) {
     window.webContents.openDevTools();
   }
 
@@ -116,7 +117,7 @@ app.on('activate', () => {
 
 // create main BrowserWindow when electron is ready
 app.on('ready', async () => {
-  if (isDevelopment && !process.env.IS_TEST) {
+  if (isOnlyDevelopment) {
     await installVueDevtools();
   }
 

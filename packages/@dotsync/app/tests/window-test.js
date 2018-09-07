@@ -1,5 +1,5 @@
-const { assert } = require('chai');
+// const { assert } = require('chai');
 
-describe('Window', (done) => {
+describe('Window', () => {
 
 });
