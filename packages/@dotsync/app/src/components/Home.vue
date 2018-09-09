@@ -6,7 +6,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { remote } from 'electron';
 import { mapState, mapMutations } from 'vuex';
-import { configdir, Settings } from '@dotsync/core';
+import { configdir, settings } from '@dotsync/core';
 
 import Loading from './Loading.vue';
 
@@ -45,8 +45,8 @@ export default {
       this.setConfigdir(dir);
 
       try {
-        this.setStoreSettings(new Settings(this.configdir, 'store').read());
-        this.setVersionSettings(new Settings(this.configdir, 'version').read());
+        this.setStoreSettings(settings.read(this.configdir, 'store'));
+        this.setVersionSettings(settings.read(this.configdir, 'version'));
       } catch (error) {
         if (error) {
           return this.pushMessage({

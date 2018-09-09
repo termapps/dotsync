@@ -1,26 +1,21 @@
 const path = require('path');
 const fs = require('fs');
 
-class Settings {
-  constructor(dir, type) {
-    this.file = path.resolve(dir, `${type}.json`);
-  }
+module.exports = {
+  read(dir, type) {
+    const file = path.resolve(dir, `${type}.json`);
+    let data = '{}';
 
-  read() {
-    if (!this.exists()) {
-      return {};
+    if (fs.existsSync(file)) {
+      data = fs.readFileSync(file, { encoding: 'utf8' });
     }
 
-    return JSON.parse(fs.readFileSync(this.file, { encoding: 'utf8' }));
-  }
+    return JSON.parse(data);
+  },
 
-  exists() {
-    return fs.existsSync(this.file);
-  }
+  write(dir, type, data) {
+    const file = path.resolve(dir, `${type}.json`);
 
-  write(data) {
-    return fs.writeFileSync(this.file, `${JSON.stringify(data, null, 2)}\n`, { encoding: 'utf8' })
-  }
+    fs.writeFileSync(file, `${JSON.stringify(data, null, 2)}\n`, { encoding: 'utf8' });
+  },
 };
-
-module.exports = Settings;

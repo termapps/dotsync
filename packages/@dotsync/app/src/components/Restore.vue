@@ -4,7 +4,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
-import { Settings, stores, restore } from '@dotsync/core';
+import { settings, stores, restore } from '@dotsync/core';
 
 export default {
   computed: {
@@ -42,7 +42,7 @@ export default {
         }
 
         try {
-          new Settings(this.configdir, 'version').write(this.versionSettings);
+          settings.write(this.configdir, 'version', this.versionSettings);
         } catch (e) {
           return this.pushMessage({
             message: `Unable to write version settings: ${e.message}`,

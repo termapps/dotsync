@@ -92,7 +92,7 @@ jobs:
           name: Release
           command: |
             cd packages/@dotsync/app
-            # yarn build:electron
+            yarn build:electron
       - save_cache:
           name: Save Electron Cache
           key: electron-cache

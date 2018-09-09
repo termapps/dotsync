@@ -1,7 +1,7 @@
 [
   'configdir',
   'restore',
-  'Settings',
+  'settings',
   'stores',
 ].forEach(mod => {
   module.exports[mod] = require(`./lib/${mod}`);
