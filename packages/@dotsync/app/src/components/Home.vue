@@ -1,5 +1,5 @@
 <template>
-  <Loading></Loading>
+  <div></div>
 </template>
 
 <script>
@@ -8,12 +8,7 @@ import { remote } from 'electron';
 import { mapState, mapMutations } from 'vuex';
 import { configdir, settings } from '@dotsync/core';
 
-import Loading from './Loading.vue';
-
 export default {
-  components: {
-    Loading,
-  },
   computed: {
     ...mapState('Global', [
       'configdir',
