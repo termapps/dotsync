@@ -1,4 +1,4 @@
-# @dotsync/app
+# Dotsync
 
 ## Installation
 
