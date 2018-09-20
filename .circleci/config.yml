@@ -53,7 +53,7 @@ jobs:
           root: .
           paths:
             - node_modules
-            - packages/@dotsync/app/node_modules
+            - packages/app/node_modules
 
   test:
     <<: *defaults
@@ -91,7 +91,7 @@ jobs:
       - run:
           name: Release
           command: |
-            cd packages/@dotsync/app
+            cd packages/app
             yarn build:electron
       - save_cache:
           name: Save Electron Cache
