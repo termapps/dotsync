@@ -21,8 +21,8 @@
     "build": "vue-cli-service build",
     "test": "mocha tests",
     "lint": "vue-cli-service lint",
-    "build:electron": "vue-cli-service build:electron",
     "serve:electron": "vue-cli-service serve:electron",
+    "build:electron": "vue-cli-service build:electron",
     "serve:storybook": "vue-cli-service serve:storybook -p 6006 -c config/storybook",
     "build:storybook": "vue-cli-service build:storybook -c config/storybook"
   },
@@ -32,6 +32,7 @@
     "@dotsync/storage-folder": "^0.2.0",
     "@dotsync/storage-git": "^0.2.0",
     "electron-log": "^2.2.17",
+    "electron-plugin-manager": "^0.1.0",
     "electron-updater": "^3.1.1",
     "material-icons": "^0.2.3",
     "vue": "^2.5.16",

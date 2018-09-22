@@ -25,7 +25,8 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
-import { Settings, stores } from '@dotsync/core';
+import { settings, stores } from '@dotsync/core';
+import { list } from 'electron-plugin-manager';
 
 // TODO: Find better way for this (need to do proper storage plugin system)
 let methods;
@@ -105,7 +106,7 @@ export default {
 
           if (!this.locationBad) {
             try {
-              new Settings(this.configdir, 'store').write(this.storeSettings);
+              settings.write(this.configdir, 'store', this.storeSettings);
             } catch (error) {
               if (error) {
                 return this.pushMessage({
@@ -130,6 +131,10 @@ export default {
     ]),
   },
   created() {
+    const a = list(this.configdir).filter((plugin) => {
+      return true;
+    });
+    console.log(a);
     methods = stores(this.configdir);
 
     if (this.dataIsGood()) {
