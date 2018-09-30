@@ -1,5 +1,7 @@
 [
   'configdir',
+  'isPlugin',
+  'isStore',
   'restore',
   'settings',
   'stores',

@@ -25,10 +25,10 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
-import { settings, stores } from '@dotsync/core';
+import { settings, stores, isStore } from '@dotsync/core';
 import { list } from 'electron-plugin-manager';
 
-// TODO: Find better way for this (need to do proper storage plugin system)
+// TODO: Find better way for this
 let methods;
 
 export default {
@@ -131,9 +131,7 @@ export default {
     ]),
   },
   created() {
-    const a = list(this.configdir).filter((plugin) => {
-      return true;
-    });
+    const a = list(this.configdir).filter(isStore);
     console.log(a);
     methods = stores(this.configdir);
 
