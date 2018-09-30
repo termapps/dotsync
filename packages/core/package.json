@@ -22,6 +22,7 @@
     "test": "mocha"
   },
   "dependencies": {
+    "async": "^2.6.1",
     "mkdirp": "^0.5.1"
   },
   "devDependencies": {

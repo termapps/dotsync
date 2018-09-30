@@ -3361,7 +3361,7 @@ bluebird-lst@^1.0.5:
   dependencies:
     bluebird "^3.5.1"
 
-bluebird@^3.1.1, bluebird@^3.5.0, bluebird@^3.5.1, bluebird@~3.5.1:
+bluebird@^3.1.1, bluebird@^3.5.0, bluebird@^3.5.1, bluebird@^3.5.2, bluebird@~3.5.1:
   version "3.5.2"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.2.tgz#1be0908e054a751754549c270489c1505d4ab15a"
 
@@ -5331,11 +5331,13 @@ electron-osx-sign@0.4.10:
     minimist "^1.2.0"
     plist "^2.1.0"
 
-electron-plugin-manager@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/electron-plugin-manager/-/electron-plugin-manager-0.1.0.tgz#6c7a7b6532877d0c484cc20b85c239bf94910f1b"
+electron-plugin-manager@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/electron-plugin-manager/-/electron-plugin-manager-0.2.2.tgz#44ca8333d521257301aef49c8d2146edb3559ce1"
   dependencies:
+    bluebird "^3.5.2"
     pacote "^9.1.0"
+    rimraf "^2.6.2"
 
 electron-publish@20.28.3:
   version "20.28.3"
