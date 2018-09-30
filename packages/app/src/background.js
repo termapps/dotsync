@@ -7,7 +7,7 @@ import * as path from 'path';
 import { format as formatUrl } from 'url';
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib';
 import { autoUpdater } from 'electron-updater';
-import { install } from 'electron-plugin-manager';
+import { manager } from 'electron-plugin-manager';
 import log from 'electron-log';
 
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
@@ -136,9 +136,5 @@ app.on('ready', async () => {
   mainWindow = createMainWindow();
 });
 
-// Install plugins
-ipcMain.on('epm-install', (event, dir, name, version) => {
-  install(dir, name, version, (err, pluginPath) => {
-    event.sender.send(`epm-installed-${name}`, err, pluginPath);
-  });
-});
+// Electron plugin manager
+manager(ipcMain);

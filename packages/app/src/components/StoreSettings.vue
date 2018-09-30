@@ -24,9 +24,10 @@
 </template>
 
 <script>
+import { remote } from 'electron';
 import { mapState, mapMutations } from 'vuex';
-import { settings, stores, isStore } from '@dotsync/core';
-import { list } from 'electron-plugin-manager';
+import { settings, isStore } from '@dotsync/core';
+import { list, load } from 'electron-plugin-manager';
 
 // TODO: Find better way for this
 let methods;
@@ -131,9 +132,9 @@ export default {
     ]),
   },
   created() {
-    const a = list(this.configdir).filter(isStore);
-    console.log(a);
-    methods = stores(this.configdir);
+    methods = list(this.configdir).filter(isStore).map((store) => {
+      return new (load(this.configdir, store, remote.require))(this.configdir);
+    });
 
     if (this.dataIsGood()) {
       this.locationText = this.validate();
