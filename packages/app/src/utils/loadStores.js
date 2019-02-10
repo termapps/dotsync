@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { remote } from 'electron';
 import { list, load } from 'electron-plugin-manager';
 import isStore from './isStore';

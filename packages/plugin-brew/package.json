@@ -1,6 +1,6 @@
 {
   "name": "@dotsync/plugin-brew",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Homebrew plugin for dotsync",
   "main": "index.js",
   "repository": {

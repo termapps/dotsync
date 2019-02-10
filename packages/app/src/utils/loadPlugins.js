@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { remote, ipcRenderer } from 'electron';
 import { list, load } from 'electron-plugin-manager';
 import async from 'async';

@@ -11331,6 +11331,11 @@ shebang-command@^1.2.0:
   dependencies:
     shebang-regex "^1.0.0"
 
+shebang-loader@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/shebang-loader/-/shebang-loader-0.0.1.tgz#a4000495d44cceefbec63435e7b1698569fa52ec"
+  integrity sha1-pAAEldRMzu++xjQ157FphWn6Uuw=
+
 shebang-regex@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-1.0.0.tgz#da42f49740c0b42db2ca9728571cb190c98efea3"
@@ -12687,10 +12692,10 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
-vue-cli-plugin-electron-builder@1.0.0-rc.11:
-  version "1.0.0-rc.11"
-  resolved "https://registry.yarnpkg.com/vue-cli-plugin-electron-builder/-/vue-cli-plugin-electron-builder-1.0.0-rc.11.tgz#9f2ee35fafa87df8d8f1c70639dfbe1d43bad459"
-  integrity sha512-+3c/ss5KBTjYN1IyDdIXAW7pGL/QoKC6k1FHDGz4KraCx3Rwd1ecDn0T5oxf3j0y6jAkC2jCARXtmOm4K5fsRQ==
+vue-cli-plugin-electron-builder@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/vue-cli-plugin-electron-builder/-/vue-cli-plugin-electron-builder-1.0.0.tgz#a374a7b2f3cb4bc686968b4fae6e822c0ea4d0da"
+  integrity sha512-sW51kypDpYJKWmzp84sqhqSluuCbmhsyzwZTKDi/Ji43HOCFJ5TUkKxsDWE3sdIpGXDhKv+5ouNhy1+X827vDQ==
   dependencies:
     electron-builder "^20.29.0"
     execa "^1.0.0"
@@ -12699,6 +12704,7 @@ vue-cli-plugin-electron-builder@1.0.0-rc.11:
     lodash.merge "^4.6.1"
     portfinder "^1.0.16"
     pumpify "^1.5.1"
+    shebang-loader "^0.0.1"
     spectron "^5.0.0"
     split2 "^3.0.0"
     terser-webpack-plugin "^1.1.0"
