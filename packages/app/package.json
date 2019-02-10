@@ -17,9 +17,7 @@
     "url": "https://github.com/osapps/dotsync/issues"
   },
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "test": "mocha",
+    "test": "VUE_CLI_BABEL_TRANSPILE_MODULES=true mocha --require @babel/register",
     "lint": "vue-cli-service lint",
     "electron:serve": "vue-cli-service electron:serve",
     "electron:build": "vue-cli-service electron:build",
@@ -27,22 +25,22 @@
     "storybook:build": "vue-cli-service storybook:build -c config/storybook"
   },
   "dependencies": {
-    "@dotsync/plugin-link": "^0.2.0",
     "async": "^2.6.1",
-    "electron": "^2.0.8",
+    "electron": "^3.1.3",
     "electron-log": "^3.0.1",
     "electron-plugin-manager": "^1.0.0",
     "electron-updater": "^4.0.6",
     "material-icons": "^0.3.0",
     "mkdirp": "^0.5.1",
-    "vue": "^2.5.16",
+    "vue": "^2.6.4",
     "vue-logdown": "^0.1.0",
     "vue-router": "^3.0.1",
-    "vuesax": "^3.2.3",
-    "vuex": "^3.0.1",
+    "vuesax": "^3.8.16",
+    "vuex": "^3.1.0",
     "vuex-persistedstate": "^2.5.4"
   },
   "devDependencies": {
+    "@babel/register": "^7.0.0",
     "@storybook/addon-actions": "^4.1.0",
     "@storybook/addon-links": "^4.1.0",
     "@vue/cli-plugin-babel": "^3.4.0",

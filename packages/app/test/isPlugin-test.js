@@ -1,5 +1,5 @@
-const { assert } = require('chai');
-const isPlugin = require('../src/utils/isPlugin');
+import { assert } from 'chai';
+import isPlugin from '../src/utils/isPlugin';
 
 describe('isPlugin', () => {
   it('should recognize official plugin', () => {

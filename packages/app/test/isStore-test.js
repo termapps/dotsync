@@ -1,5 +1,5 @@
-const { assert } = require('chai');
-const isStore = require('../src/utils/isStore');
+import { assert } from 'chai';
+import isStore from '../src/utils/isStore';
 
 describe('isStore', () => {
   it('should recognize official store', () => {

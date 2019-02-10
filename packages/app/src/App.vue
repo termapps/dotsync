@@ -21,11 +21,20 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
 import Progress from './components/Progress.vue';
 
 export default {
   components: {
     Progress,
+  },
+  methods: {
+    ...mapMutations('Progress', [
+      'clearMessages',
+    ]),
+  },
+  mounted() {
+    this.clearMessages();
   },
 };
 </script>

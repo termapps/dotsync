@@ -24,12 +24,9 @@ export default {
     ]),
     ...mapMutations('Progress', [
       'pushMessage',
-      'clearMessages',
     ]),
   },
   mounted() {
-    this.clearMessages();
-
     configdir(remote.app.getPath('appData'), (err, dir) => {
       if (err) {
         return this.pushMessage({

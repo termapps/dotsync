@@ -1,7 +1,7 @@
-const { assert } = require('chai');
-const fs = require('fs');
-const path = require('path');
-const settings = require('../src/utils/settings');
+import { assert } from 'chai';
+import fs from 'fs';
+import path from 'path';
+import settings from '../src/utils/settings';
 
 const cwd = path.resolve(__dirname);
 

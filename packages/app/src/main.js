@@ -2,8 +2,8 @@ import Vue from 'vue';
 import Vuesax from 'vuesax';
 import VueLogdown from 'vue-logdown';
 
-import 'vuesax/dist/vuesax.css';
 import 'material-icons/iconfont/material-icons.css';
+import 'vuesax/dist/vuesax.css';
 
 import App from './App.vue';
 import store from './store';

@@ -1,8 +1,8 @@
-const { assert } = require('chai');
-const fs = require('fs');
-const path = require('path');
-const rimraf = require('rimraf');
-const configdir = require('../src/utils/configdir');
+import { assert } from 'chai';
+import fs from 'fs';
+import path from 'path';
+import rimraf from 'rimraf';
+import configdir from '../src/utils/configdir';
 
 const cwd = path.resolve(__dirname);
 
