@@ -2,13 +2,18 @@ const isDevelopment = process.env.NODE_ENV !== 'production';
 const isOnlyDevelopment = isDevelopment && !process.env.IS_TEST;
 
 /* eslint-disable import/no-extraneous-dependencies, import/first */
-import { app, protocol, BrowserWindow, Menu, ipcMain } from 'electron';
+import {
+  app, protocol, BrowserWindow, Menu, ipcMain,
+} from 'electron';
 import * as path from 'path';
 import { format as formatUrl } from 'url';
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib';
 import { autoUpdater } from 'electron-updater';
-import { manager } from 'electron-plugin-manager';
+import epm from 'electron-plugin-manager';
 import log from 'electron-log';
+
+// Electron Plugin Manager
+epm.manager(ipcMain);
 
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
 let mainWindow;
@@ -61,6 +66,7 @@ const loadUrl = (win) => {
     win.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
   } else {
     // Load the index.html when not in development
+    // # win.loadURL('dotsync://./index.html')
     win.loadURL(formatUrl({
       pathname: path.join(__dirname, 'index.html'),
       protocol: 'file',
@@ -136,5 +142,17 @@ app.on('ready', async () => {
   mainWindow = createMainWindow();
 });
 
-// Electron plugin manager
-manager(ipcMain);
+// Exit cleanly on request from parent process in development mode.
+if (isDevelopment) {
+  if (process.platform === 'win32') {
+    process.on('message', (data) => {
+      if (data === 'graceful-exit') {
+        app.quit();
+      }
+    });
+  } else {
+    process.on('SIGTERM', () => {
+      app.quit();
+    });
+  }
+}

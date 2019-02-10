@@ -12,11 +12,11 @@
   "scripts": {
     "release": "lerna publish",
     "release:force": "lerna publish --force-publish",
-    "serve": "lerna exec --scope='Dotsync' -- npm run serve:electron",
+    "serve": "lerna exec --scope='Dotsync' -- npm run electron:serve",
     "test": "lerna exec --scope='{*,**/core}' -- npm run test",
     "lint": "lerna exec --scope='Dotsync' -- npm run lint"
   },
   "devDependencies": {
-    "lerna": "^3.3.0"
+    "lerna": "^3.11.0"
   }
 }

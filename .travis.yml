@@ -17,7 +17,7 @@ cache:
 
 script:
   - cd packages/app
-  - yarn build:electron
+  - yarn electron:build
 
 branches:
   only:
