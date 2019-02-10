@@ -1,5 +1,6 @@
 const exec = require('child_process').exec;
 const path = require('path');
+const fs = require('fs');
 const async = require('async');
 
 class Link {
@@ -12,10 +13,20 @@ class Link {
 
   restore(data, cb) {
     async.each(data.paths, (item, callback) => {
-      if (path.isAbsolute(item.destination)) {
+      const d = item.destination;
+
+      if (path.isAbsolute(d)) {
         const source = path.resolve(this.datadir, item.source);
 
-        exec(`ln -sfn '${source}' '${item.destination}'`, {
+        if (fs.existsSync(d)) {
+          if (fs.lstatSync(d).isSymbolicLink() && fs.readlinkSync(d) === source) {
+            return callback();
+          } else {
+            return callback(new Error(`Destination for '${item.source}' already exists`));
+          }
+        }
+
+        exec(`ln -sn '${source}' '${d}'`, {
           cwd: this.datadir,
           encoding: 'utf8',
         }, (err, stdout, stderr) => {

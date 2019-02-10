@@ -28,7 +28,7 @@ import { mapState, mapMutations } from 'vuex';
 import { settings, loadStores } from '../utils';
 
 // TODO: Find better way for this
-let methods;
+let stores;
 
 export default {
   computed: {
@@ -59,7 +59,7 @@ export default {
       },
     },
     locationDescription() {
-      return !this.locationBad ? methods[this.storeSettings.method].location : '';
+      return !this.locationBad ? stores[this.storeSettings.method].location : '';
     },
     locationBad() {
       return this.locationText !== '';
@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     options() {
-      return Object.keys(methods).map(key => ({ text: methods[key].name, value: key }));
+      return Object.keys(stores).map(key => ({ text: stores[key].name, value: key }));
     },
     dataIsGood() {
       if (this.storeSettings.method === undefined || this.storeSettings.location === undefined || this.storeSettings.location === '') {
@@ -81,7 +81,7 @@ export default {
         return 'This is required';
       }
 
-      return methods[this.storeSettings.method].valid(this.storeSettings.location);
+      return stores[this.storeSettings.method].valid(this.storeSettings.location);
     },
     confirm() {
       // TODO: Loading for the button which was pressed
@@ -91,7 +91,7 @@ export default {
         const log = this.$createLogger('store');
         log.info('Getting ready to write storage settings');
 
-        methods[this.storeSettings.method].init(this.storeSettings.location, (err, text = '', patch = {}) => {
+        stores[this.storeSettings.method].init(this.storeSettings.location, (err, text = '', patch = {}) => {
           this.locationText = text;
           this.storeSettings = Object.assign(patch, this.storeSettings);
 
@@ -130,7 +130,7 @@ export default {
     ]),
   },
   created() {
-    methods = loadStores(this.configdir);
+    stores = loadStores(this.configdir);
 
     if (this.dataIsGood()) {
       this.locationText = this.validate();

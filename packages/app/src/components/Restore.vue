@@ -4,7 +4,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
-import { settings, stores, restore } from '../utils';
+import { settings, loadStores, restore } from '../utils';
 
 export default {
   computed: {
@@ -20,10 +20,10 @@ export default {
     ]),
   },
   mounted() {
-    const methods = stores(this.configdir);
+    const stores = loadStores(this.configdir);
     this.$createLogger('restore').info('Restoring');
 
-    methods[this.storeSettings.method].beforeRestore(this.storeSettings.location, (err, datadir) => {
+    stores[this.storeSettings.method].beforeRestore(this.storeSettings.location, (err, datadir) => {
       if (err) {
         return this.pushMessage({
           message: err.message,
@@ -32,8 +32,9 @@ export default {
         });
       }
 
-      restore(datadir, (error) => {
+      restore(this.configdir, datadir, (error) => {
         if (error) {
+          // TODO: Suggestions to fix it
           return this.pushMessage({
             message: error.message,
             icon: 'error',

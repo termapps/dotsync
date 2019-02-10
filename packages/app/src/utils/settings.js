@@ -1,7 +1,7 @@
-const path = require('path');
-const fs = require('fs');
+import fs from 'fs';
+import path from 'path';
 
-module.exports = {
+export default {
   read(dir, type) {
     const file = path.resolve(dir, `${type}.json`);
     let data = '{}';

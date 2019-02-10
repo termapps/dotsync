@@ -1,7 +1,7 @@
-const mkdirp = require('mkdirp');
-const path = require('path');
+import mkdirp from 'mkdirp';
+import path from 'path';
 
-module.exports = (dir, cb) => {
+export default (dir, cb) => {
   const configdir = path.resolve(dir, 'Dotsync');
 
   mkdirp(configdir, err => cb(err, configdir));

@@ -1,1 +1,1 @@
-module.exports = plugin => /^(@dotsync\/|dotsync-|@[\w-]+\/dotsync-)storage-/.test(plugin);
+export default plugin => /^(@dotsync\/|dotsync-|@[\w-]+\/dotsync-)storage-/.test(plugin);

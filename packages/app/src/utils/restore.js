@@ -1,19 +1,20 @@
-const fs = require('fs');
-const path = require('path');
-const async = require('async');
+import fs from 'fs';
+import path from 'path';
+import async from 'async';
+import loadPlugins from './loadPlugins';
 
-const Link = require('@dotsync/plugin-link');
-
-// TODO: More modular plugin system
-const plugins = {
-  '@dotsync/plugin-link': Link,
-};
-
-module.exports = (datadir, cb) => {
+export default (configdir, datadir, cb) => {
   const config = JSON.parse(fs.readFileSync(path.resolve(datadir, 'config.json'), 'utf8'));
+  const needed = config.presets.default.plugins;
 
-  async.eachSeries(config.presets.default.plugins, (item, callback) => {
-    const plugin = new (plugins[item.name])(datadir);
-    plugin.restore(item.data, callback);
-  }, cb);
+  loadPlugins(configdir, needed, (err, plugins) => {
+    if (err) {
+      return cb(err);
+    }
+
+    async.eachSeries(needed, (item, callback) => {
+      const plugin = new (plugins[item.name])(datadir);
+      plugin.restore(item.data, callback);
+    }, cb);
+  });
 };
