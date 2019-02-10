@@ -4,7 +4,5 @@ const path = require('path');
 module.exports = (dir, cb) => {
   const configdir = path.resolve(dir, 'Dotsync');
 
-  mkdirp(configdir, (err) => {
-    return cb(err, configdir);
-  });
+  mkdirp(configdir, err => cb(err, configdir));
 };

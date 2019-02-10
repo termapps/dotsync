@@ -1,5 +1,5 @@
 const { assert } = require('chai');
-const isPlugin = require('../lib/isPlugin');
+const isPlugin = require('../src/utils/isPlugin');
 
 describe('isPlugin', () => {
   it('should recognize official plugin', () => {

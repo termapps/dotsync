@@ -4,7 +4,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
-import { stores } from '@dotsync/core';
+import { loadStores } from '../utils';
 
 export default {
   computed: {
@@ -23,7 +23,7 @@ export default {
     ]),
   },
   mounted() {
-    const methods = stores(this.configdir);
+    const methods = loadStores(this.configdir);
 
     methods[this.storeSettings.method].latestVersion((err, version) => {
       if (err) {

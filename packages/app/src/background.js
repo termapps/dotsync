@@ -3,11 +3,11 @@ const isOnlyDevelopment = isDevelopment && !process.env.IS_TEST;
 
 /* eslint-disable import/no-extraneous-dependencies, import/first */
 import {
-  app, protocol, BrowserWindow, Menu, ipcMain,
+  app, BrowserWindow, Menu, ipcMain,
 } from 'electron';
 import * as path from 'path';
 import { format as formatUrl } from 'url';
-import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib';
+import { installVueDevtools } from 'vue-cli-plugin-electron-builder/lib';
 import { autoUpdater } from 'electron-updater';
 import epm from 'electron-plugin-manager';
 import log from 'electron-log';
@@ -17,9 +17,6 @@ epm.manager(ipcMain);
 
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
 let mainWindow;
-
-// Standard scheme must be registered before the app is ready
-protocol.registerStandardSchemes(['dotsync'], { secure: true });
 
 const menu = [
   {
@@ -66,7 +63,6 @@ const loadUrl = (win) => {
     win.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
   } else {
     // Load the index.html when not in development
-    // # win.loadURL('dotsync://./index.html')
     win.loadURL(formatUrl({
       pathname: path.join(__dirname, 'index.html'),
       protocol: 'file',
@@ -80,10 +76,6 @@ const createMainWindow = () => {
 
   if (isOnlyDevelopment) {
     window.webContents.openDevTools();
-  }
-
-  if (!isDevelopment) {
-    createProtocol('dotsync');
   }
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(menu));

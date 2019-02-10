@@ -2,7 +2,7 @@ const { assert } = require('chai');
 const fs = require('fs');
 const path = require('path');
 const rimraf = require('rimraf');
-const configdir = require('../lib/configdir');
+const configdir = require('../src/utils/configdir');
 
 const cwd = path.resolve(__dirname);
 
@@ -17,7 +17,7 @@ describe('configdir', () => {
     });
 
     describe('when executed', () => {
-      before(done => {
+      before((done) => {
         configdir(cwd, done);
       });
 
@@ -25,7 +25,7 @@ describe('configdir', () => {
         assert.isTrue(fs.existsSync(path.join(cwd, 'Dotsync')));
       });
 
-      after(done => {
+      after((done) => {
         rimraf(path.join(cwd, 'Dotsync'), done);
       });
     });
@@ -43,7 +43,7 @@ describe('configdir', () => {
     });
 
     describe('when executed', () => {
-      before(done => {
+      before((done) => {
         configdir(tmp, done);
       });
 
@@ -52,13 +52,13 @@ describe('configdir', () => {
       });
     });
 
-    after(done => {
+    after((done) => {
       rimraf(tmp, done);
     });
   });
 
   describe('with existing directory', () => {
-    before(done => {
+    before((done) => {
       fs.mkdir(path.join(cwd, 'Dotsync'), done);
     });
 
@@ -71,7 +71,7 @@ describe('configdir', () => {
     });
 
     describe('when executed', () => {
-      before(done => {
+      before((done) => {
         configdir(cwd, done);
       });
 
@@ -80,7 +80,7 @@ describe('configdir', () => {
       });
     });
 
-    after(done => {
+    after((done) => {
       rimraf(path.join(cwd, 'Dotsync'), done);
     });
   });

@@ -3,6 +3,7 @@ module.exports = {
   pluginOptions: {
     electronBuilder: {
       outputDir: 'electron',
+      nodeModulesPath: ['../../node_modules', 'node_modules'],
       builderOptions: {
         appId: 'com.pksunkara.dotsync',
         productName: 'Dotsync',

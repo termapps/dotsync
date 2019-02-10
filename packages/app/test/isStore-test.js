@@ -1,5 +1,5 @@
 const { assert } = require('chai');
-const isStore = require('../lib/isStore');
+const isStore = require('../src/utils/isStore');
 
 describe('isStore', () => {
   it('should recognize official store', () => {

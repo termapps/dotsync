@@ -1,8 +1,7 @@
 const { assert } = require('chai');
 const fs = require('fs');
 const path = require('path');
-const rimraf = require('rimraf');
-const settings = require('../lib/settings');
+const settings = require('../src/utils/settings');
 
 const cwd = path.resolve(__dirname);
 
@@ -18,7 +17,7 @@ describe('settings', () => {
   });
 
   describe('reading existent setting', () => {
-    before(done => {
+    before((done) => {
       fs.writeFile(path.resolve(cwd, 'tmp.json'), '{ "id": 1 }', 'utf8', done);
     });
 
@@ -30,7 +29,7 @@ describe('settings', () => {
       assert.deepEqual(settings.read(cwd, 'tmp'), { id: 1 });
     });
 
-    after(done => {
+    after((done) => {
       fs.unlink(path.resolve(cwd, 'tmp.json'), done);
     });
   });
@@ -40,7 +39,7 @@ describe('settings', () => {
       assert.isFalse(fs.existsSync(path.resolve(cwd, 'tmp.json')));
     });
 
-    it('should create file', done => {
+    it('should create file', (done) => {
       settings.write(cwd, 'tmp', { id: 1 });
 
       fs.readFile(path.resolve(cwd, 'tmp.json'), { encoding: 'utf8' }, (err, data) => {
@@ -49,13 +48,13 @@ describe('settings', () => {
       });
     });
 
-    after(done => {
+    after((done) => {
       fs.unlink(path.resolve(cwd, 'tmp.json'), done);
     });
   });
 
   describe('writing existent setting', () => {
-    before(done => {
+    before((done) => {
       fs.writeFile(path.resolve(cwd, 'tmp.json'), '{ "id": 1 }', 'utf8', done);
     });
 
@@ -63,7 +62,7 @@ describe('settings', () => {
       assert.isTrue(fs.existsSync(path.resolve(cwd, 'tmp.json')));
     });
 
-    it('should edit file', done => {
+    it('should edit file', (done) => {
       settings.write(cwd, 'tmp', { hello: 'tag' });
 
       fs.readFile(path.resolve(cwd, 'tmp.json'), { encoding: 'utf8' }, (err, data) => {
@@ -72,7 +71,7 @@ describe('settings', () => {
       });
     });
 
-    after(done => {
+    after((done) => {
       fs.unlink(path.resolve(cwd, 'tmp.json'), done);
     });
   });

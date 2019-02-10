@@ -6,9 +6,9 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { remote, ipcRenderer } from 'electron';
 import { mapState, mapMutations } from 'vuex';
-import { configdir, settings } from '@dotsync/core';
 import { list } from 'electron-plugin-manager';
 import async from 'async';
+import { configdir, settings } from '../utils';
 
 export default {
   computed: {
@@ -49,15 +49,15 @@ export default {
           return callback();
         }
 
-        ipcRenderer.on(`epm-installed-${item}`, (event, err, pluginPath) => {
-          callback(err, pluginPath);
+        ipcRenderer.on(`epm-installed-${item}`, (event, error, pluginPath) => {
+          callback(error, pluginPath);
         });
 
         ipcRenderer.send('epm-install', this.configdir, item, 'latest');
-      }, (err) => {
-        if (err) {
+      }, (e) => {
+        if (e) {
           return this.pushMessage({
-            message: `Unable to install plugins: ${err.message}`,
+            message: `Unable to install plugins: ${e.message}`,
             icon: 'error',
             color: 'danger',
           });
