@@ -69,10 +69,12 @@ export default {
   }
 }
 
-.alerts {
+.progress-list {
   margin: 20px 50px 0;
 
   .con-vs-alert {
+    font-size: 16px;
+    text-align: left;
     margin-top: 10px;
     box-shadow: none !important;
     height: auto !important;

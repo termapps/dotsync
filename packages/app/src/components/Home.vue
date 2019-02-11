@@ -28,24 +28,21 @@ export default {
   },
   mounted() {
     configdir(remote.app.getPath('appData'), (err, dir) => {
-      if (err) {
+      // if (err) {
         return this.pushMessage({
-          message: `Unable to create config directory ${dir}: ${err.message}`,
-          icon: 'error',
+          message: `Unable to create config directory`,// ${dir}: ${err.message}`,
+          icon: 'close',
           color: 'danger',
         });
-      }
+      // }
 
       this.setConfigdir(dir);
 
       const installed = list(this.configdir);
       const recommended = ['@dotsync/storage-git', '@dotsync/storage-folder'];
+      const notInstalled = recommended.filter(x => installed.indexOf(x) === -1);
 
-      async.eachSeries(recommended, (item, callback) => {
-        if (installed.includes(item)) {
-          return callback();
-        }
-
+      async.eachSeries(notInstalled, (item, callback) => {
         ipcRenderer.on(`epm-installed-${item}`, (event, error, pluginPath) => {
           callback(error, pluginPath);
         });
