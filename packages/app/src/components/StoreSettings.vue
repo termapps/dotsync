@@ -27,9 +27,6 @@
 import { mapState, mapMutations } from 'vuex';
 import { settings, loadStores } from '../utils';
 
-// TODO: Find better way for this
-let stores;
-
 export default {
   computed: {
     ...mapState('Global', [
@@ -59,7 +56,7 @@ export default {
       },
     },
     locationDescription() {
-      return !this.locationBad ? stores[this.storeSettings.method].location : '';
+      return !this.locationBad ? this.stores[this.storeSettings.method].location : '';
     },
     locationBad() {
       return this.locationText !== '';
@@ -67,7 +64,7 @@ export default {
   },
   methods: {
     options() {
-      return Object.keys(stores).map(key => ({ text: stores[key].name, value: key }));
+      return Object.keys(this.stores).map(key => ({ text: this.stores[key].name, value: key }));
     },
     dataIsGood() {
       if (this.storeSettings.method === undefined || this.storeSettings.location === undefined || this.storeSettings.location === '') {
@@ -81,16 +78,20 @@ export default {
         return 'This is required';
       }
 
-      return stores[this.storeSettings.method].valid(this.storeSettings.location);
+      return this.stores[this.storeSettings.method].valid(this.storeSettings.location);
     },
     confirm() {
-      // TODO: Loading for the button which was pressed
+      this.$vs.loading();
       this.locationText = this.validate();
+      this.$vs.loading.close();
 
       if (!this.locationBad) {
-        stores[this.storeSettings.method].init(this.storeSettings.location, (err, text = '', patch = {}) => {
+        this.$vs.loading();
+
+        this.stores[this.storeSettings.method].init(this.storeSettings.location, (err, text = '', patch = {}) => {
           this.locationText = text;
           this.setStoreSettings({ ...patch, ...this.storeSettings });
+          this.$vs.loading.close();
 
           if (err) {
             return this.danger(err.message);
@@ -123,7 +124,7 @@ export default {
     ]),
   },
   created() {
-    stores = loadStores(this.configdir);
+    this.stores = loadStores(this.configdir);
 
     this.clear();
 
@@ -146,6 +147,7 @@ export default {
   data() {
     return {
       locationText: '',
+      stores: {},
     };
   },
 };
