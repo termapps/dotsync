@@ -23,24 +23,30 @@ export default {
       'setVersionSettings',
     ]),
     ...mapMutations('Progress', [
-      'pushMessage',
+      'working',
+      'errored',
+      'finished',
     ]),
   },
   mounted() {
-    configdir(remote.app.getPath('appData'), (err, dir) => {
-      // if (err) {
-        return this.pushMessage({
-          message: `Unable to create config directory`,// ${dir}: ${err.message}`,
-          icon: 'close',
-          color: 'danger',
-        });
-      // }
+    this.working('Making sure Dotsync configuration directory exists');
 
+    configdir(remote.app.getPath('appData'), (err, dir) => {
+      if (err) {
+        return this.errored({
+          message: 'Unable to create Dotsync configuration directory',
+          details: { dir, err },
+        });
+      }
+
+      this.finished('Dotsync configuration directory exists');
       this.setConfigdir(dir);
 
       const installed = list(this.configdir);
       const recommended = ['@dotsync/storage-git', '@dotsync/storage-folder'];
       const notInstalled = recommended.filter(x => installed.indexOf(x) === -1);
+
+      this.working('Making sure recommended plugins are installed');
 
       async.eachSeries(notInstalled, (item, callback) => {
         ipcRenderer.on(`epm-installed-${item}`, (event, error, pluginPath) => {
@@ -50,26 +56,28 @@ export default {
         ipcRenderer.send('epm-install', this.configdir, item, 'latest');
       }, (e) => {
         if (e) {
-          return this.pushMessage({
-            message: `Unable to install plugins: ${e.message}`,
-            icon: 'error',
-            color: 'danger',
+          return this.errored({
+            message: 'Unable to install recommended plugin',
+            details: { err: e },
           });
         }
+
+        this.finished('Recommended plugins are installed');
+        this.working('Trying to read storage settings and last restored version');
 
         try {
           this.setStoreSettings(settings.read(this.configdir, 'store'));
           this.setVersionSettings(settings.read(this.configdir, 'version'));
         } catch (error) {
           if (error) {
-            return this.pushMessage({
-              message: `Unable to read settings: ${error.message}`,
-              icon: 'error',
-              color: 'danger',
+            return this.errored({
+              message: 'Unable to read storage settings and last restored version',
+              details: { err: error },
             });
           }
         }
 
+        this.finished('Read storage settings and last restored version');
         this.$router.push({ name: 'StoreSettings' });
       });
     });

@@ -5,9 +5,15 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+
 export default {
   methods: {
+    ...mapMutations('Progress', [
+      'clear',
+    ]),
     confirm() {
+      this.clear();
       this.$router.push({ name: 'Restore' });
     },
   },

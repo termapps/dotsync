@@ -4,7 +4,14 @@ import async from 'async';
 import loadPlugins from './loadPlugins';
 
 export default (configdir, datadir, cb) => {
-  const config = JSON.parse(fs.readFileSync(path.resolve(datadir, 'config.json'), 'utf8'));
+  let config;
+
+  try {
+    config = JSON.parse(fs.readFileSync(path.resolve(datadir, 'config.json'), 'utf8'));
+  } catch (error) {
+    cb(error);
+  }
+
   const needed = config.presets.default.plugins;
 
   loadPlugins(configdir, needed, (err, plugins) => {

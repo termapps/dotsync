@@ -16,43 +16,47 @@ export default {
   },
   methods: {
     ...mapMutations('Progress', [
-      'pushMessage',
+      'working',
+      'errored',
+      'finished',
     ]),
   },
   mounted() {
     const stores = loadStores(this.configdir);
-    this.$createLogger('restore').info('Restoring');
 
+    this.working('Trying to restore your dotfiles to latest version');
+
+    // TODO: Allow logs and display them
     stores[this.storeSettings.method].beforeRestore(this.storeSettings.location, (err, datadir) => {
       if (err) {
-        return this.pushMessage({
-          message: err.message,
-          icon: 'error',
-          color: 'danger',
+        return this.errored({
+          message: 'Unable to restore your dotfiles to latest version',
+          details: { err },
         });
       }
 
       restore(this.configdir, datadir, (error) => {
         if (error) {
-          // TODO: Suggestions to fix it
-          return this.pushMessage({
-            message: error.message,
-            icon: 'error',
-            color: 'danger',
+          // TODO: Give suggestions to user about fix the error
+          return this.errored({
+            message: 'Unable to restore your dotfiles to latest version',
+            details: { err: error },
           });
         }
+
+        this.finished('Restored your dotfiles to latest version');
+        this.working('Saving info about the last restored version');
 
         try {
           settings.write(this.configdir, 'version', this.versionSettings);
-        } catch (error2) {
-          return this.pushMessage({
-            message: `Unable to write version settings: ${error2.message}`,
-            icon: 'error',
-            color: 'danger',
+        } catch (e) {
+          return this.errored({
+            message: 'Unable to save info about the last restored version',
+            details: { err: e },
           });
         }
 
-        this.$createLogger('version').info('Wrote version settings');
+        this.finished('Saved info about the last restored version')
         this.$router.push({ name: 'Dashboard' });
       });
     });

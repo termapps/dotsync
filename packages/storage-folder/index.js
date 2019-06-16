@@ -13,7 +13,7 @@ class Folder {
       fs.accessSync(path.resolve(__dirname, value), fs.constants.R_OK | fs.constants.W_OK);
     } catch (e) {
       // TODO: Pinpoint the error more
-      return 'Folder doesn\'t exist or is not writeable';
+      return `Folder doesn't exist or is not writeable`;
     }
 
     return '';

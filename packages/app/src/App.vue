@@ -31,10 +31,12 @@ export default {
   methods: {
     ...mapMutations('Progress', [
       'clearMessages',
+      'clear',
     ]),
   },
-  mounted() {
+  beforeMount() {
     this.clearMessages();
+    this.clear();
   },
 };
 </script>
@@ -45,7 +47,8 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #5b5777;
+  background: #fdfdfd;
 }
 
 .main-box {
@@ -69,24 +72,8 @@ export default {
   }
 }
 
-.progress-list {
-  margin: 20px 50px 0;
-
-  .con-vs-alert {
-    font-size: 16px;
-    text-align: left;
-    margin-top: 10px;
-    box-shadow: none !important;
-    height: auto !important;
-  }
-}
-
 .content-view {
   margin: 20px 50px 0;
-}
-
-.vs-select-options ul .vs-select-item-btn {
-  display: inline;
 }
 
 .vs-inputx {
@@ -94,6 +81,18 @@ export default {
 }
 
 .vs-con-input {
-  height: 29px;
+  height: 30px;
+}
+
+pre {
+  padding: 10px;
+  color: #777398;
+  background: #f5f7fb;
+  overflow: scroll;
+}
+
+a {
+  cursor: pointer;
+  color: #5b3cc4;
 }
 </style>

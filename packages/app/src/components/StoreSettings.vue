@@ -5,14 +5,14 @@
       <vs-col vs-w="5" vs-type="flex" vs-justify="flex-end">Method</vs-col>
       <vs-col vs-w="6" vs-offset="1">
         <vs-select v-model="method">
-          <vs-select-item v-for="item in options()" :key="item.value" :vs-value="item.value" :vs-text="item.text" />
+          <vs-select-item v-for="item in options()" :key="item.value" :value="item.value" :text="item.text" />
         </vs-select>
       </vs-col>
     </vs-row>
     <vs-row>
       <vs-col vs-w="5" vs-type="flex" vs-justify="flex-end">Location</vs-col>
       <vs-col vs-w="6" vs-offset="1">
-        <vs-input v-model="location" :vs-danger="locationBad" :vs-danger-text="locationText" :vs-description-text="locationDescription" />
+        <vs-input v-model="location" :danger="locationBad" :danger-text="locationText" :description-text="locationDescription" val-icon-danger="clear" />
       </vs-col>
     </vs-row>
     <vs-row>
@@ -88,19 +88,12 @@ export default {
       this.locationText = this.validate();
 
       if (!this.locationBad) {
-        const log = this.$createLogger('store');
-        log.info('Getting ready to write storage settings');
-
         stores[this.storeSettings.method].init(this.storeSettings.location, (err, text = '', patch = {}) => {
           this.locationText = text;
-          this.storeSettings = Object.assign(patch, this.storeSettings);
+          this.setStoreSettings({ ...patch, ...this.storeSettings });
 
           if (err) {
-            return this.pushMessage({
-              message: err.message,
-              icon: 'error',
-              color: 'danger',
-            });
+            return this.danger(err.message);
           }
 
           if (!this.locationBad) {
@@ -108,16 +101,12 @@ export default {
               settings.write(this.configdir, 'store', this.storeSettings);
             } catch (error) {
               if (error) {
-                return this.pushMessage({
-                  message: `Unable to write storage settings: ${error.message}`,
-                  icon: 'error',
-                  color: 'danger',
-                });
+                return this.danger(`Unable to write storage settings: ${error.message}`);
               }
-
-              log.info('Wrote storage settings');
-              this.$router.push({ name: 'VersionSettings' });
             }
+
+            this.finished('Saved the storage settings');
+            this.$router.push({ name: 'VersionSettings' });
           }
         });
       }
@@ -125,12 +114,18 @@ export default {
     ...mapMutations('Global', [
       'setStoreSettings',
     ]),
-    ...mapMutations('Progres', [
-      'pushMessage',
+    ...mapMutations('Progress', [
+      'danger',
+      'clear',
+      'working',
+      'errored',
+      'finished',
     ]),
   },
   created() {
     stores = loadStores(this.configdir);
+
+    this.clear();
 
     if (this.dataIsGood()) {
       this.locationText = this.validate();
@@ -139,11 +134,7 @@ export default {
         return this.$router.push({ name: 'VersionSettings' });
       }
 
-      this.pushMessage({
-        message: 'The saved storage settings are not valid anymore',
-        icon: 'error',
-        color: 'danger',
-      });
+      this.danger('The saved storage settings are not valid anymore');
     }
 
     this.setStoreSettings({
