@@ -3798,7 +3798,7 @@ bytes@3.1.0:
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-3.1.0.tgz#f6cf7933a360e0588fa9fde85651cdc7f805d1f6"
   integrity sha512-zauLjrfCG+xvoyaqLoV8bLVXXNGC4JqlxFCutSDWA6fJrTo2ZuvLYTqZ7aHBLZSMOopbzwv8f+wZcVzfVTI2Dg==
 
-cacache@^11.0.1, cacache@^11.0.2, cacache@^11.3.2:
+cacache@^11.0.1, cacache@^11.3.2:
   version "11.3.2"
   resolved "https://registry.yarnpkg.com/cacache/-/cacache-11.3.2.tgz#2d81e308e3d258ca38125b676b98b2ac9ce69bfa"
   integrity sha512-E0zP4EPGDOaT2chM08Als91eYnf8Z+eH1awwwVsngUmgppfM5jjJ8l3z5vO5p5w/I3LsiXawb1sW0VY65pQABg==
@@ -4024,26 +4024,7 @@ child-process-promise@^2.2.1:
     node-version "^1.0.0"
     promise-polyfill "^6.0.1"
 
-chokidar@^2.0.2:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-2.1.1.tgz#adc39ad55a2adf26548bd2afa048f611091f9184"
-  integrity sha512-gfw3p2oQV2wEt+8VuMlNsPjCxDxvvgnm/kz+uATu805mWVF8IJN7uz9DN7iBz+RMJISmiVbCOBFs9qBGMjtPfQ==
-  dependencies:
-    anymatch "^2.0.0"
-    async-each "^1.0.1"
-    braces "^2.3.2"
-    glob-parent "^3.1.0"
-    inherits "^2.0.3"
-    is-binary-path "^1.0.0"
-    is-glob "^4.0.0"
-    normalize-path "^3.0.0"
-    path-is-absolute "^1.0.0"
-    readdirp "^2.2.1"
-    upath "^1.1.0"
-  optionalDependencies:
-    fsevents "^1.2.7"
-
-chokidar@^2.1.5, chokidar@^2.1.6:
+chokidar@^2.0.2, chokidar@^2.1.5, chokidar@^2.1.6:
   version "2.1.6"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-2.1.6.tgz#b6cad653a929e244ce8a834244164d241fa954c5"
   integrity sha512-V2jUo67OKkc6ySiRpJrjlpJKl9kDuG+Xb8VgsGzb+aEouhgS1D0weyPU4lEzdAcsCAvrih2J2BqyXqHWvVLw5g==
@@ -5591,6 +5572,14 @@ electron-chromedriver@~3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/electron-chromedriver/-/electron-chromedriver-3.0.0.tgz#ec0a17badb6c3529813c660bf91a43fb91407674"
   integrity sha512-xWivZRiPTtDFJt+qXv7Ax/Dmhxj0iqESOxoLZ2szu3fv6k1vYDUDJUMHfdfVAke9D2gBRIgChuGb5j3YEt6hxQ==
+  dependencies:
+    electron-download "^4.1.0"
+    extract-zip "^1.6.5"
+
+electron-chromedriver@~4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/electron-chromedriver/-/electron-chromedriver-4.0.0.tgz#064fa2f0d5a97998eeff3258575b90bac8d436da"
+  integrity sha512-CeeAr4QVtsxkEpDWvFLzhdtgDVLQt32RBWjEJ4WxkIPNj0MX5D8gzli2djEPnnLUOX19vcBgs/CW7WBB/O3JIg==
   dependencies:
     electron-download "^4.1.0"
     extract-zip "^1.6.5"
@@ -8146,11 +8135,6 @@ isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
   integrity sha1-R+Y/evVa+m+S4VAOaQ64uFKcCZo=
-
-javascript-stringify@^1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/javascript-stringify/-/javascript-stringify-1.6.0.tgz#142d111f3a6e3dae8f4a9afd77d45855b5a9cce3"
-  integrity sha1-FC0RHzpuPa6PSpr9d9RYVbWpzOM=
 
 javascript-stringify@^2.0.0:
   version "2.0.0"
@@ -11990,11 +11974,6 @@ send@0.17.1:
     range-parser "~1.2.1"
     statuses "~1.5.0"
 
-serialize-javascript@^1.4.0:
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-1.6.1.tgz#4d1f697ec49429a847ca6f442a2a755126c4d879"
-  integrity sha512-A5MOagrPFga4YaKQSWHryl7AXvbQkEqpw4NNYMTNYUNV51bA8ABHgYFpqKx+YFFrw59xMV1qGH1R4AgoNIVgCw==
-
 serialize-javascript@^1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-1.7.0.tgz#d6e0dfb2a3832a8c94468e6eb1db97e55a192a65"
@@ -12292,7 +12271,7 @@ source-map-resolve@^0.5.0, source-map-resolve@^0.5.2:
     source-map-url "^0.4.0"
     urix "^0.1.0"
 
-source-map-support@^0.5.10, source-map-support@^0.5.9, source-map-support@~0.5.9:
+source-map-support@^0.5.10, source-map-support@^0.5.9:
   version "0.5.10"
   resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.5.10.tgz#2214080bc9d51832511ee2bab96e3c2f9353120c"
   integrity sha512-YfQ3tQFTK/yzlGJuX8pTwa4tifQj4QS2Mj7UegOu8jAz59MqIiMGPXxQhVQiIMNzayuUSF/jEuVnfFF5JqybmQ==
@@ -12386,6 +12365,17 @@ spectron@^5.0.0:
   dependencies:
     dev-null "^0.1.1"
     electron-chromedriver "~3.0.0"
+    request "^2.87.0"
+    split "^1.0.0"
+    webdriverio "^4.13.0"
+
+spectron@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/spectron/-/spectron-6.0.0.tgz#b6ead4735837f36b4be05afa29094460666e61d8"
+  integrity sha512-YQnQgdlpdPU572YhyX1hcDT40Q+5D0hkH4hM3jYy8HLHU1+6z4WTRQkjYdCBcYHE/3fHIQdPeaI+9DUzupQZtw==
+  dependencies:
+    dev-null "^0.1.1"
+    electron-chromedriver "~4.0.0"
     request "^2.87.0"
     split "^1.0.0"
     webdriverio "^4.13.0"
@@ -12860,21 +12850,7 @@ term-size@^1.2.0:
   dependencies:
     execa "^0.7.0"
 
-terser-webpack-plugin@^1.1.0:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/terser-webpack-plugin/-/terser-webpack-plugin-1.2.2.tgz#9bff3a891ad614855a7dde0d707f7db5a927e3d9"
-  integrity sha512-1DMkTk286BzmfylAvLXwpJrI7dWa5BnFmscV/2dCr8+c56egFcbaeFAl7+sujAjdmpLam21XRdhA4oifLyiWWg==
-  dependencies:
-    cacache "^11.0.2"
-    find-cache-dir "^2.0.0"
-    schema-utils "^1.0.0"
-    serialize-javascript "^1.4.0"
-    source-map "^0.6.1"
-    terser "^3.16.1"
-    webpack-sources "^1.1.0"
-    worker-farm "^1.5.2"
-
-terser-webpack-plugin@^1.2.3:
+terser-webpack-plugin@^1.1.0, terser-webpack-plugin@^1.2.3:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/terser-webpack-plugin/-/terser-webpack-plugin-1.2.4.tgz#56f87540c28dd5265753431009388f473b5abba3"
   integrity sha512-64IiILNQlACWZLzFlpzNaG0bpQ4ytaB7fwOsbpsdIV70AfLUmIGGeuKL0YV2WmtcrURjE2aOvHD4/lrFV3Rg+Q==
@@ -12888,15 +12864,6 @@ terser-webpack-plugin@^1.2.3:
     terser "^3.17.0"
     webpack-sources "^1.3.0"
     worker-farm "^1.7.0"
-
-terser@^3.16.1:
-  version "3.16.1"
-  resolved "https://registry.yarnpkg.com/terser/-/terser-3.16.1.tgz#5b0dd4fa1ffd0b0b43c2493b2c364fd179160493"
-  integrity sha512-JDJjgleBROeek2iBcSNzOHLKsB/MdDf+E/BOAJ0Tk9r7p9/fVobfv7LMJ/g/k3v9SXdmjZnIlFd5nfn/Rt0Xow==
-  dependencies:
-    commander "~2.17.1"
-    source-map "~0.6.1"
-    source-map-support "~0.5.9"
 
 terser@^3.17.0:
   version "3.17.0"
@@ -13338,11 +13305,6 @@ unzip-response@^2.0.1:
   resolved "https://registry.yarnpkg.com/unzip-response/-/unzip-response-2.0.1.tgz#d2f0f737d16b0615e72a6935ed04214572d56f97"
   integrity sha1-0vD3N9FrBhXnKmk17QQhRXLVb5c=
 
-upath@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/upath/-/upath-1.1.0.tgz#35256597e46a581db4793d0ce47fa9aebfc9fabd"
-  integrity sha512-bzpH/oBhoS/QI/YtbkqCg6VEiPYjSZtrHQM6/QnJS6OL9pKUFLqb3aFh4Scvwm45+7iAgiMkLhSbaZxUqmrprw==
-
 upath@^1.1.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/upath/-/upath-1.1.2.tgz#3db658600edaeeccbe6db5e684d67ee8c2acd068"
@@ -13527,9 +13489,9 @@ vm-browserify@0.0.4:
     indexof "0.0.1"
 
 vue-cli-plugin-electron-builder@^1.3.3:
-  version "1.3.3"
-  resolved "https://registry.yarnpkg.com/vue-cli-plugin-electron-builder/-/vue-cli-plugin-electron-builder-1.3.3.tgz#18060a3ce14d46cdf7c7916eee5e9e88119b3709"
-  integrity sha512-9Nrq52XMDN+LQVDRnySfn0d8vKgJBCL81htkR3KFZjfTukeLCUNnyYig+uZFelFbR8AmPnfpvZirZOYjH54s+A==
+  version "1.3.5"
+  resolved "https://registry.yarnpkg.com/vue-cli-plugin-electron-builder/-/vue-cli-plugin-electron-builder-1.3.5.tgz#d3cc19f731e0ebb58c8ba2a7449e8d4d16ea9649"
+  integrity sha512-wVzwTInnfxI66TGLMZ4IKgJ5QJ/oqVdpdBpx+yvLTV5bPbKY+Czge/z5SsQBob0tDVWTC8rzwgPpu70WvNt+HQ==
   dependencies:
     chokidar "^2.1.5"
     electron-builder "^20.29.0"
@@ -13541,7 +13503,7 @@ vue-cli-plugin-electron-builder@^1.3.3:
     pumpify "^1.5.1"
     semver "^6.0.0"
     shebang-loader "^0.0.1"
-    spectron "^5.0.0"
+    spectron "^6.0.0"
     split2 "^3.0.0"
     terser-webpack-plugin "^1.1.0"
     through2-filter "^3.0.0"
@@ -13757,15 +13719,7 @@ webpack-bundle-analyzer@^3.3.2:
     opener "^1.5.1"
     ws "^6.0.0"
 
-webpack-chain@^5.0.0:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/webpack-chain/-/webpack-chain-5.2.0.tgz#752c01e42752412610b27e3dbd6e0781146a465a"
-  integrity sha512-JXz9YgEkTqx8hvnES2VMRyWHNFlqJfLmA5QTyuJOXalkGg+MVdOgB0UaYtc4iDadEmzJLe8UyCl4wyDq3wWZDg==
-  dependencies:
-    deepmerge "^1.5.2"
-    javascript-stringify "^1.6.0"
-
-webpack-chain@^5.2.4:
+webpack-chain@^5.0.0, webpack-chain@^5.2.4:
   version "5.2.4"
   resolved "https://registry.yarnpkg.com/webpack-chain/-/webpack-chain-5.2.4.tgz#cc3665a296a6edcda738324599103ac6e215dda3"
   integrity sha512-3g0uIbzM/EWnmf52bYhB5IZeBZiw5g9vNqF4iTBEqabpxGxcv+Aj9oL4Cvr19ujOsv/HPvpRFRPLZ/aylv10Wg==
@@ -13996,13 +13950,6 @@ wordwrap@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/wordwrap/-/wordwrap-1.0.0.tgz#27584810891456a4171c8d0226441ade90cbcaeb"
   integrity sha1-J1hIEIkUVqQXHI0CJkQa3pDLyus=
-
-worker-farm@^1.5.2:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/worker-farm/-/worker-farm-1.6.0.tgz#aecc405976fab5a95526180846f0dba288f3a4a0"
-  integrity sha512-6w+3tHbM87WnSWnENBUvA2pxJPLhQUg5LKwUQHq3r+XPhIM+Gh2R5ycbwPCyuGbNg+lPgdcnQUhuC02kJCvffQ==
-  dependencies:
-    errno "~0.1.7"
 
 worker-farm@^1.7.0:
   version "1.7.0"
