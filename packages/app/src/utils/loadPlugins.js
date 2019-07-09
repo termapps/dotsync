@@ -2,12 +2,24 @@
 import { remote, ipcRenderer } from 'electron';
 import { list, load } from 'electron-plugin-manager';
 import async from 'async';
+import semver from 'semver';
 import isPlugin from './isPlugin';
 
 // Install missing plugins and load all plugins
 export default (configdir, needed, cb) => {
-  const installed = list(configdir).filter(isPlugin);
-  const toInstall = needed.filter(x => installed.indexOf(x.name) === -1);
+  const installed = list(configdir, { version: true }).filter(isPlugin);
+
+  const isInstalled = need => (item) => {
+    let frags = item.split('@');
+
+    if (frags.length === 3) {
+      frags = [`@${frags[1]}`, frags[2]];
+    }
+
+    return frags[0] === need.name && !semver.satisfies(frags[1], need.version);
+  };
+
+  const toInstall = needed.filter(need => installed.some(isInstalled(need)));
 
   async.eachSeries(toInstall, (item, callback) => {
     ipcRenderer.on(`epm-installed-${item.name}`, (event, error, pluginPath) => {

@@ -3474,6 +3474,11 @@ bluebird@^3.1.1, bluebird@^3.3.5, bluebird@^3.5.0, bluebird@^3.5.1, bluebird@^3.
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.3.tgz#7d01c6f9616c9a51ab0f8c549a79dfe6ec33efa7"
   integrity sha512-/qKPUQlaW1OyR51WeCPBvRnAlnZFUJkCSG5HzGnuIqhgyJtF+T94lFnn33eiazjRm2LAHVy2guNnaq48X9SJuw==
 
+bluebird@^3.5.5:
+  version "3.5.5"
+  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.5.tgz#a8d0afd73251effbbd5fe384a77d73003c17a71f"
+  integrity sha512-5am6HnnfN+urzt4yfg7IgTbotDjIT/u8AJpEt0sIU9FtXfVeezXAPKswrG+xKUCOYAINpSdgZVDU6QFh+cuH3w==
+
 bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.1.1, bn.js@^4.4.0:
   version "4.11.8"
   resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-4.11.8.tgz#2cde09eb5ee341f484746bb0309b3253b1b1442f"
@@ -5615,12 +5620,12 @@ electron-osx-sign@0.4.11:
     minimist "^1.2.0"
     plist "^3.0.1"
 
-electron-plugin-manager@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/electron-plugin-manager/-/electron-plugin-manager-1.0.0.tgz#4a4cc37858f219c005969117c2ab21b654d782a8"
-  integrity sha512-aIoePUVO0quY/p/CJAagPR8A3nUnlvmonz3qkd/6zObU5R7vBDWZapDQRzw8LPlQq6tdJOU+8CNWgkixQ+WnUg==
+electron-plugin-manager@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/electron-plugin-manager/-/electron-plugin-manager-1.1.0.tgz#969cb1a460bfa8afef2c82ff3ba76b5880d016f6"
+  integrity sha512-tL3jbDuxmbzDmBMPSi7teWsBX/NZuy+6gHGeBLO3/1SrybRfoiLt+gN3LHqxjUOfYJZxDb+xYb2SozY06KlguA==
   dependencies:
-    bluebird "^3.5.3"
+    bluebird "^3.5.5"
     pacote "^9.4.1"
     rimraf "^2.6.3"
 
@@ -11906,6 +11911,11 @@ semver@^6.0.0:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-6.1.0.tgz#e95dc415d45ecf03f2f9f83b264a6b11f49c0cca"
   integrity sha512-kCqEOOHoBcFs/2Ccuk4Xarm/KiWRSLEX9CAZF8xkJ6ZPlIoTZ8V5f7J16vYLJqDbR7KrxTJpR2lqjIEm2Qx9cQ==
+
+semver@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-6.2.0.tgz#4d813d9590aaf8a9192693d6c85b9344de5901db"
+  integrity sha512-jdFC1VdUGT/2Scgbimf7FSx9iJLXoqfglSF+gJeuNWVpiE37OIbc1jywR/GJyFdz3mnkz2/id0L0J/cr0izR5A==
 
 semver@~5.3.0:
   version "5.3.0"
