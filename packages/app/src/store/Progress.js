@@ -39,7 +39,7 @@ export default {
     errored(state, { message, details }) {
       state.current = null;
       state.error = message;
-      state.errorDetails = details;
+      state.errorDetails = JSON.stringify(details.err, null, 2);
     },
   },
   actions: {},
