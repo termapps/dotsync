@@ -4,6 +4,7 @@ module.exports = {
     electronBuilder: {
       outputDir: 'electron',
       nodeModulesPath: ['../../node_modules', 'node_modules'],
+      customFileProtocol: 'dotsync://./',
       builderOptions: {
         appId: 'com.pksunkara.dotsync',
         productName: 'Dotsync',
