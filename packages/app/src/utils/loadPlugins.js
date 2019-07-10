@@ -16,10 +16,10 @@ export default (configdir, needed, cb) => {
       frags = [`@${frags[1]}`, frags[2]];
     }
 
-    return frags[0] === need.name && !semver.satisfies(frags[1], need.version);
+    return frags[0] === need.name && semver.satisfies(frags[1], need.version);
   };
 
-  const toInstall = needed.filter(need => installed.some(isInstalled(need)));
+  const toInstall = needed.filter(need => !installed.some(isInstalled(need)));
 
   async.eachSeries(toInstall, (item, callback) => {
     ipcRenderer.on(`epm-installed-${item.name}`, (event, error, pluginPath) => {
