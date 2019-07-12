@@ -42,13 +42,9 @@ class Brew {
         return cb(err);
       }
 
-      const ret = [];
-
-      stdout.split('\n').forEach((line) => {
-        ret.push(line.split('@')[0]);
-      });
-
-      cb(null, ret);
+      cb(null, stdout.split('\n').filter(x => x).map((line) => {
+        return line.split('@')[0];
+      }));
     });
   }
 };
