@@ -12,7 +12,7 @@ class Brew {
   restore(data, cb) {
     const cmd = data.binary || 'brew';
 
-    list(cmd, (err, installed) => {
+    this.list(cmd, (err, installed) => {
       if (err) {
         return cb(err);
       }
@@ -50,17 +50,17 @@ class Brew {
   }
 
   list(cmd, cb) {
-    listTaps(cmd, (err, taps) => {
+    this.listTaps(cmd, (err, taps) => {
       if (err) {
         return cb(err);
       }
 
-      listKegs(cmd, (err, kegs) => {
+      this.listKegs(cmd, (err, kegs) => {
         if (err) {
           return cb(err);
         }
 
-        listCasks(cmd, (err, casks) => {
+        this.listCasks(cmd, (err, casks) => {
           if (err) {
             return cb(err);
           }
