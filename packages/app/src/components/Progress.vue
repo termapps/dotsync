@@ -13,7 +13,7 @@
           <pre v-if="item.logs">{{item.logs}}</pre>
         </li>
         <li v-if="current">
-          <bounce-loader class="loading" loading color="#5b3cc4" :size="24"></bounce-loader>
+          <bounce-loader class="loading" loading color="#5b5777" :size="24"></bounce-loader>
           <span>{{current}}</span>
         </li>
         <li v-if="error">

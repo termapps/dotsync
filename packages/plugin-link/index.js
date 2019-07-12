@@ -12,7 +12,7 @@ class Link {
   }
 
   restore(data, cb) {
-    async.each(data.paths, (item, callback) => {
+    async.eachSeries(data.paths, (item, callback) => {
       const d = item.destination;
 
       if (path.isAbsolute(d)) {

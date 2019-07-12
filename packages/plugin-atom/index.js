@@ -13,7 +13,7 @@ class Brew {
   restore(data, cb) {
     const cmd = data.binary || 'apm';
 
-    async.each(data.packages, (item, callback) => {
+    async.eachSeries(data.packages, (item, callback) => {
       this.runner.run(`${cmd} install ${item}`, callback);
     }, cb);
   }

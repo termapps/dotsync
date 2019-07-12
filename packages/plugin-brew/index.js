@@ -11,14 +11,14 @@ class Brew {
   restore(data, cb) {
     const cmd = data.binary || 'brew';
 
-    async.each(data.taps, (item, callback) => {
+    async.eachSeries(data.taps, (item, callback) => {
       this.runner.run(`${cmd} tap ${item.name}`, callback);
     }, (err) => {
       if (err) {
         return cb(err);
       }
 
-      async.each(data.kegs, (item, callback) => {
+      async.eachSeries(data.kegs, (item, callback) => {
         this.runner.run(`${cmd} install ${item.name}`, (err) => {
           if (err || !item.pin) {
             return callback(err);
@@ -31,7 +31,7 @@ class Brew {
           return cb(err);
         }
 
-        async.each(data.casks, (item, callback) => {
+        async.eachSeries(data.casks, (item, callback) => {
           this.runner.run(`${cmd} cask install ${item}`, callback);
         }, cb);
       });
