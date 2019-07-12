@@ -13,7 +13,29 @@ class Brew {
 
     async.each(data.taps, (item, callback) => {
       this.runner.run(`${cmd} tap ${item.name}`, callback);
-    }, cb);
+    }, (err) => {
+      if (err) {
+        return cb(err);
+      }
+
+      async.each(data.kegs, (item, callback) => {
+        this.runner.run(`${cmd} install ${item.name}`, (err) => {
+          if (err || !item.pin) {
+            return callback(err);
+          }
+
+          this.runner.run(`${cmd} pin ${item.name}`, callback);
+        });
+      }, (err) => {
+        if (err) {
+          return cb(err);
+        }
+
+        async.each(data.casks, (item, callback) => {
+          this.runner.run(`${cmd} cask install ${item}`, callback);
+        }, cb);
+      });
+    });
   }
 };
 
