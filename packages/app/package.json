@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "Dotsync",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Dotfiles manager",
   "main": "background.js",
   "repository": {
