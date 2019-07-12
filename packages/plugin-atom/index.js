@@ -3,17 +3,17 @@ const async = require('async');
 
 class Brew {
   constructor(datadir) {
-    this.name = 'brew';
-    this.description = 'Homebrew ...';
+    this.name = 'atom';
+    this.description = 'Atom ...';
 
     this.datadir = datadir;
   }
 
   restore(data, cb) {
-    const cmd = data.binary || 'brew';
+    const cmd = data.binary || 'apm';
 
-    async.each(data.taps, (item, callback) => {
-      exec(`${cmd} tap ${item.name}`, {
+    async.each(data.packages, (item, callback) => {
+      exec(`${cmd} install ${item.name}`, {
         cwd: this.datadir,
         encoding: 'utf8',
       }, (err, stdout, stderr) => {

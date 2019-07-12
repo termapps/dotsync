@@ -1,0 +1,27 @@
+{
+  "name": "@dotsync/plugin-atom",
+  "version": "0.4.2",
+  "description": "Atom plugin for dotsync",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/osapps/dotsync.git"
+  },
+  "keywords": [
+    "atom",
+    "dotsync",
+    "plugin",
+    "dotsync-plugin"
+  ],
+  "author": "Pavan Kumar Sunkara <pavan.sss1991@gmail.com> (pksunkara.github.com)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/osapps/dotsync/issues"
+  },
+  "dependencies": {
+    "async": "^2.6.1"
+  }
+}
