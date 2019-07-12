@@ -9,6 +9,8 @@ class Brew {
     this.datadir = datadir;
   }
 
+  // apm list --installed --bare
+
   restore(data, cb) {
     const cmd = data.binary || 'apm';
 

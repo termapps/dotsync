@@ -12,7 +12,7 @@
           <span>{{item}}</span>
         </li>
         <li v-if="current">
-          <span class="mi mi-cached"></span>
+          <bounce-loader class="loading" loading color="#5b3cc4" :size="24"></bounce-loader>
           <span>{{current}}</span>
         </li>
         <li v-if="error">
@@ -29,8 +29,12 @@
 
 <script>
 import { mapState } from 'vuex';
+import { BounceLoader } from '@saeris/vue-spinners';
 
 export default {
+  components: {
+    BounceLoader,
+  },
   computed: {
     ...mapState('Progress', [
       'messages',
@@ -62,6 +66,11 @@ export default {
 
     li {
       display: flex;
+      margin-bottom: 5px;
+
+      .loading {
+        margin-right: 20px;
+      }
 
       span {
         line-height: 24px;
