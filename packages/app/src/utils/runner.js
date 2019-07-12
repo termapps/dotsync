@@ -15,12 +15,14 @@ export default class Runner {
       });
 
       process.on('error', (err) => {
+        this.log('\n');
         gotError = true;
         cb(err);
       });
 
       process.on('exit', () => {
         if (!gotError) {
+          this.log('\n');
           cb();
         }
       });

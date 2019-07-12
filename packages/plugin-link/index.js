@@ -13,20 +13,20 @@ class Link {
 
   restore(data, cb) {
     async.eachSeries(data.paths, (item, callback) => {
-      const d = item.destination;
+      const dest = item.destination;
 
-      if (path.isAbsolute(d)) {
+      if (path.isAbsolute(dest)) {
         const source = path.resolve(this.datadir, item.source);
 
-        if (fs.existsSync(d)) {
-          if (fs.lstatSync(d).isSymbolicLink() && fs.readlinkSync(d) === source) {
+        if (fs.existsSync(dest)) {
+          if (fs.lstatSync(dest).isSymbolicLink() && fs.readlinkSync(dest) === source) {
             return callback();
           } else {
             return callback(new Error(`Destination for '${item.source}' already exists`));
           }
         }
 
-        this.runner.run(`ln -sn '${source}' '${d}'`, callback);
+        this.runner.run(`ln -sn '${source}' '${dest}'`, callback);
       }
     }, cb);
   }

@@ -64,12 +64,21 @@ export default {
 .progress-list {
   margin: 20px 50px 0;
 
+  pre {
+    text-align: left;
+  }
+
   ul {
     list-style: none;
 
     li {
       display: flex;
+      flex-flow: row wrap;
       margin-bottom: 5px;
+
+      pre {
+        margin-top: 5px;
+      }
 
       .loading {
         margin-right: 20px;
