@@ -6,7 +6,7 @@ import semver from 'semver';
 import isPlugin from './isPlugin';
 
 // Install missing plugins and load all plugins
-export default (configdir, needed, cb) => {
+export default (configdir, needed, log, cb) => {
   const installed = list(configdir, { version: true }).filter(isPlugin);
 
   const isInstalled = need => (item) => {
@@ -23,7 +23,12 @@ export default (configdir, needed, cb) => {
 
   async.eachSeries(toInstall, (item, callback) => {
     ipcRenderer.on(`epm-installed-${item.name}`, (event, error, pluginPath) => {
-      callback(error, pluginPath);
+      if (error) {
+        return callback(error);
+      }
+
+      log(`Installed ${item.name} at ${pluginPath}\n`);
+      callback(null, pluginPath);
     });
 
     ipcRenderer.send('epm-install', configdir, item.name, item.version);

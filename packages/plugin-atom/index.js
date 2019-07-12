@@ -1,12 +1,11 @@
-const exec = require('child_process').exec;
 const async = require('async');
 
 class Brew {
-  constructor(datadir) {
+  constructor({ runner }) {
     this.name = 'atom';
-    this.description = 'Atom ...';
+    this.description = 'Atom packages and configuration';
 
-    this.datadir = datadir;
+    this.runner = runner;
   }
 
   // apm list --installed --bare
@@ -15,12 +14,7 @@ class Brew {
     const cmd = data.binary || 'apm';
 
     async.each(data.packages, (item, callback) => {
-      exec(`${cmd} install ${item.name}`, {
-        cwd: this.datadir,
-        encoding: 'utf8',
-      }, (err, stdout, stderr) => {
-        return callback(err);
-      });
+      this.runner.run(`${cmd} install ${item}`, callback);
     }, cb);
   }
 };

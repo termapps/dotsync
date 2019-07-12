@@ -19,6 +19,7 @@ export default {
       'working',
       'errored',
       'finished',
+      'log',
     ]),
   },
   mounted() {
@@ -35,7 +36,7 @@ export default {
         });
       }
 
-      restore(this.configdir, datadir, (error) => {
+      restore(this.configdir, datadir, this.log, (error) => {
         if (error) {
           // TODO: Give suggestions to user about fix the error
           return this.errored({

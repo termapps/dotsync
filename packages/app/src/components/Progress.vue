@@ -9,7 +9,8 @@
       <ul>
         <li v-for="(item, index) in done" :key="index">
           <span class="mi mi-done"></span>
-          <span>{{item}}</span>
+          <span>{{item.message}}</span>
+          <pre v-if="item.logs">{{item.logs}}</pre>
         </li>
         <li v-if="current">
           <bounce-loader class="loading" loading color="#5b3cc4" :size="24"></bounce-loader>
@@ -19,6 +20,7 @@
           <span class="mi mi-clear"></span>
           <span><a @click="showDetails()">{{error}}</a></span>
         </li>
+        <pre v-if="logs">{{logs}}</pre>
       </ul>
       <vs-popup v-if="error" title="Error Details" :active.sync="detailsPopup">
         <pre>{{errorDetails}}</pre>
@@ -40,6 +42,7 @@ export default {
       'messages',
       'done',
       'current',
+      'logs',
       'error',
       'errorDetails',
     ]),
