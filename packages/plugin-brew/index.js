@@ -74,7 +74,7 @@ class Brew {
   listTaps(cmd, cb) {
     exec(`${cmd} tap`, {
       encoding: 'utf8',
-    }, (err, stderr, stdout) => {
+    }, (err, stdout, stderr) => {
       if (err) {
         return cb(err);
       }
@@ -86,7 +86,7 @@ class Brew {
   listKegs(cmd, cb) {
     exec(`${cmd} list -1`, {
       encoding: 'utf8',
-    }, (err, stderr, stdout) => {
+    }, (err, stdout, stderr) => {
       if (err) {
         return cb(err);
       }
@@ -98,7 +98,7 @@ class Brew {
   listCasks(cmd, cb) {
     exec(`${cmd} cask list -1`, {
       encoding: 'utf8',
-    }, (err, stderr, stdout) => {
+    }, (err, stdout, stderr) => {
       if (err) {
         return cb(err);
       }

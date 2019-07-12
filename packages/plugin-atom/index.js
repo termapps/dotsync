@@ -37,7 +37,7 @@ class Brew {
   list(cmd, cb) {
     exec(`${cmd} list --installed --bare`, {
       encoding: 'utf8',
-    }, (err, stderr, stdout) => {
+    }, (err, stdout, stderr) => {
       if (err) {
         return cb(err);
       }
