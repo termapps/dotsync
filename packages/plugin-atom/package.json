@@ -1,6 +1,6 @@
 {
   "name": "@dotsync/plugin-atom",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "Atom plugin for dotsync",
   "main": "index.js",
   "repository": {
@@ -22,7 +22,7 @@
     "url": "https://github.com/osapps/dotsync/issues"
   },
   "dependencies": {
-    "@dotsync/plugin-link": "^0.5.2",
+    "@dotsync/plugin-link": "^0.5.5",
     "async": "^2.6.1"
   }
 }
