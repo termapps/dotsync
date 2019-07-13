@@ -22,6 +22,7 @@
     "url": "https://github.com/osapps/dotsync/issues"
   },
   "dependencies": {
+    "@dotsync/plugin-link": "^0.5.2",
     "async": "^2.6.1"
   }
 }

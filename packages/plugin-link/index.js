@@ -1,6 +1,5 @@
-const path = require('path');
-const fs = require('fs');
 const async = require('async');
+const link = require('./link');
 
 class Link {
   constructor({ datadir, runner }) {
@@ -13,23 +12,11 @@ class Link {
 
   restore(data, cb) {
     async.eachSeries(data.paths, (item, callback) => {
-      const dest = item.destination;
-
-      if (path.isAbsolute(dest)) {
-        const source = path.resolve(this.datadir, item.source);
-
-        if (fs.existsSync(dest)) {
-          if (fs.lstatSync(dest).isSymbolicLink() && fs.readlinkSync(dest) === source) {
-            return callback();
-          } else {
-            return callback(new Error(`Destination for '${item.source}' already exists`));
-          }
-        }
-
-        this.runner.run(`ln -sn '${source}' '${dest}'`, callback);
-      }
+      link(item, this.datadir, this.runner, callback)
     }, cb);
   }
 };
+
+Link.link = link;
 
 module.exports = Link;

@@ -23,6 +23,7 @@
     "url": "https://github.com/osapps/dotsync/issues"
   },
   "dependencies": {
-    "async": "^2.6.1"
+    "async": "^2.6.1",
+    "mkdirp": "^0.5.1"
   }
 }
