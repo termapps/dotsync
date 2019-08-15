@@ -1,7 +1,6 @@
 const { exec } = require('child_process');
 const os = require('os');
 const path = require('path');
-const { link } = require('@dotsync/plugin-link');
 const async = require('async');
 
 class Atom {
@@ -11,33 +10,6 @@ class Atom {
 
     this.datadir = datadir;
     this.runner = runner;
-  }
-
-  getConfig(data) {
-    const ret = [];
-    const atomdir = path.join(os.homedir(), '.atom');
-
-    if (data.keymap) {
-      ret.push({ source: data.keymap, destination: path.join(atomdir, 'keymap.cson') });
-    }
-
-    if (data.snippets) {
-      ret.push({ source: data.snippets, destination: path.join(atomdir, 'snippets.cson') });
-    }
-
-    if (data.styles) {
-      ret.push({ source: data.styles, destination: path.join(atomdir, 'styles.less') });
-    }
-
-    if (data.init) {
-      ret.push({ source: data.init, destination: path.join(atomdir, 'init.coffee') });
-    }
-
-    if (data.config) {
-      ret.push({ source: data.config, destination: path.join(atomdir, 'config.cson') });
-    }
-
-    return ret;
   }
 
   restore(data, cb) {
@@ -60,15 +32,7 @@ class Atom {
 
         async.eachSeries(toUninstall, (item, callback) => {
           this.runner.run(`${cmd} uninstall ${item}`, callback);
-        }, (err) => {
-          if (err) {
-            return cb(err);
-          }
-
-          async.eachSeries(this.getConfig(data), (item, callback) => {
-            link(item, this.datadir, this.runner, callback);
-          }, cb);
-        });
+        }, cb);
       });
     });
   }
@@ -86,6 +50,48 @@ class Atom {
       }));
     });
   }
+};
+
+Atom.expand = (options) => {
+  const atomdir = path.join(os.homedir(), '.atom');
+
+  return [
+    {
+      name: '@dotsync/plugin-link',
+      data: {
+        paths: [
+          {
+            source: options.data.keymap,
+            destination: path.join(atomdir, 'keymap.cson'),
+          },
+          {
+            source: options.data.snippets,
+            destination: path.join(atomdir, 'snippets.cson'),
+          },
+          {
+            source: options.data.styles,
+            destination: path.join(atomdir, 'styles.less'),
+          },
+          {
+            source: options.data.init,
+            destination: path.join(atomdir, 'init.coffee'),
+          },
+          {
+            source: options.data.config,
+            destination: path.join(atomdir, 'config.cson'),
+          },
+        ],
+      },
+    },
+    {
+      name: '@dotsync/plugin-brew',
+      data: {
+        casks: [
+          "atom",
+        ],
+      },
+    },
+  ];
 };
 
 module.exports = Atom;

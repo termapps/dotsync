@@ -66,6 +66,7 @@ export default {
 
   pre {
     text-align: left;
+    margin-left: 44px;
   }
 
   ul {
