@@ -1,6 +1,6 @@
-# @dotsync/plugin-python
+# @dotsync/plugin-node
 
-Python plugin for dotsync
+Node.js plugin for dotsync
 
 ## Installation
 

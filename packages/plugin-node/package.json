@@ -1,15 +1,15 @@
 {
-  "name": "@dotsync/plugin-python",
+  "name": "@dotsync/plugin-node",
   "version": "0.5.5",
-  "description": "Python plugin for dotsync",
+  "description": "Node.js plugin for dotsync",
   "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/osapps/dotsync.git"
   },
   "keywords": [
-    "python",
-    "pip",
+    "node",
+    "npm",
     "dotsync",
     "plugin",
     "dotsync-plugin"
