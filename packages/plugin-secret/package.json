@@ -1,6 +1,6 @@
 {
   "name": "@dotsync/plugin-secret",
-  "version": "0.6.0",
+  "version": "0.6.2",
   "description": "Plugin to symlink encrypted files for dotsync",
   "main": "index.js",
   "repository": {
