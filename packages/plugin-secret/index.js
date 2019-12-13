@@ -45,12 +45,12 @@ class Secret {
         fs.unlinkSync(dest);
       }
 
-      fs.readFile(source, 'base64', (err, encrypted) => {
+      fs.readFile(source, 'utf8', (err, encrypted) => {
         if (err) {
           return callback(err);
         }
 
-        const decrypted = this.decrypt(encrypted, data._p.secret);
+        const decrypted = this.decrypt(Buffer.from(encrypted.trim(), 'base64'), data._p.secret);
 
         fs.writeFile(dest, decrypted, 'utf8', callback);
       });

@@ -63,6 +63,11 @@ const installPkgs = (config, configdir, log, cb) => {
           // eslint-disable-next-line no-param-reassign
           config[ifExistsIndex] = deepmerge(config[ifExistsIndex], item);
         } else {
+          if (!item.version) {
+            // eslint-disable-next-line no-param-reassign
+            item.version = 'latest';
+          }
+
           config.push(item);
         }
       });

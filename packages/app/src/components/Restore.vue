@@ -42,7 +42,7 @@ export default {
       'log',
     ]),
     prompt(name, schema, cb) {
-      if (!schema.length) {
+      if (schema.length === 0) {
         return cb(null, {});
       }
 
