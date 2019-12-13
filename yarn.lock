@@ -4651,7 +4651,7 @@ electron-updater@^4.0.6:
     pako "^1.0.10"
     semver "^6.3.0"
 
-electron@^3.1.3:
+electron@3.1.13:
   version "3.1.13"
   resolved "https://registry.yarnpkg.com/electron/-/electron-3.1.13.tgz#aeb276f4cf5e3785078b6495e982ee46d553a5d2"
   integrity sha512-aRNywoUSO1Va/lpU4nz3K6GDyFqYtlOnHGLcERAAHfhB+IJrJ34cUJW4FVBpm43AwvUdAeuCkVKRLtOmrgx5CA==
