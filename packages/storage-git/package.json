@@ -1,6 +1,6 @@
 {
   "name": "@dotsync/storage-git",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Git repository store for dotsync",
   "main": "index.js",
   "repository": {

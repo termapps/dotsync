@@ -1,6 +1,6 @@
 {
   "name": "@dotsync/plugin-atom",
-  "version": "0.5.5",
+  "version": "0.6.0",
   "description": "Atom plugin for dotsync",
   "main": "index.js",
   "repository": {
