@@ -12,7 +12,7 @@ class Link {
 
   restore(data, cb) {
     async.eachSeries(data.paths, (item, callback) => {
-      link(item, this.datadir, this.runner, callback)
+      link(item, this.datadir, this.runner, callback);
     }, cb);
   }
 };
