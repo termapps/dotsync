@@ -1,14 +1,15 @@
 {
-  "name": "@dotsync/plugin-link",
+  "name": "@dotsync/plugin-secret",
   "version": "0.5.5",
-  "description": "Symlinking plugin for dotsync",
+  "description": "Plugin to symlink encrypted files for dotsync",
   "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/osapps/dotsync.git"
   },
   "keywords": [
-    "link",
+    "secret",
+    "encrypted",
     "symlink",
     "dotsync",
     "plugin",
@@ -23,7 +24,6 @@
     "url": "https://github.com/osapps/dotsync/issues"
   },
   "dependencies": {
-    "async": "^2.6.1",
-    "mkdirp": "^0.5.1"
+    "async": "^2.6.1"
   }
 }

@@ -44,13 +44,12 @@ class Node {
 Node.expand = (options) => {
   return [
     {
-      name: '@dotsync/plugin-link',
+      name: '@dotsync/plugin-secret',
       data: {
         paths: [
           {
             source: options.data.npmrc,
             destination: path.join(os.homedir(), '.npmrc'),
-            encrypted: true,
           },
         ],
       },

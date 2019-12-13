@@ -1,6 +1,6 @@
-# @dotsync/plugin-link
+# @dotsync/plugin-secret
 
-Symlinking plugin for dotsync
+Plugin to symlink encrypted files for dotsync
 
 ## Installation
 
