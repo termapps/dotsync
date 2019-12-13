@@ -13,7 +13,7 @@ class Node {
   }
 
   restore(data, cb) {
-    const cmd = data.binary || 'npm';
+    const cmd = `${data.binary || 'node'} ${data.npmBinary || 'npm'}`;
 
     this.list(cmd, (err, installed) => {
       if (err) {
