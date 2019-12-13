@@ -4,7 +4,7 @@ import async from 'async';
 import loadPlugins from './loadPlugins';
 import Runner from './runner';
 
-export default (configdir, datadir, log, cb) => {
+export default (configdir, datadir, log, prompt, cb) => {
   let config;
 
   try {
@@ -26,7 +26,15 @@ export default (configdir, datadir, log, cb) => {
         runner: new Runner(datadir, log),
       });
 
-      plugin.restore(item.data, callback);
+      const questions = ((plugins[item.name].prompts || {}).restore || []);
+
+      prompt(item.name, questions, (error, answers) => {
+        if (error) {
+          return callback(error);
+        }
+
+        plugin.restore({ ...item.data, _p: answers }, callback);
+      });
     }, cb);
   });
 };

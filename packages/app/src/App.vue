@@ -60,10 +60,10 @@ export default {
     text-transform: capitalize;
     padding-bottom: 20px;
   }
+}
 
-  .vs-row {
-    margin-top: 20px;
-  }
+.vs-row {
+  margin-top: 20px;
 }
 
 .top-bar {
