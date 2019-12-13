@@ -67,4 +67,4 @@ Node.expand = (options) => {
   ];
 };
 
-module.exports = Atom;
+module.exports = Node;

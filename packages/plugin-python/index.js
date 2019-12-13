@@ -57,4 +57,4 @@ Python.expand = (options) => {
   ];
 };
 
-module.exports = Atom;
+module.exports = Python;
