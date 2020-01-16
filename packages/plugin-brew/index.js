@@ -17,7 +17,7 @@ class Brew {
         return cb(err);
       }
 
-      const taps = data.taps.filter(x => installed.taps.indexOf(x.name) === -1);
+      const taps = data.taps.filter(x => installed.taps.map(x => x.name).indexOf(x.name) === -1);
       const kegs = data.kegs.filter(x => installed.kegs.indexOf(x.name) === -1);
       const casks = data.casks.filter(x => installed.casks.indexOf(x) === -1);
 
@@ -72,14 +72,21 @@ class Brew {
   }
 
   listTaps(cmd, cb) {
-    exec(`${cmd} tap`, {
+    exec(`${cmd} tap-info --installed --json`, {
       encoding: 'utf8',
     }, (err, stdout, stderr) => {
       if (err) {
         return cb(err);
       }
 
-      cb(null, stdout.split('\n').filter(x => x));
+      const out = JSON.parse(stdout)
+        .filter(x => !x.private)
+        .map(x => ({
+          name: x.name,
+          remote: x.remote,
+        }));
+
+      cb(null, out);
     });
   }
 
