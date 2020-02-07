@@ -9,10 +9,14 @@ class Brew {
     this.runner = runner;
   }
 
-  restore(data, cb) {
-    const cmd = data.binary || 'brew';
+  cmd(data) {
+    return data.binary || 'brew';
+  }
 
-    this.list(cmd, (err, installed) => {
+  restore(data, cb) {
+    const cmd = this.cmd(data);
+
+    this.list(data, (err, installed) => {
       if (err) {
         return cb(err);
       }
@@ -49,7 +53,9 @@ class Brew {
     });
   }
 
-  list(cmd, cb) {
+  list(data, cb) {
+    const cmd = this.cmd(data);
+
     this.listTaps(cmd, (err, taps) => {
       if (err) {
         return cb(err);

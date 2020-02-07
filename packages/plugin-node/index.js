@@ -12,15 +12,19 @@ class Node {
     this.runner = runner;
   }
 
-  restore(data, cb) {
-    const cmd = `${data.binary || 'node'} ${data.npmBinary || 'npm'}`;
+  cmd(data) {
+    return `${data.binary || 'node'} ${data.npmBinary || 'npm'}`;
+  }
 
-    this.list(cmd, (err, installed) => {
+  restore(data, cb) {
+    const cmd = this.cmd(data);
+
+    this.list(data, (err, installed) => {
       if (err) {
         return cb(err);
       }
 
-      const toInstall = data.packages.filter(x => installed.indexOf(x.name) === -1);
+      const toInstall = data.packages.filter(x => installed.packages.indexOf(x.name) === -1);
 
       async.eachSeries(toInstall, (item, callback) => {
         this.runner.run(`${cmd} install --global ${item.name}`, callback);
@@ -28,7 +32,9 @@ class Node {
     });
   }
 
-  list(cmd, cb) {
+  list(data, cb) {
+    const cmd = this.cmd(data);
+
     exec(`${cmd} list --global --depth=0 --json`, {
       encoding: 'utf8',
     }, (err, stdout, stderr) => {
@@ -36,7 +42,9 @@ class Node {
         return cb(err);
       }
 
-      cb(null, Object.keys(JSON.parse(stdout).dependencies));
+      cb(null, {
+        packages: Object.keys(JSON.parse(stdout).dependencies),
+      });
     });
   }
 };

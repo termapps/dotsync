@@ -12,16 +12,20 @@ class VSCode {
     this.runner = runner;
   }
 
-  restore(data, cb) {
-    const cmd = data.binary || 'code';
+  cmd(data) {
+    return data.binary || 'code';
+  }
 
-    this.list(cmd, (err, installed) => {
+  restore(data, cb) {
+    const cmd = this.cmd(data);
+
+    this.list(data, (err, installed) => {
       if (err) {
         return cb(err);
       }
 
-      const toInstall = data.packages.filter(x => installed.indexOf(x) === -1);
-      const toUninstall = installed.filter(x => data.packages.indexOf(x) === -1);
+      const toInstall = data.packages.filter(x => installed.packages.indexOf(x) === -1);
+      const toUninstall = installed.packages.filter(x => data.packages.indexOf(x) === -1);
 
       async.eachSeries(toInstall, (item, callback) => {
         this.runner.run(`${cmd} --install-extension ${item}`, callback);
@@ -37,7 +41,9 @@ class VSCode {
     });
   }
 
-  list(cmd, cb) {
+  list(data, cb) {
+    const cmd = this.cmd(data);
+
     exec(`${cmd} --list-extensions --show-versions`, {
       encoding: 'utf8',
     }, (err, stdout, stderr) => {
@@ -45,9 +51,11 @@ class VSCode {
         return cb(err);
       }
 
-      cb(null, stdout.split('\n').filter(x => x).map((line) => {
-        return line.split('@')[0];
-      }));
+      cb(null, {
+        packages: stdout.split('\n').filter(x => x).map((line) => {
+          return line.split('@')[0];
+        }),
+      });
     });
   }
 };

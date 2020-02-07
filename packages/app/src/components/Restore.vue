@@ -62,11 +62,13 @@ export default {
   },
   mounted() {
     const stores = loadStores(this.configdir);
+    const store = stores[this.storeSettings.method];
+    const datadir = store.datadir(this.storeSettings);
 
     this.working('Trying to restore your dotfiles to latest version');
 
     // TODO: Allow logs and display them
-    stores[this.storeSettings.method].beforeRestore(this.storeSettings.location, (err, datadir) => {
+    store.beforeRestore(this.storeSettings, (err) => {
       if (err) {
         return this.errored({
           message: 'Unable to restore your dotfiles to latest version',
@@ -88,14 +90,14 @@ export default {
 
         try {
           settings.write(this.configdir, 'version', this.versionSettings);
-        } catch (e) {
+        } catch (error2) {
           return this.errored({
             message: 'Unable to save info about the last restored version',
-            details: { err: e },
+            details: { err: error2 },
           });
         }
 
-        this.finished('Saved info about the last restored version')
+        this.finished('Saved info about the last restored version');
         this.$router.push({ name: 'Dashboard' });
       });
     });

@@ -4,6 +4,7 @@ import Home from '../components/Home.vue';
 import StoreSettings from '../components/StoreSettings.vue';
 import VersionSettings from '../components/VersionSettings.vue';
 import Restore from '../components/Restore.vue';
+import Backup from '../components/Backup.vue';
 import Dashboard from '../components/Dashboard.vue';
 import Plugins from '../components/Plugins.vue';
 import Config from '../components/Config.vue';
@@ -30,6 +31,11 @@ const routes = [
     path: '/restore',
     name: 'Restore',
     component: Restore,
+  },
+  {
+    path: '/backup',
+    name: 'Backup',
+    component: Backup,
   },
   {
     path: '/dashboard',

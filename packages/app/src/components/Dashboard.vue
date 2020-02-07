@@ -1,6 +1,7 @@
 <template>
   <div>
-    <vs-button @click="confirm">Restore</vs-button>
+    <vs-button @click="restore">Restore</vs-button>
+    <vs-button @click="backup">Backup</vs-button>
   </div>
 </template>
 
@@ -12,9 +13,13 @@ export default {
     ...mapMutations('Progress', [
       'clear',
     ]),
-    confirm() {
+    restore() {
       this.clear();
       this.$router.push({ name: 'Restore' });
+    },
+    backup() {
+      this.clear();
+      this.$router.push({ name: 'Backup' });
     },
   },
 };

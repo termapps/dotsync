@@ -16,7 +16,7 @@ class Secret {
     return crypto.createHash('sha256').update(password).digest();
   }
 
-  encrypt(buffer, password) {
+  encrypt(text, password) {
     const iv = crypto.randomBytes(16);
     const cipher = crypto.createCipheriv('aes-256-cbc', this.key(password), iv);
 

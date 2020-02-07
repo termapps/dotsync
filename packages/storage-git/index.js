@@ -28,6 +28,10 @@ class Git {
     return '';
   }
 
+  datadir(settings) {
+    return this.dataFolder;
+  }
+
   init(value, cb) {
     const callback = (err) => {
       rimraf(this.dataFolder, (error) => {
@@ -83,7 +87,7 @@ class Git {
     });
   }
 
-  beforeRestore(repo, cb) {
+  beforeRestore(settings, cb) {
     this.run(`git status --porcelain`, (err, stdout, stderr) => {
       if (err) {
         err.message = `Unable to run 'git status': ${err.message}`;
@@ -110,7 +114,7 @@ class Git {
             return cb(err);
           }
 
-          return cb(null, this.dataFolder);
+          return cb(null);
         });
       });
     });

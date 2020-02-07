@@ -19,6 +19,10 @@ class Folder {
     return '';
   }
 
+  datadir(settings) {
+    return settings.location;
+  }
+
   init(value, cb) {
     cb(null, '', { location: path.resolve(__dirname, value) });
   }
@@ -28,8 +32,8 @@ class Folder {
     cb(new Error('Not implemented'));
   }
 
-  beforeRestore(datadir, cb) {
-    cb(null, datadir);
+  beforeRestore(settings, cb) {
+    cb(null);
   }
 
   afterBackup(cb) {
