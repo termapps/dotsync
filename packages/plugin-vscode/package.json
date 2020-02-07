@@ -1,6 +1,6 @@
 {
   "name": "@dotsync/plugin-vscode",
-  "version": "0.6.0",
+  "version": "0.6.5",
   "description": "Visual Studio Code plugin for dotsync",
   "main": "index.js",
   "repository": {
