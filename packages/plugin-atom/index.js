@@ -34,6 +34,10 @@ class Atom {
           return cb(err);
         }
 
+        if (!(data.uninstall && data.uninstall.packages)) {
+          return cb();
+        }
+
         async.eachSeries(toUninstall, (item, callback) => {
           this.runner.run(`${cmd} uninstall ${item}`, callback);
         }, cb);

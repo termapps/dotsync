@@ -32,9 +32,19 @@ export default {
       'finished',
       'log',
     ]),
-    section(item, installed) {
+    section(item, data) {
+      const details = {};
+
+      Object.keys(data).forEach((key) => {
+        const installed = data[key];
+        const needed = item.data[key];
+
+        details[key] = { installed, needed };
+      });
+
       this.plugins.push({
         name: item.name.slice(16),
+        details,
       });
     },
   },
