@@ -1,6 +1,6 @@
 {
   "name": "@dotsync/plugin-vscode",
-  "version": "0.6.5",
+  "version": "0.7.0",
   "description": "Visual Studio Code plugin for dotsync",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -29,10 +29,10 @@
     "tsc": "tsc"
   },
   "dependencies": {
-    "@dotsync/utils": "^0.6.5"
+    "@dotsync/utils": "^0.7.0"
   },
   "devDependencies": {
-    "typescript": "^3.7.5",
-    "@types/node": "^13.7.0"
+    "@types/node": "^13.7.0",
+    "typescript": "^3.7.5"
   }
 }

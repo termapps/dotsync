@@ -1,6 +1,6 @@
 {
   "name": "@dotsync/plugin-secret",
-  "version": "0.6.5",
+  "version": "0.7.0",
   "description": "Plugin to symlink encrypted files for dotsync",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -31,12 +31,12 @@
     "tsc": "tsc"
   },
   "dependencies": {
-    "async": "^2.6.1",
-    "@dotsync/utils": "^0.6.5"
+    "@dotsync/utils": "^0.7.0",
+    "async": "^2.6.1"
   },
   "devDependencies": {
-    "typescript": "^3.7.5",
+    "@types/async": "^2.4.2",
     "@types/node": "^13.7.0",
-    "@types/async": "^2.4.2"
+    "typescript": "^3.7.5"
   }
 }
