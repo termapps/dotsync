@@ -1,7 +1,7 @@
 {
-  "name": "@dotsync/plugin-vscode",
+  "name": "@dotsync/utils",
   "version": "0.6.5",
-  "description": "Visual Studio Code plugin for dotsync",
+  "description": "Dotsync pluign and storage utilities",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": [
@@ -12,12 +12,13 @@
     "url": "git+https://github.com/osapps/dotsync.git"
   },
   "keywords": [
-    "vscode",
     "dotsync",
     "plugin",
-    "dotsync-plugin"
+    "store",
+    "dotsync-plugin",
+    "dotsync-store"
   ],
-  "author": "Pavan Kumar Sunkara <pavan.sss1991@gmail.com> (pksunkara.github.com)",
+  "author": "Pavan Kumar Sunkara <pavan.sss1991@gmail.com>",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -29,10 +30,11 @@
     "tsc": "tsc"
   },
   "dependencies": {
-    "@dotsync/utils": "^0.6.5"
+    "async": "^2.6.1"
   },
   "devDependencies": {
     "typescript": "^3.7.5",
-    "@types/node": "^13.7.0"
+    "@types/node": "^13.7.0",
+    "@types/async": "^2.4.2"
   }
 }

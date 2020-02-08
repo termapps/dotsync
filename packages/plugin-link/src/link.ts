@@ -1,8 +1,10 @@
-const fs = require('fs');
-const path = require('path');
-const mkdirp = require('mkdirp');
+import * as fs from 'fs';
+import * as path from 'path';
+import * as mkdirp from 'mkdirp';
+import * as async from 'async';
+import Item from './item';
 
-module.exports = (item, datadir, runner, cb) => {
+export default (item: Item, datadir: string, runner: any, cb: async.ErrorCallback<Error>) => {
   const dest = item.destination;
 
   if (!path.isAbsolute(dest)) {
@@ -24,4 +26,4 @@ module.exports = (item, datadir, runner, cb) => {
   }
 
   runner.run(`ln -sn '${source}' '${dest}'`, cb);
-}
+};
