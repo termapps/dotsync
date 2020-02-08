@@ -46,7 +46,7 @@ export default {
       const recommended = ['@dotsync/storage-git', '@dotsync/storage-folder'];
       const notInstalled = recommended.filter(x => installed.indexOf(x) === -1);
 
-      this.working('Making sure recommended plugins are installed');
+      this.working('Making sure storage plugins are installed');
 
       async.eachSeries(notInstalled, (item, callback) => {
         ipcRenderer.on(`epm-installed-${item}`, (event, error, pluginPath) => {
@@ -57,12 +57,12 @@ export default {
       }, (e) => {
         if (e) {
           return this.errored({
-            message: 'Unable to install recommended plugin',
+            message: 'Unable to install storage plugin',
             details: { err: e },
           });
         }
 
-        this.finished('Recommended plugins are installed');
+        this.finished('Storage plugins are installed');
         this.working('Trying to read storage settings and last restored version');
 
         try {

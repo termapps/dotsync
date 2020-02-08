@@ -28,7 +28,7 @@ export default class Secret extends utils.Plugin {
     return Buffer.concat([decipher.update(contents), decipher.final()]);
   }
 
-  restore(cb: async.ErrorCallback<Error>) {
+  restore(answers: utils.PluginPromptAnswers, cb: utils.Callback) {
     async.eachSeries(this.data.paths, (item: any, callback: async.ErrorCallback<Error>) => {
       const dest = item.destination;
 
@@ -47,7 +47,7 @@ export default class Secret extends utils.Plugin {
           return callback(err);
         }
 
-        const decrypted = this.decrypt(Buffer.from(encrypted.trim(), 'base64'), this.data._p.secret);
+        const decrypted = this.decrypt(Buffer.from(encrypted.trim(), 'base64'), answers.secret);
 
         fs.writeFile(dest, decrypted, 'utf8', callback);
       });

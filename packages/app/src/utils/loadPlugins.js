@@ -5,6 +5,8 @@ import async from 'async';
 import semver from 'semver';
 import deepmerge from 'deepmerge';
 import isPlugin from './isPlugin';
+import loadConfig from './loadConfig';
+import Runner from './runner';
 
 const isInstalled = need => (item) => {
   let frags = item.split('@');
@@ -16,7 +18,7 @@ const isInstalled = need => (item) => {
   return frags[0] === need.name && semver.satisfies(frags[1], need.version);
 };
 
-const installPkgs = (config, configdir, log, cb) => {
+const installPkgs = (configdir, datadir, config, expand, log, cb) => {
   const installed = list(configdir, { version: true }).filter(isPlugin);
   const toInstall = config.filter(need => !installed.some(isInstalled(need)));
 
@@ -37,8 +39,16 @@ const installPkgs = (config, configdir, log, cb) => {
     }
 
     const configString = JSON.stringify(config);
+
     const result = config.reduce((acc, item) => {
-      acc[item.name] = load(configdir, item.name, remote.require);
+      const Plugin = load(configdir, item.name, remote.require);
+
+      acc[item.name] = new Plugin({
+        data: item.data,
+        datadir,
+        runner: new Runner(datadir, log),
+      });
+
       return acc;
     }, {});
 
@@ -77,17 +87,25 @@ const installPkgs = (config, configdir, log, cb) => {
       return cb(null, result);
     }
 
-    installPkgs(config, configdir, log, cb);
+    installPkgs(configdir, datadir, config, expand, log, cb);
   });
 };
 
 // Install missing plugins and load all plugins
-export default (configdir, config, log, cb) => {
-  installPkgs(config, configdir, log, (err, result) => {
-    if (err) {
-      return cb(err);
+export default (configdir, datadir, expand, log, cb) => {
+  loadConfig(datadir, (error, config) => {
+    if (error) {
+      return cb(error);
     }
 
-    return cb(null, result);
+    const needed = config.presets.default.plugins;
+
+    installPkgs(configdir, datadir, needed, expand, log, (err, plugins) => {
+      if (err) {
+        return cb(err);
+      }
+
+      return cb(null, plugins);
+    });
   });
 };

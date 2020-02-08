@@ -10,8 +10,8 @@ export default class Link extends utils.Plugin {
     super('link', 'Symlink files to different locations', opts);
   }
 
-  restore(data: utils.ConfigPluginData, cb: async.ErrorCallback<Error>) {
-    async.eachSeries(data.paths, (item: Item, callback: async.ErrorCallback<Error>) => {
+  restore(answers: utils.PluginPromptAnswers, cb: utils.Callback) {
+    async.eachSeries(this.data.paths, (item: Item, callback: async.ErrorCallback<Error>) => {
       link(item, this.datadir, this.runner, callback);
     }, cb);
   }

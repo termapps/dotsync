@@ -1,10 +1,15 @@
 import { ConfigPlugin, ConfigPluginData } from './config';
+import * as async from 'async';
 
 export interface PluginPromptInput {
   name: string
   label: string
   type: string
   inputType: string
+}
+
+export interface PluginPromptAnswers {
+  [key: string]: string
 }
 
 export interface PluginPrompts {
@@ -32,6 +37,10 @@ export abstract class Plugin {
     this.data = opts.data;
     this.datadir = opts.datadir;
     this.runner = opts.runner;
+  }
+
+  restore(answers: PluginPromptAnswers, cb: async.ErrorCallback<Error>) {
+    return cb(null);
   }
 
   expand(): ConfigPlugin[] {

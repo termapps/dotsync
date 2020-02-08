@@ -39,7 +39,7 @@ export default class Node extends utils.Plugin {
     return `${this.data.binary || 'node'} ${this.data.npmBinary || 'npm'}`;
   }
 
-  restore(cb: (err?: Error | null) => void) {
+  restore(answers: utils.PluginPromptAnswers, cb: utils.Callback) {
     this.packages.restore(this.data, cb);
   }
 

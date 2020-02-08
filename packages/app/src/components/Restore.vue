@@ -16,7 +16,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
-import { settings, loadStores, restore } from '../utils';
+import { settings, restore, loadPlugins } from '../utils';
 
 export default {
   data() {
@@ -30,6 +30,8 @@ export default {
   computed: {
     ...mapState('Global', [
       'configdir',
+      'datadir',
+      'store',
       'storeSettings',
       'versionSettings',
     ]),
@@ -61,14 +63,10 @@ export default {
     },
   },
   mounted() {
-    const stores = loadStores(this.configdir);
-    const store = stores[this.storeSettings.method];
-    const datadir = store.datadir(this.storeSettings);
-
     this.working('Trying to restore your dotfiles to latest version');
 
     // TODO: Allow logs and display them
-    store.beforeRestore(this.storeSettings, (err) => {
+    this.store.beforeRestore(this.storeSettings, (err) => {
       if (err) {
         return this.errored({
           message: 'Unable to restore your dotfiles to latest version',
@@ -76,29 +74,38 @@ export default {
         });
       }
 
-      restore(this.configdir, datadir, this.log, this.prompt, (error) => {
-        if (error) {
-          // TODO: Give suggestions to user about fix the error
+      loadPlugins(this.configdir, this.datadir, true, this.log, (error1, plugins) => {
+        if (error1) {
           return this.errored({
-            message: 'Unable to restore your dotfiles to latest version',
-            details: { err: error },
+            message: 'Unable to make sure the needed plugins are installed',
+            details: { error1 },
           });
         }
 
-        this.finished('Restored your dotfiles to latest version');
-        this.working('Saving info about the last restored version');
+        restore(plugins, this.prompt, (error2) => {
+          if (error2) {
+            // TODO: Give suggestions to user about fixing the error
+            return this.errored({
+              message: 'Unable to restore your dotfiles to latest version',
+              details: { err: error2 },
+            });
+          }
 
-        try {
-          settings.write(this.configdir, 'version', this.versionSettings);
-        } catch (error2) {
-          return this.errored({
-            message: 'Unable to save info about the last restored version',
-            details: { err: error2 },
-          });
-        }
+          this.finished('Restored your dotfiles to latest version');
+          this.working('Saving info about the last restored version');
 
-        this.finished('Saved info about the last restored version');
-        this.$router.push({ name: 'Dashboard' });
+          try {
+            settings.write(this.configdir, 'version', this.versionSettings);
+          } catch (error) {
+            return this.errored({
+              message: 'Unable to save info about the last restored version',
+              details: { err: error },
+            });
+          }
+
+          this.finished('Saved info about the last restored version');
+          this.$router.push({ name: 'Dashboard' });
+        });
       });
     });
   },

@@ -16,7 +16,7 @@ class Folder {
       return `Folder doesn't exist or is not writeable`;
     }
 
-    return '';
+    return null;
   }
 
   datadir(settings) {

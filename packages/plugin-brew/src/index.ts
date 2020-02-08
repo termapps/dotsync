@@ -66,7 +66,7 @@ export default class Brew extends utils.Plugin {
     return this.data.binary || 'brew';
   }
 
-  restore(cb: (err?: Error | null) => void) {
+  restore(answers: utils.PluginPromptAnswers, cb: utils.Callback) {
     this.taps.restore(this.data, (err) => {
       if (err) {
         return cb(err);

@@ -4,14 +4,13 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
-import { loadStores } from '../utils';
 
 export default {
   computed: {
     ...mapState('Global', [
       'configdir',
-      'storeSettings',
       'versionSettings',
+      'store',
     ]),
   },
   methods: {
@@ -25,11 +24,9 @@ export default {
     ]),
   },
   mounted() {
-    const methods = loadStores(this.configdir);
-
     this.working('Trying to read the latest version of your dotfiles');
 
-    methods[this.storeSettings.method].latestVersion((err, version) => {
+    this.store.latestVersion((err, version) => {
       if (err) {
         return this.errored({
           message: 'Unable to read the latest version of your dotfiles',
@@ -39,6 +36,8 @@ export default {
 
       this.finished('Read the latest version of your dotfiles');
       this.$createLogger('version').info(`Latest version is ${version}`);
+
+      // const plugins = loadPlugins(this.configdir,)
 
       if (version !== this.versionSettings.version) {
         this.setVersionSettings({ version });

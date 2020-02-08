@@ -28,7 +28,7 @@ export default class Python extends utils.Plugin {
     return this.data.binary || 'pip3';
   }
 
-  restore(cb: (err?: Error | null) => void) {
+  restore(answers: utils.PluginPromptAnswers, cb: utils.Callback) {
     this.packages.restore(this.data, cb);
   }
 

@@ -25,7 +25,7 @@ class Git {
       return 'Repository not found';
     }
 
-    return '';
+    return null;
   }
 
   datadir(settings) {

@@ -17,9 +17,7 @@
 <script>
 import { mapState, mapMutations } from 'vuex';
 import async from 'async';
-import {
-  settings, loadConfig, loadPlugins, loadStores, Runner,
-} from '../utils';
+import { settings, loadPlugins } from '../utils';
 
 export default {
   data() {
@@ -30,7 +28,7 @@ export default {
   computed: {
     ...mapState('Global', [
       'configdir',
-      'storeSettings',
+      'datadir',
     ]),
   },
   methods: {
@@ -76,53 +74,33 @@ export default {
     },
   },
   mounted() {
-    const stores = loadStores(this.configdir);
-    const store = stores[this.storeSettings.method];
-    const datadir = store.datadir(this.storeSettings);
-
     this.working('Reading the current state of your dotfiles');
 
-    loadConfig(datadir, (err, config) => {
-      if (err) {
+    loadPlugins(this.configdir, this.datadir, false, this.log, (error, plugins) => {
+      if (error) {
         return this.errored({
-          message: 'Unable to load your dotfiles configuration file',
-          details: { err },
+          message: 'Unable to make sure the needed plugins are installed',
+          details: { error },
         });
       }
 
-      const needed = config.presets.default.plugins;
+      async.eachSeries(plugins, (plugin, callback) => {
+        if (plugin.list) {
+          plugin.list((error2, installed) => {
+            if (error2) {
+              return this.errored({
+                message: `Unable to run ${plugin.name}.list() to read installed stuff`,
+                details: { err: error2 },
+              });
+            }
 
-      loadPlugins(this.configdir, needed, this.log, (error, plugins) => {
-        if (error) {
-          return this.errored({
-            message: 'Unable to make sure the needed plugins are installed',
-            details: { error },
-          });
-        }
-
-        async.eachSeries(needed, (item, callback) => {
-          const plugin = new (plugins[item.name])({
-            datadir,
-            runner: new Runner(datadir, this.log),
-          });
-
-          if (plugin.list) {
-            plugin.list(item.data, (error2, installed) => {
-              if (error2) {
-                return this.errored({
-                  message: `Unable to run ${item.name}.list() to read installed stuff`,
-                  details: { err: error2, data: item.data },
-                });
-              }
-
-              this.section(item, installed, plugins[item.name]);
-              return callback();
-            });
-          } else {
+            this.section(plugin, installed, plugin.name);
             return callback();
-          }
-        }, this.clear());
-      });
+          });
+        } else {
+          return callback();
+        }
+      }, this.clear());
     });
   },
 };

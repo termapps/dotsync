@@ -1,6 +1,6 @@
 import { exec } from 'child_process';
 import * as async from 'async';
-import ConfigPluginData from './configPluginData';
+import { ConfigPluginData } from './config';
 
 export default class Module<T> {
   key: string
@@ -63,7 +63,7 @@ export default class Module<T> {
     });
   }
 
-  list(cb: (err: Error, installed?: T[]) => void) {
+  list(cb: (err?: Error, installed?: T[]) => void) {
     exec(this.listCmd, {
       encoding: 'utf8',
       maxBuffer: 1024 * 1024,

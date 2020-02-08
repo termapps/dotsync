@@ -12,7 +12,7 @@
     <vs-row>
       <vs-col vs-w="5" vs-type="flex" vs-justify="flex-end">Location</vs-col>
       <vs-col vs-w="6" vs-offset="1">
-        <vs-input v-model="location" :danger="locationBad" :danger-text="locationText" :description-text="locationDescription" val-icon-danger="clear" />
+        <vs-input v-model="location" :danger="!!locationDanger" :danger-text="locationDanger || ''" :description-text="locationDescription" val-icon-danger="clear" />
       </vs-col>
     </vs-row>
     <vs-row>
@@ -28,6 +28,12 @@ import { mapState, mapMutations } from 'vuex';
 import { settings, loadStores } from '../utils';
 
 export default {
+  data() {
+    return {
+      locationDanger: null,
+      stores: {},
+    };
+  },
   computed: {
     ...mapState('Global', [
       'configdir',
@@ -56,13 +62,22 @@ export default {
       },
     },
     locationDescription() {
-      return !this.locationBad ? this.stores[this.storeSettings.method].location : '';
-    },
-    locationBad() {
-      return this.locationText !== '';
+      return !this.locationDanger ? this.stores[this.storeSettings.method].location : '';
     },
   },
   methods: {
+    ...mapMutations('Global', [
+      'setStoreSettings',
+      'setDataDir',
+      'setStore',
+    ]),
+    ...mapMutations('Progress', [
+      'danger',
+      'clear',
+      'working',
+      'errored',
+      'finished',
+    ]),
     options() {
       return Object.keys(this.stores).map(key => ({ text: this.stores[key].name, value: key }));
     },
@@ -80,16 +95,22 @@ export default {
 
       return this.stores[this.storeSettings.method].valid(this.storeSettings.location);
     },
+    save() {
+      const store = this.stores[this.storeSettings.method];
+
+      this.setStore(store);
+      this.setDatadir(store.datadir(this.storeSettings));
+    },
     confirm() {
       this.$vs.loading();
-      this.locationText = this.validate();
+      this.locationDanger = this.validate();
       this.$vs.loading.close();
 
-      if (!this.locationBad) {
+      if (!this.locationDanger) {
         this.$vs.loading();
 
-        this.stores[this.storeSettings.method].init(this.storeSettings.location, (err, text = '', patch = {}) => {
-          this.locationText = text;
+        this.stores[this.storeSettings.method].init(this.storeSettings.location, (err, text = null, patch = {}) => {
+          this.locationDanger = text;
           this.setStoreSettings({ ...patch, ...this.storeSettings });
           this.$vs.loading.close();
 
@@ -97,7 +118,7 @@ export default {
             return this.danger(err.message);
           }
 
-          if (!this.locationBad) {
+          if (!this.locationDanger) {
             try {
               settings.write(this.configdir, 'store', this.storeSettings);
             } catch (error) {
@@ -107,29 +128,21 @@ export default {
             }
 
             this.finished('Saved the storage settings');
+            this.datadir();
             this.$router.push({ name: 'VersionSettings' });
           }
         });
       }
     },
-    ...mapMutations('Global', [
-      'setStoreSettings',
-    ]),
-    ...mapMutations('Progress', [
-      'danger',
-      'clear',
-      'working',
-      'errored',
-      'finished',
-    ]),
   },
   created() {
     this.stores = loadStores(this.configdir);
 
     if (this.dataIsGood()) {
-      this.locationText = this.validate();
+      this.locationDanger = this.validate();
 
-      if (!this.locationBad) {
+      if (!this.locationDanger) {
+        this.datadir();
         return this.$router.push({ name: 'VersionSettings' });
       }
 
@@ -141,12 +154,6 @@ export default {
       location: '',
       ...this.storeSettings,
     });
-  },
-  data() {
-    return {
-      locationText: '',
-      stores: {},
-    };
   },
 };
 </script>
