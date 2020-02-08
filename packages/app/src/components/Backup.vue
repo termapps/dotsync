@@ -1,8 +1,16 @@
 <template>
-  <div>
-    <div class="plugin-section" v-for="plugin in plugins" :key="plugin.name">
-      <h3>{{plugin.name}}</h3>
-    </div>
+  <div class="plugin-sections" v-masonry transition-duration="0.3s">
+    <template v-for="plugin in plugins">
+      <div v-masonry-tile class="plugin-module-section" v-for="entry in Object.entries(plugin.details)" :key="plugin.name + '-' + entry[0]">
+        <h2>{{plugin.name}} - {{entry[0]}}</h2>
+        <h4>Installed</h4>
+        <ul class="have">
+          <li v-for="item in stringifyArr(entry[1].have)" :key="item">
+            <vs-checkbox v-model="entry[1].added" :vs-value="item">{{item}}</vs-checkbox>
+          </li>
+        </ul>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -30,16 +38,35 @@ export default {
       'working',
       'errored',
       'finished',
+      'clear',
       'log',
     ]),
-    section(item, data) {
+    stringifyArr(items) {
+      return items.map(this.stringify);
+    },
+    stringify(item) {
+      if (typeof item === 'string') {
+        return item;
+      }
+
+      return item.name;
+    },
+    section(item, data, plugin) {
       const details = {};
 
       Object.keys(data).forEach((key) => {
-        const installed = data[key];
+        const have = data[key];
         const needed = item.data[key];
 
-        details[key] = { installed, needed };
+        const uninstalled = needed.filter(x => !have.some(plugin.compare[key](x)));
+
+        details[key] = {
+          have,
+          needed,
+          uninstalled,
+          added: this.stringifyArr(needed),
+          deleted: [],
+        };
       });
 
       this.plugins.push({
@@ -84,17 +111,43 @@ export default {
               if (error2) {
                 return this.errored({
                   message: `Unable to run ${item.name}.list() to read installed stuff`,
-                  details: { err, data: item.data },
+                  details: { err: error2, data: item.data },
                 });
               }
 
-              this.section(item, installed);
+              this.section(item, installed, plugins[item.name]);
               return callback();
             });
+          } else {
+            return callback();
           }
-        });
+        }, this.clear());
       });
     });
   },
 };
 </script>
+
+<style lang="less" scoped>
+.plugin-module-section {
+  width: 335px;
+  margin: 20px 0;
+
+  h2 {
+    margin-bottom: 10px;
+  }
+
+  h4 {
+    margin-bottom: 10px;
+  }
+
+  li {
+    list-style: none;
+    margin-top: 5px;
+
+    .con-vs-checkbox {
+      justify-content: flex-start;
+    }
+  }
+}
+</style>

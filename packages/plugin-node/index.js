@@ -24,7 +24,7 @@ class Node {
         return cb(err);
       }
 
-      const toInstall = data.packages.filter(x => installed.packages.indexOf(x.name) === -1);
+      const toInstall = data.packages.filter(x => !installed.packages.some(Node.compare.packages(x)));
 
       async.eachSeries(toInstall, (item, callback) => {
         this.runner.run(`${cmd} install --global ${item.name}`, callback);
@@ -43,10 +43,18 @@ class Node {
       }
 
       cb(null, {
-        packages: Object.keys(JSON.parse(stdout).dependencies),
+        packages: Object.values(JSON.parse(stdout).dependencies).map(e => ({
+          name: e.from
+        })),
       });
     });
   }
+};
+
+Node.compare = {
+  packages: (f) => {
+    return (e) => e.name == f.name;
+  },
 };
 
 Node.expand = (options) => {

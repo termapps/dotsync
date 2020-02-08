@@ -24,8 +24,8 @@ class Atom {
         return cb(err);
       }
 
-      const toInstall = data.packages.filter(x => installed.packages.indexOf(x) === -1);
-      const toUninstall = installed.packages.filter(x => data.packages.indexOf(x) === -1);
+      const toInstall = data.packages.filter(x => !installed.packages.some(Atom.compare.packages(x)));
+      const toUninstall = installed.packages.filter(x => !data.packages.some(Atom.compare.packages(x)));
 
       async.eachSeries(toInstall, (item, callback) => {
         this.runner.run(`${cmd} install ${item}`, callback);
@@ -62,6 +62,12 @@ class Atom {
       });
     });
   }
+};
+
+Atom.compare = {
+  packages: (f) => {
+    return (e) => e == f;
+  },
 };
 
 Atom.expand = (options) => {

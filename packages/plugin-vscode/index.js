@@ -24,8 +24,8 @@ class VSCode {
         return cb(err);
       }
 
-      const toInstall = data.packages.filter(x => installed.packages.indexOf(x) === -1);
-      const toUninstall = installed.packages.filter(x => data.packages.indexOf(x) === -1);
+      const toInstall = data.packages.filter(x => !installed.packages.some(VSCode.compare.packages(x)));
+      const toUninstall = installed.packages.filter(x => !data.packages.some(VSCode.compare.packages(x)));
 
       async.eachSeries(toInstall, (item, callback) => {
         this.runner.run(`${cmd} --install-extension ${item}`, callback);
@@ -62,6 +62,12 @@ class VSCode {
       });
     });
   }
+};
+
+VSCode.compare = {
+  packages: (f) => {
+    return (e) => e == f;
+  },
 };
 
 VSCode.expand = (options) => {

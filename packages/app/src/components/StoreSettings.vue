@@ -126,8 +126,6 @@ export default {
   created() {
     this.stores = loadStores(this.configdir);
 
-    this.clear();
-
     if (this.dataIsGood()) {
       this.locationText = this.validate();
 

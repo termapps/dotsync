@@ -21,18 +21,18 @@ class Brew {
         return cb(err);
       }
 
-      const taps = data.taps.filter(x => installed.taps.map(x => x.name).indexOf(x.name) === -1);
-      const kegs = data.kegs.filter(x => installed.kegs.indexOf(x.name) === -1);
-      const casks = data.casks.filter(x => installed.casks.indexOf(x) === -1);
+      const tapsToInstall = data.taps.filter(x => !installed.taps.some(Brew.compare.taps(x)));
+      const kegsToInstall = data.kegs.filter(x => !installed.kegs.some(Brew.compare.kegs(x)));
+      const casksToInstall = data.casks.filter(x => !installed.casks.some(Brew.compare.casks(x)));
 
-      async.eachSeries(taps, (item, callback) => {
+      async.eachSeries(tapsToInstall, (item, callback) => {
         this.runner.run(`${cmd} tap ${item.name}`, callback);
       }, (err) => {
         if (err) {
           return cb(err);
         }
 
-        async.eachSeries(kegs, (item, callback) => {
+        async.eachSeries(kegsToInstall, (item, callback) => {
           this.runner.run(`${cmd} install ${item.name}`, (err) => {
             if (err || !item.pin) {
               return callback(err);
@@ -45,7 +45,7 @@ class Brew {
             return cb(err);
           }
 
-          async.eachSeries(casks, (item, callback) => {
+          async.eachSeries(casksToInstall, (item, callback) => {
             this.runner.run(`${cmd} cask install ${item}`, callback);
           }, cb);
         });
@@ -80,13 +80,13 @@ class Brew {
   listTaps(cmd, cb) {
     exec(`${cmd} tap-info --installed --json`, {
       encoding: 'utf8',
+      maxBuffer: 1024 * 1024,
     }, (err, stdout, stderr) => {
       if (err) {
         return cb(err);
       }
 
       const out = JSON.parse(stdout)
-        .filter(x => !x.private)
         .map(x => ({
           name: x.name,
           remote: x.remote,
@@ -104,7 +104,9 @@ class Brew {
         return cb(err);
       }
 
-      cb(null, stdout.split('\n').filter(x => x));
+      cb(null, stdout.split('\n').filter(x => x).map(x => ({
+        name: x
+      })));
     });
   }
 
@@ -119,6 +121,18 @@ class Brew {
       cb(null, stdout.split('\n').filter(x => x));
     });
   }
+};
+
+Brew.compare = {
+  taps: (f) => {
+    return (e) => e.name == f.name && e.remote == f.remote;
+  },
+  kegs: (f) => {
+    return (e) => e.name == f.name;
+  },
+  casks: (f) => {
+    return (e) => e == f;
+  },
 };
 
 module.exports = Brew;

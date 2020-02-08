@@ -22,7 +22,7 @@ class Python {
         return cb(err);
       }
 
-      const toInstall = data.packages.filter(x => installed.packages.indexOf(x.name) === -1);
+      const toInstall = data.packages.filter(x => !installed.packages.some(Python.compare.packages(x)));
 
       async.eachSeries(toInstall, (item, callback) => {
         this.runner.run(`${cmd} install ${item.name}`, callback);
@@ -42,11 +42,17 @@ class Python {
 
       cb(null, {
         packages: stdout.split('\n').filter(x => x).map((line) => {
-          return line.split('==')[0];
+          return { name: line.split('==')[0] };
         }),
       });
     });
   }
+};
+
+Python.compare = {
+  packages: (f) => {
+    return (e) => e.name == f.name;
+  },
 };
 
 Python.expand = (options) => {
