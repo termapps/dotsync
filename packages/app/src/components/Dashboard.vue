@@ -1,8 +1,12 @@
 <template>
-  <div>
-    <vs-button @click="restore">Restore</vs-button>
-    <vs-button @click="backup">Backup</vs-button>
-  </div>
+  <vs-row>
+    <vs-col vs-w="2" vs-offset="4">
+      <vs-button @click="restore">Restore</vs-button>
+    </vs-col>
+    <vs-col vs-w="2">
+      <vs-button @click="backup">Backup</vs-button>
+    </vs-col>
+  </vs-row>
 </template>
 
 <script>

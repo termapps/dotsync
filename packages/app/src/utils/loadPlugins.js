@@ -5,7 +5,7 @@ import async from 'async';
 import semver from 'semver';
 import deepmerge from 'deepmerge';
 import isPlugin from './isPlugin';
-import loadConfig from './loadConfig';
+import { loadConfig } from './config';
 import Runner from './runner';
 
 const isInstalled = need => (item) => {

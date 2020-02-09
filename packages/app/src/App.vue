@@ -2,19 +2,19 @@
   <div id="app">
     <div class="top-bar">
       <vs-row>
-        <vs-col vs-w="2" vs-offset="3" vs-type="flex" vs-justify="center" vs-align="center">
+        <vs-col vs-w="2" vs-offset="3">
           <router-link :to="{ name: 'Dashboard' }">Dashboard</router-link>
         </vs-col>
-        <vs-col vs-w="2" vs-type="flex" vs-justify="center" vs-align="center">
+        <vs-col vs-w="2">
           <router-link :to="{ name: 'Config' }">Config</router-link>
         </vs-col>
-        <vs-col vs-w="2" vs-type="flex" vs-justify="center" vs-align="center">
+        <vs-col vs-w="2">
           <router-link :to="{ name: 'Plugins' }">Plugins</router-link>
         </vs-col>
       </vs-row>
     </div>
     <Progress></Progress>
-    <div class="content-view">
+    <div>
       <router-view></router-view>
     </div>
   </div>
@@ -42,7 +42,7 @@ export default {
 </script>
 
 <style lang="less">
-#app {
+html {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -69,10 +69,16 @@ export default {
 .top-bar {
   .vs-row {
     height: 50px;
+
+    .vs-col {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 }
 
-.content-view {
+#app > div {
   margin: 20px 50px 0;
 }
 

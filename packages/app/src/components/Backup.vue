@@ -1,38 +1,45 @@
 <template>
-  <div class="plugin-sections" v-masonry transition-duration="0.3s">
-    <template v-for="plugin in plugins">
-      <div v-masonry-tile class="plugin-module-section" v-for="entry in Object.entries(plugin.details)" :key="plugin.name + '-' + entry[0]">
-        <h2>{{plugin.name}} - {{entry[0]}}</h2>
-        <h4>Installed</h4>
-        <h6>(select to add to configuration)</h6>
-        <ul>
-          <li v-for="item in stringifyArr(entry[1].have)" :key="item">
-            <vs-checkbox v-model="entry[1].added" :vs-value="item">{{item}}</vs-checkbox>
-          </li>
-        </ul>
-        <template v-if="entry[1].uninstalled.length !== 0">
-          <h4>Uninstalled</h4>
-          <h6>(select to remove from configuration)</h6>
+  <div>
+    <vs-row>
+      <vs-col vs-w="2" vs-offset="10">
+        <vs-button @click="backup">Backup your dotfiles</vs-button>
+      </vs-col>
+    </vs-row>
+    <div class="plugin-sections" v-masonry transition-duration="0.3s">
+      <template v-for="plugin in Object.values(ui)">
+        <div v-masonry-tile class="plugin-module-section" v-for="entry in Object.entries(plugin.details)" :key="plugin.name + '-' + entry[0]">
+          <h2>{{plugin.name}} - {{entry[0]}}</h2>
+          <h4>Installed</h4>
+          <h6>(select to add to configuration)</h6>
           <ul>
-            <li v-for="item in stringifyArr(entry[1].uninstalled)" :key="item">
-              <vs-checkbox v-model="entry[1].deleted" :vs-value="item">{{item}}</vs-checkbox>
+            <li v-for="item in stringifyArr(entry[1].have)" :key="item">
+              <vs-checkbox v-model="entry[1].added" :vs-value="item">{{item}}</vs-checkbox>
             </li>
           </ul>
-        </template>
-      </div>
-    </template>
+          <template v-if="entry[1].uninstalled.length !== 0">
+            <h4>Uninstalled</h4>
+            <h6>(select to remove from configuration)</h6>
+            <ul>
+              <li v-for="item in stringifyArr(entry[1].uninstalled)" :key="item">
+                <vs-checkbox v-model="entry[1].deleted" :vs-value="item">{{item}}</vs-checkbox>
+              </li>
+            </ul>
+          </template>
+        </div>
+      </template>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex';
 import async from 'async';
-import { settings, loadPlugins } from '../utils';
+import { saveConfigPlugins, loadPlugins } from '../utils';
 
 export default {
   data() {
     return {
-      plugins: [],
+      ui: {},
     };
   },
   computed: {
@@ -59,6 +66,36 @@ export default {
 
       return item.name;
     },
+    compare(checkbox, item) {
+      if (typeof item === 'string') {
+        return checkbox === item;
+      }
+
+      return checkbox === item.name;
+    },
+    sort(lhs, rhs) {
+      if (typeof lhs === 'string') {
+        if (lhs < rhs) {
+          return -1;
+        }
+
+        if (lhs > rhs) {
+          return 1;
+        }
+
+        return 0;
+      }
+
+      if (lhs.name < rhs.name) {
+        return -1;
+      }
+
+      if (lhs.name > rhs.name) {
+        return 1;
+      }
+
+      return 0;
+    },
     section(plugin, installed, name) {
       const details = {};
 
@@ -78,9 +115,71 @@ export default {
         };
       });
 
-      this.plugins.push({
-        name: name.slice(16),
-        details,
+      this.ui = {
+        ...this.ui,
+        [name]: {
+          name: name.slice(16),
+          details,
+        },
+      };
+    },
+    backup() {
+      this.working('Saving configuration to file');
+
+      const configArr = Object.keys(this.plugins).map((key) => {
+        const plugin = this.plugins[key];
+        const config = plugin.data;
+
+        if (!this.ui[key]) {
+          return { data: config };
+        }
+
+        Object.keys(this.ui[key].details).forEach((module) => {
+          const details = this.ui[key].details[module];
+
+          details.added.forEach((item) => {
+            if (!item) {
+              return;
+            }
+
+            const found = details.needed.find(value => this.compare(item, value));
+
+            if (!found) {
+              const from = details.have.find(value => this.compare(item, value));
+              details.needed.push(from);
+            }
+          });
+
+          if (details.deleted.length !== 0) {
+            const deleted = details.deleted.map((item) => {
+              if (!item) {
+                return null;
+              }
+
+              return details.needed.find(value => this.compare(item, value));
+            }).filter(x => x);
+
+            details.needed = details.needed.filter(x => !deleted.find(plugin[module].compare(x)));
+          }
+
+          details.needed.sort(this.sort);
+
+          // eslint-disable-next-line no-underscore-dangle
+          config._modules[module] = details.needed;
+        });
+
+        return { data: config };
+      });
+
+      saveConfigPlugins(this.datadir, 'default', configArr, (err) => {
+        if (err) {
+          return this.errored({
+            message: 'Unable to save configuration to file',
+            details: { err },
+          });
+        }
+
+        this.finished('Saved configuration to file');
       });
     },
   },
@@ -94,6 +193,8 @@ export default {
           details: { error },
         });
       }
+
+      this.plugins = plugins;
 
       async.eachSeries(Object.keys(plugins), (key, callback) => {
         const plugin = plugins[key];
@@ -120,6 +221,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.plugin-sections {
+  margin-top: 40px;
+}
+
 .plugin-module-section {
   width: 335px;
   margin: 10px 0;

@@ -1,7 +1,7 @@
 import configdir from './configdir';
 import isPlugin from './isPlugin';
 import isStore from './isStore';
-import loadConfig from './loadConfig';
+import { loadConfig, saveConfigPlugins } from './config';
 import loadPlugins from './loadPlugins';
 import loadStores from './loadStores';
 import restore from './restore';
@@ -13,6 +13,7 @@ export {
   isPlugin,
   isStore,
   loadConfig,
+  saveConfigPlugins,
   loadPlugins,
   loadStores,
   restore,
