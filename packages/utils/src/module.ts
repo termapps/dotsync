@@ -12,15 +12,18 @@ export default class Module<T> {
   compare: (x: T) => (e: T) => boolean
   modify: (stdout: string) => T[]
 
+  excluded: T[]
+
   runner: any
 
-  constructor({ key, listCmd, installCmd, uninstallCmd, compare, modify, runner }: {
+  constructor({ key, listCmd, installCmd, uninstallCmd, compare, modify, excluded, runner }: {
     key: string;
     listCmd: string;
     installCmd: (item: T) => string;
     uninstallCmd: (item: T) => string;
     compare: (f: T) => (e: T) => boolean;
     modify: (out: string) => T[];
+    excluded?: T[];
     runner: any;
   }) {
     this.key = key;
@@ -31,6 +34,9 @@ export default class Module<T> {
 
     this.compare = compare;
     this.modify = modify;
+
+    this.excluded = excluded || [];
+
     this.runner = runner;
   }
 
@@ -40,10 +46,10 @@ export default class Module<T> {
         return cb(err);
       }
 
-      const needed: T[] = data.modules[this.key];
+      const needed: T[] = data._modules[this.key];
 
       const toInstall = needed.filter(x => !installed.some(this.compare(x)));
-      const toUninstall = installed.filter(x => !needed.filter(this.compare(x)));
+      const toUninstall = installed.filter(x => !needed.some(this.compare(x)));
 
       async.eachSeries(toInstall, (item, callback) => {
         this.runner.run(this.installCmd(item), callback);
@@ -72,7 +78,10 @@ export default class Module<T> {
         return cb(err);
       }
 
-      cb(null, this.modify(stdout));
+      const installed = this.modify(stdout);
+      const installedAfterExcluded = installed.filter(x => !this.excluded.some(this.compare(x)));
+
+      cb(null, installedAfterExcluded);
     });
   }
 };

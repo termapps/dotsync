@@ -63,9 +63,11 @@ export default class VSCode extends utils.Plugin {
       {
         name: '@dotsync/plugin-brew',
         data: {
-          casks: [
-            "visual-studio-code",
-          ],
+          _modules: {
+            casks: [
+              "visual-studio-code",
+            ],
+          },
         },
       },
     ];

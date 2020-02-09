@@ -33,11 +33,16 @@ export default class Brew extends utils.Plugin {
       listCmd: `${cmd} tap-info --installed --json`,
       installCmd: (item) => `${cmd} tap ${item.name} ${item.remote}`,
       uninstallCmd: (item) => `${cmd} untap ${item.name}`,
-      compare: (f) => (e) => e.name == f.name && e.remote == f.remote,
+      compare: (f) => (e) => e.name == f.name && (e.remote && f.remote ? e.remote == f.remote : true),
       modify: (out) => JSON.parse(out).map((e: BrewTap) => ({
         name: e.name,
         remote: e.remote,
       })),
+      excluded: [
+        {
+          name: 'homebrew/core',
+        },
+      ],
       runner: this.runner,
     });
 

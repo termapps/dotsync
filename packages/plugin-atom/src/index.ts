@@ -75,9 +75,11 @@ export default class Atom extends utils.Plugin {
       {
         name: '@dotsync/plugin-brew',
         data: {
-          casks: [
-            'atom',
-          ],
+          _modules: {
+            casks: [
+              'atom',
+            ],
+          },
         },
       },
     ];

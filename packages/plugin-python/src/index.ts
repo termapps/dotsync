@@ -47,12 +47,14 @@ export default class Python extends utils.Plugin {
       {
         name: '@dotsync/plugin-brew',
         data: {
-          kegs: [
-            {
-              name: 'python',
-              pin: true,
-            },
-          ],
+          _modules: {
+            kegs: [
+              {
+                name: 'python',
+                pin: true,
+              },
+            ],
+          },
         },
       },
     ];

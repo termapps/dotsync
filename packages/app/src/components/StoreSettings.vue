@@ -68,7 +68,7 @@ export default {
   methods: {
     ...mapMutations('Global', [
       'setStoreSettings',
-      'setDataDir',
+      'setDatadir',
       'setStore',
     ]),
     ...mapMutations('Progress', [
@@ -128,7 +128,7 @@ export default {
             }
 
             this.finished('Saved the storage settings');
-            this.datadir();
+            this.save();
             this.$router.push({ name: 'VersionSettings' });
           }
         });
@@ -142,7 +142,7 @@ export default {
       this.locationDanger = this.validate();
 
       if (!this.locationDanger) {
-        this.datadir();
+        this.save();
         return this.$router.push({ name: 'VersionSettings' });
       }
 

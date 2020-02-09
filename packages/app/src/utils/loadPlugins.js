@@ -38,12 +38,13 @@ const installPkgs = (configdir, datadir, config, expand, log, cb) => {
       return cb(err);
     }
 
-    const configString = JSON.stringify(config);
+    const loaders = config.reduce((acc, item) => {
+      acc[item.name] = load(configdir, item.name, remote.require).default;
+      return acc;
+    }, {});
 
     const result = config.reduce((acc, item) => {
-      const Plugin = load(configdir, item.name, remote.require);
-
-      acc[item.name] = new Plugin({
+      acc[item.name] = new (loaders[item.name])({
         data: item.data,
         datadir,
         runner: new Runner(datadir, log),
@@ -51,6 +52,12 @@ const installPkgs = (configdir, datadir, config, expand, log, cb) => {
 
       return acc;
     }, {});
+
+    if (!expand) {
+      return cb(null, result);
+    }
+
+    const configString = JSON.stringify(config);
 
     Object.keys(result).forEach((key) => {
       if (!result[key].expand) {
@@ -72,10 +79,11 @@ const installPkgs = (configdir, datadir, config, expand, log, cb) => {
         if (ifExistsIndex !== -1) {
           // eslint-disable-next-line no-param-reassign
           config[ifExistsIndex] = deepmerge(config[ifExistsIndex], item);
+          result[key].data = config[ifExistsIndex];
         } else {
           if (!item.version) {
             // eslint-disable-next-line no-param-reassign
-            item.version = 'latest';
+            item.version = '*';
           }
 
           config.push(item);

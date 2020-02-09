@@ -4,11 +4,21 @@
       <div v-masonry-tile class="plugin-module-section" v-for="entry in Object.entries(plugin.details)" :key="plugin.name + '-' + entry[0]">
         <h2>{{plugin.name}} - {{entry[0]}}</h2>
         <h4>Installed</h4>
-        <ul class="have">
+        <h6>(select to add to configuration)</h6>
+        <ul>
           <li v-for="item in stringifyArr(entry[1].have)" :key="item">
             <vs-checkbox v-model="entry[1].added" :vs-value="item">{{item}}</vs-checkbox>
           </li>
         </ul>
+        <template v-if="entry[1].uninstalled.length !== 0">
+          <h4>Uninstalled</h4>
+          <h6>(select to remove from configuration)</h6>
+          <ul>
+            <li v-for="item in stringifyArr(entry[1].uninstalled)" :key="item">
+              <vs-checkbox v-model="entry[1].deleted" :vs-value="item">{{item}}</vs-checkbox>
+            </li>
+          </ul>
+        </template>
       </div>
     </template>
   </div>
@@ -49,14 +59,15 @@ export default {
 
       return item.name;
     },
-    section(item, data, plugin) {
+    section(plugin, installed, name) {
       const details = {};
 
-      Object.keys(data).forEach((key) => {
-        const have = data[key];
-        const needed = item.data[key];
+      Object.keys(installed).forEach((key) => {
+        // eslint-disable-next-line no-underscore-dangle
+        const needed = plugin.data._modules[key];
+        const have = installed[key];
 
-        const uninstalled = needed.filter(x => !have.some(plugin.compare[key](x)));
+        const uninstalled = needed.filter(x => !have.some(plugin[key].compare(x)));
 
         details[key] = {
           have,
@@ -68,7 +79,7 @@ export default {
       });
 
       this.plugins.push({
-        name: item.name.slice(16),
+        name: name.slice(16),
         details,
       });
     },
@@ -84,23 +95,25 @@ export default {
         });
       }
 
-      async.eachSeries(plugins, (plugin, callback) => {
+      async.eachSeries(Object.keys(plugins), (key, callback) => {
+        const plugin = plugins[key];
+
         if (plugin.list) {
           plugin.list((error2, installed) => {
             if (error2) {
               return this.errored({
-                message: `Unable to run ${plugin.name}.list() to read installed stuff`,
+                message: `Unable to run ${key}.list() to read installed stuff`,
                 details: { err: error2 },
               });
             }
 
-            this.section(plugin, installed, plugin.name);
+            this.section(plugin, installed, key);
             return callback();
           });
         } else {
           return callback();
         }
-      }, this.clear());
+      }, this.clear);
     });
   },
 };
@@ -109,7 +122,7 @@ export default {
 <style lang="less" scoped>
 .plugin-module-section {
   width: 335px;
-  margin: 20px 0;
+  margin: 10px 0;
 
   h2 {
     margin-bottom: 10px;
@@ -119,12 +132,21 @@ export default {
     margin-bottom: 10px;
   }
 
+  ul {
+    margin: 10px 0;
+  }
+
   li {
     list-style: none;
     margin-top: 5px;
+    font-size: 14px;
 
     .con-vs-checkbox {
       justify-content: flex-start;
+    }
+
+    .con-slot-label {
+      margin-left: 5px;
     }
   }
 }

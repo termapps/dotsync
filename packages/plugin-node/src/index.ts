@@ -31,6 +31,11 @@ export default class Node extends utils.Plugin {
         name: e.from,
         version: e.version,
       })),
+      excluded: [
+        {
+          name: 'npm',
+        },
+      ],
       runner: this.runner,
     });
   }
@@ -69,11 +74,13 @@ export default class Node extends utils.Plugin {
       {
         name: '@dotsync/plugin-brew',
         data: {
-          kegs: [
-            {
-              name: 'node',
-            },
-          ],
+          _modules: {
+            kegs: [
+              {
+                name: 'node',
+              },
+            ],
+          },
         },
       },
     ];
