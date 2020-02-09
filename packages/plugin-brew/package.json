@@ -1,6 +1,6 @@
 {
   "name": "@dotsync/plugin-brew",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Homebrew plugin for dotsync",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -29,7 +29,7 @@
     "tsc": "tsc"
   },
   "dependencies": {
-    "@dotsync/utils": "^0.7.0"
+    "@dotsync/utils": "^0.7.1"
   },
   "devDependencies": {
     "@types/node": "^13.7.0",
