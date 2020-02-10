@@ -31,7 +31,7 @@ export default class Brew extends utils.Plugin {
     this.taps = new utils.Module<Tap>({
       key: 'taps',
       listCmd: `${cmd} tap-info --installed --json`,
-      installCmd: (item) => `${cmd} tap ${item.name} ${item.remote}`,
+      installCmd: (item) => `${cmd} tap ${item.name} ${item.remote || ''}`,
       uninstallCmd: (item) => `${cmd} untap ${item.name}`,
       compare: (f) => (e) => e.name == f.name && (e.remote && f.remote ? e.remote == f.remote : true),
       modify: (out) => JSON.parse(out).map((e: BrewTap) => ({
