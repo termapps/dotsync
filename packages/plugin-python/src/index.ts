@@ -16,7 +16,7 @@ export default class Python extends utils.Plugin {
     this.packages = new utils.Module<Package>({
       key: 'packages',
       listCmd: `${cmd} freeze`,
-      installCmd: (item) => `${cmd} install ${item}`,
+      installCmd: (item) => `${cmd} install ${item.name}`,
       uninstallCmd: (item) => `${cmd} -V`,
       compare: (f) => (e) => e.name == f.name,
       modify: utils.lineSplit<Package>(line => ({ name: line.split('==')[0] })),
