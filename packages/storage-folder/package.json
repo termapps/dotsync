@@ -2,7 +2,11 @@
   "name": "@dotsync/storage-folder",
   "version": "0.7.0",
   "description": "Folder store for dotsync",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/osapps/dotsync.git"
@@ -19,5 +23,15 @@
   },
   "bugs": {
     "url": "https://github.com/osapps/dotsync/issues"
+  },
+  "scripts": {
+    "tsc": "tsc"
+  },
+  "dependencies": {
+    "@dotsync/utils": "^0.7.1"
+  },
+  "devDependencies": {
+    "@types/node": "^13.7.0",
+    "typescript": "^3.7.5"
   }
 }

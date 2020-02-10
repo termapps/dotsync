@@ -15,9 +15,9 @@ export default class Atom extends utils.Plugin {
     this.packages = new utils.Module<Package>({
       key: 'packages',
       listCmd: `${cmd} list --installed --bare`,
-      installCmd: (item) => `${cmd} install ${item}`,
-      uninstallCmd: (item) => `${cmd} uninstall ${item}`,
-      compare: (f) => (e) => e == f,
+      installCmd: item => `${cmd} install ${item}`,
+      uninstallCmd: item => `${cmd} uninstall ${item}`,
+      compare: f => e => e == f,
       modify: utils.lineSplit<Package>(line => line.split('@')[0]),
       runner: this.runner,
     });

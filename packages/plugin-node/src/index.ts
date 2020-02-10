@@ -24,9 +24,9 @@ export default class Node extends utils.Plugin {
     this.packages = new utils.Module<Package>({
       key: 'packages',
       listCmd: `${cmd} list --global --depth=0 --json`,
-      installCmd: (item) => `${cmd} install --global ${item}`,
-      uninstallCmd: (item) => `${cmd} uninstall --global ${item}`,
-      compare: (f) => (e) => e.name == f.name && (e.version && f.version ? e.version == f.version : true),
+      installCmd: item => `${cmd} install --global ${item}`,
+      uninstallCmd: item => `${cmd} uninstall --global ${item}`,
+      compare: f => e => e.name == f.name && (e.version && f.version ? e.version == f.version : true),
       modify: (out) => Object.values(JSON.parse(out).dependencies).map((e: NodeDependency) => ({
         name: e.from,
         version: e.version,

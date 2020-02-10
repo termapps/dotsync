@@ -1,10 +1,10 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as mkdirp from 'mkdirp';
-import * as async from 'async';
+import * as utils from '@dotsync/utils';
 import Item from './item';
 
-export default (item: Item, datadir: string, runner: any, cb: async.ErrorCallback<Error>) => {
+export default (item: Item, datadir: string, runner: any, cb: utils.Callback) => {
   const dest = item.destination;
 
   if (!path.isAbsolute(dest)) {

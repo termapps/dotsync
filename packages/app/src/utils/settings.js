@@ -2,9 +2,17 @@ import fs from 'fs';
 import path from 'path';
 
 export default {
+  default(type) {
+    if (type === 'store') {
+      return '{ "location": "" }';
+    }
+
+    return '{}';
+  },
+
   read(dir, type) {
     const file = path.resolve(dir, `${type}.json`);
-    let data = '{}';
+    let data = this.default(type);
 
     if (fs.existsSync(file)) {
       data = fs.readFileSync(file, { encoding: 'utf8' });

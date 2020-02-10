@@ -15,9 +15,9 @@ export default class VSCode extends utils.Plugin {
     this.packages = new utils.Module<Package>({
       key: 'packages',
       listCmd: `${cmd} --list-extensions --show-versions`,
-      installCmd: (item) => `${cmd} --install-extension ${item}`,
-      uninstallCmd: (item) => `${cmd} --uninstall-extension ${item}`,
-      compare: (f) => (e) => e == f,
+      installCmd: item => `${cmd} --install-extension ${item}`,
+      uninstallCmd: item => `${cmd} --uninstall-extension ${item}`,
+      compare: f => e => e == f,
       modify: utils.lineSplit<Package>(line => line.split('@')[0]),
       runner: this.runner,
     });

@@ -31,9 +31,9 @@ export default class Brew extends utils.Plugin {
     this.taps = new utils.Module<Tap>({
       key: 'taps',
       listCmd: `${cmd} tap-info --installed --json`,
-      installCmd: (item) => `${cmd} tap ${item.name} ${item.remote || ''}`,
-      uninstallCmd: (item) => `${cmd} untap ${item.name}`,
-      compare: (f) => (e) => e.name == f.name && (e.remote && f.remote ? e.remote == f.remote : true),
+      installCmd: item => `${cmd} tap ${item.name} ${item.remote || ''}`,
+      uninstallCmd: item => `${cmd} untap ${item.name}`,
+      compare: f => e => e.name == f.name && (e.remote && f.remote ? e.remote == f.remote : true),
       modify: (out) => JSON.parse(out).map((e: BrewTap) => ({
         name: e.name,
         remote: e.remote,
@@ -49,9 +49,9 @@ export default class Brew extends utils.Plugin {
     this.kegs = new utils.Module<Keg>({
       key: 'kegs',
       listCmd: `${cmd} list -1`,
-      installCmd: (item) => `${cmd} install ${item.name}`,
-      uninstallCmd: (item) => `${cmd} uninstall ${item.name}`,
-      compare: (f) => (e) => e.name == f.name,
+      installCmd: item => `${cmd} install ${item.name}`,
+      uninstallCmd: item => `${cmd} uninstall ${item.name}`,
+      compare: f => e => e.name == f.name,
       modify: utils.lineSplit<Tap>(line => ({ name: line })),
       runner: this.runner,
     });
@@ -59,9 +59,9 @@ export default class Brew extends utils.Plugin {
     this.casks = new utils.Module<Cask>({
       key: 'casks',
       listCmd: `${cmd} cask list -1`,
-      installCmd: (item) => `${cmd} cask install ${item}`,
-      uninstallCmd: (item) => `${cmd} cask uninstall ${item}`,
-      compare: (f) => (e) => e == f,
+      installCmd: item => `${cmd} cask install ${item}`,
+      uninstallCmd: item => `${cmd} cask uninstall ${item}`,
+      compare: f => e => e == f,
       modify: utils.lineSplit<Cask>(line => line),
       runner: this.runner,
     });

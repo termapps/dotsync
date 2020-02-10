@@ -66,7 +66,7 @@ export default {
     this.working('Trying to restore your dotfiles to latest version');
 
     // TODO: Allow logs and display them
-    this.store.beforeRestore(this.storeSettings, (err) => {
+    this.store.beforeRestore((err) => {
       if (err) {
         return this.errored({
           message: 'Unable to restore your dotfiles to latest version',

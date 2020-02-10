@@ -1,5 +1,5 @@
 import { ConfigPlugin, ConfigPluginData } from './config';
-import * as async from 'async';
+import { Callback } from './error';
 
 export interface PluginPromptInput {
   name: string
@@ -39,7 +39,7 @@ export abstract class Plugin {
     this.runner = opts.runner;
   }
 
-  restore(answers: PluginPromptAnswers, cb: async.ErrorCallback<Error>) {
+  restore(answers: PluginPromptAnswers, cb: Callback) {
     return cb(null);
   }
 

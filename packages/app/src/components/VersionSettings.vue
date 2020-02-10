@@ -37,8 +37,6 @@ export default {
       this.finished('Read the latest version of your dotfiles');
       this.$createLogger('version').info(`Latest version is ${version}`);
 
-      // const plugins = loadPlugins(this.configdir,)
-
       if (version !== this.versionSettings.version) {
         this.setVersionSettings({ version });
         this.$router.push({ name: 'Restore' });

@@ -81,78 +81,96 @@ export default {
     options() {
       return Object.keys(this.stores).map(key => ({ text: this.stores[key].name, value: key }));
     },
-    dataIsGood() {
-      if (this.storeSettings.method === undefined || this.storeSettings.location === undefined || this.storeSettings.location === '') {
-        return false;
+    goodSettings() {
+      const { method, location } = this.storeSettings;
+
+      if (method && this.stores[method] && location && location !== '') {
+        return true;
       }
 
-      return true;
+      return false;
     },
-    validate() {
+    defaultSettings() {
+      return this.setStoreSettings({
+        method: '@dotsync/storage-git',
+        location: '',
+        ...this.storeSettings,
+      });
+    },
+    validate(cb) {
       if (this.storeSettings.location === '') {
-        return 'This is required';
+        return cb(new Error('Invalid input'), 'This is required');
       }
 
-      return this.stores[this.storeSettings.method].valid(this.storeSettings.location);
+      const store = this.stores[this.storeSettings.method];
+      store.settings = this.storeSettings;
+
+      return store.validate(cb);
     },
     save() {
       const store = this.stores[this.storeSettings.method];
+      store.settings = this.storeSettings;
 
       this.setStore(store);
-      this.setDatadir(store.datadir(this.storeSettings));
+      this.setDatadir(store.datadir());
     },
     confirm() {
       this.$vs.loading();
       this.locationDanger = this.validate();
-      this.$vs.loading.close();
 
-      if (!this.locationDanger) {
+      this.validate((e, danger = null) => {
+        this.$vs.loading.close();
+        this.locationDanger = danger;
+
+        if (e) {
+          return;
+        }
+
         this.$vs.loading();
 
-        this.stores[this.storeSettings.method].init(this.storeSettings.location, (err, text = null, patch = {}) => {
+        const store = this.stores[this.storeSettings.method];
+        store.settings = this.storeSettings;
+
+        store.init((err, text = null) => {
           this.locationDanger = text;
-          this.setStoreSettings({ ...patch, ...this.storeSettings });
           this.$vs.loading.close();
 
           if (err) {
             return this.danger(err.message);
           }
 
-          if (!this.locationDanger) {
-            try {
-              settings.write(this.configdir, 'store', this.storeSettings);
-            } catch (error) {
-              if (error) {
-                return this.danger(`Unable to write storage settings: ${error.message}`);
-              }
+          try {
+            settings.write(this.configdir, 'store', this.storeSettings);
+          } catch (error) {
+            if (error) {
+              return this.danger(`Unable to write storage settings: ${error.message}`);
             }
-
-            this.finished('Saved the storage settings');
-            this.save();
-            this.$router.push({ name: 'VersionSettings' });
           }
+
+          this.finished('Saved the storage settings');
+          this.save();
+          this.$router.push({ name: 'VersionSettings' });
         });
-      }
+      });
     },
   },
   created() {
-    this.stores = loadStores(this.configdir);
+    this.stores = loadStores(this.configdir, this.storeSettings);
 
-    if (this.dataIsGood()) {
-      this.locationDanger = this.validate();
-
-      if (!this.locationDanger) {
-        this.save();
-        return this.$router.push({ name: 'VersionSettings' });
-      }
-
-      this.danger('The saved storage settings are not valid anymore');
+    if (!this.goodSettings()) {
+      return this.defaultSettings();
     }
 
-    this.setStoreSettings({
-      method: '@dotsync/storage-git',
-      location: '',
-      ...this.storeSettings,
+    this.validate((err, danger = null) => {
+      this.locationDanger = danger;
+
+      if (err) {
+        this.danger('The saved storage settings are not valid anymore');
+        return this.defaultSettings();
+      }
+
+      this.save();
+      this.$router.push({ name: 'VersionSettings' });
     });
   },
 };

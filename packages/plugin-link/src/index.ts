@@ -11,7 +11,7 @@ export default class Link extends utils.Plugin {
   }
 
   restore(answers: utils.PluginPromptAnswers, cb: utils.Callback) {
-    async.eachSeries(this.data.paths, (item: Item, callback: async.ErrorCallback<Error>) => {
+    async.eachSeries(this.data.paths, (item: Item, callback: utils.Callback) => {
       link(item, this.datadir, this.runner, callback);
     }, cb);
   }

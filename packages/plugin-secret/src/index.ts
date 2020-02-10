@@ -28,8 +28,9 @@ export default class Secret extends utils.Plugin {
     return Buffer.concat([decipher.update(contents), decipher.final()]);
   }
 
+  // TODO: Have checksums in the file to compare and realize if no changes needed
   restore(answers: utils.PluginPromptAnswers, cb: utils.Callback) {
-    async.eachSeries(this.data.paths, (item: any, callback: async.ErrorCallback<Error>) => {
+    async.eachSeries(this.data.paths, (item: any, callback: utils.Callback) => {
       const dest = item.destination;
 
       if (!path.isAbsolute(dest)) {
