@@ -1,4 +1,5 @@
 import configdir from './configdir';
+import isInstalled from './isInstalled';
 import isPlugin from './isPlugin';
 import isStore from './isStore';
 import { loadConfig, saveConfigPlugins } from './config';
@@ -10,6 +11,7 @@ import settings from './settings';
 
 export {
   configdir,
+  isInstalled,
   isPlugin,
   isStore,
   loadConfig,

@@ -8,7 +8,9 @@ import { remote, ipcRenderer } from 'electron';
 import { mapState, mapMutations } from 'vuex';
 import { list } from 'electron-plugin-manager';
 import async from 'async';
-import { configdir, settings } from '../utils';
+import {
+  configdir, settings, isInstalled, isStore,
+} from '../utils';
 
 export default {
   computed: {
@@ -42,18 +44,21 @@ export default {
       this.finished('Dotsync configuration directory exists');
       this.setConfigdir(dir);
 
-      const installed = list(this.configdir);
-      const recommended = ['@dotsync/storage-git', '@dotsync/storage-folder'];
-      const notInstalled = recommended.filter(x => installed.indexOf(x) === -1);
+      const installed = list(this.configdir, { version: true }).filter(isStore);
+      const recommended = [
+        { name: '@dotsync/storage-git', version: '^0.8.0' },
+        { name: '@dotsync/storage-folder', version: '^0.8.0' },
+      ];
+      const toInstall = recommended.filter(need => !installed.some(isInstalled(need)));
 
       this.working('Making sure storage plugins are installed');
 
-      async.eachSeries(notInstalled, (item, callback) => {
-        ipcRenderer.on(`epm-installed-${item}`, (event, error, pluginPath) => {
+      async.eachSeries(toInstall, (item, callback) => {
+        ipcRenderer.on(`epm-installed-${item.name}`, (event, error, pluginPath) => {
           callback(error, pluginPath);
         });
 
-        ipcRenderer.send('epm-install', this.configdir, item, 'latest');
+        ipcRenderer.send('epm-install', this.configdir, item.name, item.version);
       }, (e) => {
         if (e) {
           return this.errored({

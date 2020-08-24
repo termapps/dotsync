@@ -2,21 +2,11 @@
 import { remote, ipcRenderer } from 'electron';
 import { list, load } from 'electron-plugin-manager';
 import async from 'async';
-import semver from 'semver';
 import deepmerge from 'deepmerge';
+import isInstalled from './isInstalled';
 import isPlugin from './isPlugin';
 import { loadConfig } from './config';
 import Runner from './runner';
-
-const isInstalled = need => (item) => {
-  let frags = item.split('@');
-
-  if (frags.length === 3) {
-    frags = [`@${frags[1]}`, frags[2]];
-  }
-
-  return frags[0] === need.name && semver.satisfies(frags[1], need.version);
-};
 
 const installPkgs = (configdir, datadir, config, expand, log, cb) => {
   const installed = list(configdir, { version: true }).filter(isPlugin);
