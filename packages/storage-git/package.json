@@ -1,6 +1,6 @@
 {
   "name": "@dotsync/storage-git",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Git repository store for dotsync",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -30,7 +30,7 @@
     "tsc": "tsc"
   },
   "dependencies": {
-    "@dotsync/utils": "^0.7.1",
+    "@dotsync/utils": "^0.8.0",
     "mkdirp": "^0.5.1",
     "rimraf": "^2.6.3"
   },

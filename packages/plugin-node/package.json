@@ -1,6 +1,6 @@
 {
   "name": "@dotsync/plugin-node",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "description": "Node.js plugin for dotsync",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -30,7 +30,7 @@
     "tsc": "tsc"
   },
   "dependencies": {
-    "@dotsync/utils": "^0.7.1"
+    "@dotsync/utils": "^0.8.0"
   },
   "devDependencies": {
     "@types/node": "^13.7.0",
