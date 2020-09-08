@@ -1,6 +1,6 @@
 {
   "name": "@dotsync/plugin-shell",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "description": "Shell configuration plugin for dotsync",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
