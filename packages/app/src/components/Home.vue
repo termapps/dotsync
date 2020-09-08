@@ -46,8 +46,8 @@ export default {
 
       const installed = list(this.configdir, { version: true }).filter(isStore);
       const recommended = [
-        { name: '@dotsync/storage-git', version: '^0.8.0' },
-        { name: '@dotsync/storage-folder', version: '^0.8.0' },
+        { name: '@dotsync/storage-git', version: '^0.8.4' },
+        { name: '@dotsync/storage-folder', version: '^0.8.4' },
       ];
       const toInstall = recommended.filter(need => !installed.some(isInstalled(need)));
 

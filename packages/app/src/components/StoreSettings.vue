@@ -116,7 +116,6 @@ export default {
     },
     confirm() {
       this.$vs.loading();
-      this.locationDanger = this.validate();
 
       this.validate((e, danger = null) => {
         this.$vs.loading.close();

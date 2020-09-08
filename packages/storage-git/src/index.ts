@@ -133,5 +133,3 @@ export default class Git extends utils.Storage {
     });
   }
 }
-
-module.exports = Git;

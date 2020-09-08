@@ -37,5 +37,3 @@ export default class Folder extends utils.Storage {
     cb(new Error('Not implemented'));
   }
 };
-
-module.exports = Folder;
