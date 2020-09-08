@@ -22,12 +22,20 @@ export default class Git extends utils.Storage {
   }
 
   validate(cb: (err?: Error, m?: string) => void) {
-    this.run(`git ls-remote ${this.settings.location}`, (err) => {
+
+    mkdirp(this.dataFolder, (err: Error) => {
       if (err) {
-        return cb(err, 'Repository not found');
+        return cb(err, 'Bad file system permissions');
       }
 
-      return cb();
+      this.run(`git ls-remote ${this.settings.location}`, (err) => {
+        if (err) {
+          console.log(err);
+          return cb(err, 'Repository not found');
+        }
+
+        return cb();
+      });
     });
   }
 
@@ -38,31 +46,25 @@ export default class Git extends utils.Storage {
       });
     };
 
-    mkdirp(this.dataFolder, (err: Error) => {
+    this.run('git init', (err) => {
       if (err) {
-        return cb(err, 'Bad file system permissions');
+        err.message = `Unable to init local git repository: ${err.message}`;
+        return callback(err);
       }
 
-      this.run('git init', (err) => {
+      this.run(`git remote add dotsync ${this.settings.location}`, (err) => {
         if (err) {
-          err.message = `Unable to init local git repository: ${err.message}`;
+          err.message = `Unable to add git remote: ${err.message}`;
           return callback(err);
         }
 
-        this.run(`git remote add dotsync ${this.settings.location}`, (err) => {
+        this.run('git fetch dotsync', (err) => {
           if (err) {
-            err.message = `Unable to add git remote: ${err.message}`;
+            err.message = `Unable to fetch git repository: ${err.message}`;
             return callback(err);
           }
 
-          this.run('git fetch dotsync', (err) => {
-            if (err) {
-              err.message = `Unable to fetch git repository: ${err.message}`;
-              return callback(err);
-            }
-
-            return cb();
-          });
+          return cb();
         });
       });
     });
