@@ -6,6 +6,7 @@ import isStore from './isStore';
 export default (configdir, settings) => list(configdir)
   .filter(isStore)
   .reduce((acc, store) => {
-    acc[store] = new (load(configdir, store, remote.require))({ configdir, settings });
+    const Store = load(configdir, store, remote.require).default;
+    acc[store] = new (Store)({ configdir, settings });
     return acc;
   }, {});

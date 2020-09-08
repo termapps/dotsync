@@ -6,7 +6,9 @@ export default class Shell extends utils.Plugin {
   }
 
   restore(answers: utils.PluginPromptAnswers, cb: utils.Callback) {
-    this.runner.run(`chsh -s ${this.data.binary}`, cb);
+    // TODO: make sure binary is in /etc/shells
+    // this.runner.run(`chsh -s ${this.data.binary}`, cb);
+    cb();
   }
 
   expand(): utils.ConfigPlugin[] {
