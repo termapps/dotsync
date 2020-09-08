@@ -1,7 +1,7 @@
 {
-  "name": "@dotsync/plugin-secret",
+  "name": "@dotsync/plugin-cmd",
   "version": "0.8.0",
-  "description": "Encrypted file symlinking plugin for dotsync",
+  "description": "Command runner plugin for dotsync",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": [
@@ -12,9 +12,8 @@
     "url": "git+https://github.com/osapps/dotsync.git"
   },
   "keywords": [
-    "secret",
-    "encrypted",
-    "symlink",
+    "command",
+    "exec",
     "dotsync",
     "plugin",
     "dotsync-plugin"

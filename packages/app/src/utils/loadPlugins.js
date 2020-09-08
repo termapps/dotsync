@@ -63,6 +63,7 @@ const installPkgs = (configdir, datadir, config, expand, log, cb) => {
       const expanded = result[key].expand(pluginOptions) || [];
       pluginOptions.expanded = true;
 
+      // TODO: Expand to just before the current plugin
       expanded.forEach((item) => {
         const ifExistsIndex = config.findIndex(i => i.name === item.name);
 

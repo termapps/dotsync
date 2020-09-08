@@ -72,7 +72,7 @@ export default class Module<T> {
   list(cb: (err?: Error, installed?: T[]) => void) {
     exec(this.listCmd, {
       encoding: 'utf8',
-      maxBuffer: 1024 * 1024,
+      maxBuffer: 1024 * 1024 * 10,
     }, (err, stdout, stderr) => {
       if (err) {
         return cb(err);
