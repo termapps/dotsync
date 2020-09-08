@@ -1,6 +1,6 @@
 {
   "name": "@dotsync/plugin-python",
-  "version": "0.8.0",
+  "version": "0.8.2",
   "description": "Python plugin for dotsync",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -30,7 +30,7 @@
     "tsc": "tsc"
   },
   "dependencies": {
-    "@dotsync/utils": "^0.8.0"
+    "@dotsync/utils": "^0.8.2"
   },
   "devDependencies": {
     "@types/node": "^13.7.0",
