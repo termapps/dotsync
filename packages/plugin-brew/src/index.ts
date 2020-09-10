@@ -58,7 +58,7 @@ export default class Brew extends utils.Plugin {
 
     this.casks = new utils.Module<Cask>({
       key: 'casks',
-      listCmd: `${cmd} cask list -1`,
+      listCmd: `${cmd} list --cask -1`,
       installCmd: item => `${cmd} cask install ${item}`,
       uninstallCmd: item => `${cmd} cask uninstall ${item}`,
       compare: f => e => e == f,
