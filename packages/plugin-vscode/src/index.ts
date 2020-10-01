@@ -57,6 +57,10 @@ export default class VSCode extends utils.Plugin {
               source: this.data.keybindings,
               destination: path.join(vscodedir, 'keybindings.json'),
             },
+            {
+              source: this.data.snippets,
+              destination: path.join(vscodedir, 'snippets'),
+            },
           ],
         },
       },
