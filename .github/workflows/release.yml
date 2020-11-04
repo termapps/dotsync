@@ -1,0 +1,27 @@
+name: Release
+on:
+  push:
+    tags: [v*]
+jobs:
+  homebrew:
+    name: Homebrew
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Install node.js
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: 10
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: yarn
+      - name: Build
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd packages/app
+          yarn electron:build
