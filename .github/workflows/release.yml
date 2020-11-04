@@ -3,8 +3,8 @@ on:
   push:
     tags: [v*]
 jobs:
-  homebrew:
-    name: Homebrew
+  release:
+    name: Release
     strategy:
       fail-fast: false
       matrix:
@@ -24,4 +24,4 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           cd packages/app
-          yarn electron:build
+          yarn release

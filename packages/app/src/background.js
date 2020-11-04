@@ -72,7 +72,7 @@ const loadUrl = (win) => {
 const createMainWindow = () => {
   const window = new BrowserWindow({
     webPreferences: {
-      nodeIntegration: true,
+      nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
     },
   });
 
