@@ -1,8 +1,8 @@
 use clap::Parser;
 
-/// A simple CLI application using clap
+/// Command line utility to manage dotfiles
 #[derive(Debug, Parser)]
-#[clap(name = "cli-clap")]
+#[clap(name = "dotsync")]
 struct App {
     #[clap(subcommand)]
     cmd: Subcommands,
