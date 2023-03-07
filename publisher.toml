@@ -1,0 +1,6 @@
+name = "dotsync"
+description = "Command line utility to manage dotfiles"
+repository = "termapps/dotsync"
+license = "MIT"
+homepage = "https://github.com/termapps/dotsync"
+
