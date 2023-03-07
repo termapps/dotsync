@@ -28,8 +28,7 @@
 ### With [Homebrew](https://brew.sh/)
 
 ```
-$ brew tap termapps/tap
-$ brew install dotsync
+$ brew install termapps/tap/dotsync
 ```
 
 <!-- omit from toc -->
@@ -65,3 +64,10 @@ MIT/X11
 <!-- omit from toc -->
 ## Bug Reports
 Report [here](http://github.com/termapps/dotsync/issues).
+
+<!-- omit from toc -->
+## Creator
+Pavan Kumar Sunkara (pavan.sss1991@gmail.com)
+
+Follow me on [github](https://github.com/users/follow?target=pksunkara), [twitter](http://twitter.com/pksunkara)
+
