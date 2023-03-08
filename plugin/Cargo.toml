@@ -1,0 +1,18 @@
+[package]
+name    = "dotsync-plugin"
+version = "0.0.1"
+
+description = "Plugin framework for dotsync"
+
+authors      = { workspace = true }
+categories   = { workspace = true }
+edition      = { workspace = true }
+homepage     = { workspace = true }
+license      = { workspace = true }
+readme       = { workspace = true }
+repository   = { workspace = true }
+rust-version = { workspace = true }
+
+[dependencies]
+prost = { workspace = true }
+tonic = { workspace = true }

@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package tech.dotsync;
+
+enum OperatingSystem {
+  UNSPECIFIED = 0;
+  MACOS = 1;
+  WINDOWS = 2;
+  ARCH_LINUX = 3;
+  UBUNTU = 4;
+  DEBIAN = 5;
+  FEDORA = 6;
+}
+
+service PluginService {
+  rpc GetPluginSchema (GetPluginSchema.Request) returns (GetPluginSchema.Response);
+}
+
+message GetPluginSchema {
+  message Request {
+  }
+
+  message Response {
+    string id = 1;
+    string name = 2;
+    string version = 3;
+
+    repeated OperatingSystem supported = 4;
+  }
+}

@@ -1,18 +1,39 @@
+[workspace]
+members = [".", "plugin", "plugins/*"]
+
+[workspace.package]
+authors      = ["Pavan Kumar Sunkara <pavan.sss1991@gmail.com>"]
+categories   = ["command-line-utilities"]
+edition      = "2021"
+homepage     = "https://github.com/termapps/dotsync"
+license      = "MIT"
+readme       = "README.md"
+repository   = "https://github.com/termapps/dotsync"
+rust-version = "1.67.0"
+
+[workspace.dependencies]
+prost = "0.11.8"
+tonic = "0.8.3"
+
+dotsync-plugin = { path = "plugin" }
+
+[workspace.metadata.workspaces]
+no_individual_tags = true
+
 [package]
 name    = "dotsync"
 version = "0.0.1"
 
-authors     = ["Pavan Kumar Sunkara <pavan.sss1991@gmail.com>"]
 description = "Command line utility to manage dotfiles"
-homepage    = "https://github.com/termapps/dotsync"
-repository  = "https://github.com/termapps/dotsync"
 
-edition      = "2021"
-rust-version = "1.67.0"
-
-categories = ["command-line-utilities"]
-license    = "MIT"
-readme     = "README.md"
+authors      = { workspace = true }
+categories   = { workspace = true }
+edition      = { workspace = true }
+homepage     = { workspace = true }
+license      = { workspace = true }
+readme       = { workspace = true }
+repository   = { workspace = true }
+rust-version = { workspace = true }
 
 [dependencies]
 clap                = { version = "~4.1.8", features = ["derive", "wrap_help"] }
@@ -22,12 +43,13 @@ env_logger          = { version = "~0.10.0", default-features = false, features 
 log                 = "0.4.17"
 thiserror           = "~1.0.39"
 
+[dev-dependencies]
+expect-test = "1.4.1"
+tonic-build = "0.8"
+
 [[bin]]
 name = "dotsync"
 path = "src/main.rs"
 
 [profile.release]
 lto = "thin"
-
-[workspace.metadata.workspaces]
-no_individual_tags = true
