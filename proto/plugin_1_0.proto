@@ -3,13 +3,29 @@ syntax = "proto3";
 package tech.dotsync;
 
 enum OperatingSystem {
-  UNSPECIFIED = 0;
+  UNSPECIFIED_OS = 0;
   MACOS = 1;
   WINDOWS = 2;
-  ARCH_LINUX = 3;
-  UBUNTU = 4;
-  DEBIAN = 5;
-  FEDORA = 6;
+}
+
+enum LinuxDistribution {
+  UNSPECIFIED_DISTRO = 0;
+  DEBIAN = 1;
+  UBUNTU = 2;
+  FEDORA = 3;
+  CENT_O_S = 4;
+  R_H_E_L = 5;
+  ARCH = 6;
+  MANJARO = 7;
+  OPEN_S_U_S_E = 8;
+  GENTOO = 9;
+  ALPINE = 10;
+  SOLUS = 11;
+  MINT = 12;
+  POP_O_S = 13;
+  NIX_O_S = 14;
+  VOID = 15;
+  Kali = 16;
 }
 
 service PluginService {
@@ -24,7 +40,9 @@ message GetPluginSchema {
     string id = 1;
     string name = 2;
     string version = 3;
+    string description = 4;
 
-    repeated OperatingSystem supported = 4;
+    repeated OperatingSystem supported_os = 5;
+    repeated LinuxDistribution supported_linux_distro = 6;
   }
 }
