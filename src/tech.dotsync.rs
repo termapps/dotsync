@@ -26,8 +26,8 @@ pub mod get_plugin_schema {
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum OperatingSystem {
-    UnspecifiedOs = 0,
-    Macos = 1,
+    UnspecifiedOS = 0,
+    MacOS = 1,
     Windows = 2,
 }
 impl OperatingSystem {
@@ -37,16 +37,16 @@ impl OperatingSystem {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            OperatingSystem::UnspecifiedOs => "UNSPECIFIED_OS",
-            OperatingSystem::Macos => "MACOS",
+            OperatingSystem::UnspecifiedOS => "UNSPECIFIED_O_S",
+            OperatingSystem::MacOS => "MAC_O_S",
             OperatingSystem::Windows => "WINDOWS",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
     pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
         match value {
-            "UNSPECIFIED_OS" => Some(Self::UnspecifiedOs),
-            "MACOS" => Some(Self::Macos),
+            "UNSPECIFIED_O_S" => Some(Self::UnspecifiedOS),
+            "MAC_O_S" => Some(Self::MacOS),
             "WINDOWS" => Some(Self::Windows),
             _ => None,
         }

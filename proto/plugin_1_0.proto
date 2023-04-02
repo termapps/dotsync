@@ -3,8 +3,8 @@ syntax = "proto3";
 package tech.dotsync;
 
 enum OperatingSystem {
-  UNSPECIFIED_OS = 0;
-  MACOS = 1;
+  UNSPECIFIED_O_S = 0;
+  MAC_O_S = 1;
   WINDOWS = 2;
 }
 

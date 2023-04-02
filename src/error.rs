@@ -2,8 +2,8 @@ use std::{io, process::exit};
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
-    #[error("You cannot use cliche")]
-    World,
+    #[error("{0}")]
+    Tonic(#[from] tonic::transport::Error),
     #[error("{0}")]
     Io(#[from] io::Error),
 }

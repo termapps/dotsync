@@ -1,5 +1,6 @@
-use dotsync_plugin::{OperatingSystems, Plugin};
+use dotsync_plugin::{start, OperatingSystems, Plugin};
 
+#[derive(Default)]
 struct VSCode;
 
 impl Plugin for VSCode {
@@ -15,5 +16,5 @@ impl Plugin for VSCode {
 }
 
 fn main() {
-    println!("Hello, world!");
+    start::<VSCode>(5051)
 }

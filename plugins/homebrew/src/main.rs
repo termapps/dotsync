@@ -1,5 +1,6 @@
-use dotsync_plugin::{OperatingSystems, Plugin};
+use dotsync_plugin::{start, OperatingSystems, Plugin};
 
+#[derive(Default)]
 struct Homebrew;
 
 impl Plugin for Homebrew {
@@ -15,5 +16,5 @@ impl Plugin for Homebrew {
 }
 
 fn main() {
-    println!("Hello, world!");
+    start::<Homebrew>(5051)
 }

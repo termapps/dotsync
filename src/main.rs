@@ -1,3 +1,6 @@
+#[path = "tech.dotsync.rs"]
+mod client;
+
 mod error;
 
 mod hello;
@@ -26,7 +29,8 @@ enum Subcommands {
     Hello(hello::Hello),
 }
 
-fn main() {
+#[tokio::main]
+async fn main() {
     let program = App::parse();
 
     program.color.apply();
@@ -38,7 +42,7 @@ fn main() {
         .init();
 
     let result = match program.cmd {
-        Subcommands::Hello(x) => x.run(),
+        Subcommands::Hello(x) => x.run().await,
     };
 
     error::finish(result);

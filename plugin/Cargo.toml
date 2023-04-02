@@ -15,4 +15,5 @@ rust-version = { workspace = true }
 
 [dependencies]
 prost = { workspace = true }
+tokio = { workspace = true }
 tonic = { workspace = true }

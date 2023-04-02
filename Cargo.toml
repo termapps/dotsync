@@ -13,6 +13,7 @@ rust-version = "1.67.0"
 
 [workspace.dependencies]
 prost = "0.11.8"
+tokio = { version = "1.27.0", features = ["full"] }
 tonic = "0.8.3"
 
 dotsync-plugin = { path = "plugin" }
@@ -42,6 +43,12 @@ concolor-clap       = { version = "=0.0.14", features = ["api_unstable"] }
 env_logger          = { version = "~0.10.0", default-features = false, features = ["auto-color", "color"] }
 log                 = "0.4.17"
 thiserror           = "~1.0.39"
+
+prost = { workspace = true }
+tokio = { workspace = true }
+tonic = { workspace = true }
+
+dotsync-plugin = { workspace = true }
 
 [dev-dependencies]
 expect-test = "1.4.1"

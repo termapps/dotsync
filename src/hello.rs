@@ -1,23 +1,17 @@
 use std::io::{stdout, Write};
 
-use crate::error::{Error, Result};
+use crate::{client::plugin_service_client::PluginServiceClient, error::Result};
 
 use clap::Parser;
 
 /// Say hello to someone
 #[derive(Debug, Parser)]
-pub struct Hello {
-    /// The name of the person to greet
-    name: String,
-}
+pub struct Hello {}
 
 impl Hello {
-    pub fn run(self) -> Result {
-        if self.name == "world" {
-            return Err(Error::World);
-        }
+    pub async fn run(self) -> Result {
+        PluginServiceClient::connect("http://[::1]:50051").await?;
 
-        println!("Hello, {}!", self.name);
         stdout().flush()?;
 
         Ok(())
