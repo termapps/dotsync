@@ -11,8 +11,6 @@ pub mod get_plugin_schema {
     pub struct Response {
         #[prost(string, tag = "1")]
         pub id: ::prost::alloc::string::String,
-        #[prost(string, tag = "2")]
-        pub name: ::prost::alloc::string::String,
         #[prost(string, tag = "3")]
         pub version: ::prost::alloc::string::String,
         #[prost(string, tag = "4")]

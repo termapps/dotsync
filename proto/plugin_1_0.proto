@@ -2,6 +2,36 @@ syntax = "proto3";
 
 package tech.dotsync;
 
+message AttributePath {
+  message Step {
+    oneof selector {
+      // Set "attribute_name" to represent looking up an attribute
+      // in the current object value.
+      string attribute_name = 1;
+      // Set "element_key_*" to represent looking up an element in
+      // an indexable collection type.
+      string element_key_string = 2;
+      int64 element_key_int = 3;
+    }
+  }
+
+  repeated Step steps = 1;
+}
+
+message Diagnostic {
+  enum Severity {
+    INVALID = 0;
+    ERROR = 1;
+    WARNING = 2;
+  }
+
+  Severity severity = 1;
+  AttributePath attribute = 2;
+
+  string summary = 3;
+  string detail = 4;
+}
+
 enum OperatingSystem {
   UNSPECIFIED_O_S = 0;
   MAC_O_S = 1;
@@ -30,6 +60,12 @@ enum LinuxDistribution {
 
 service PluginService {
   rpc GetPluginSchema (GetPluginSchema.Request) returns (GetPluginSchema.Response);
+  rpc ValidateResourceConfig(ValidateResourceConfig.Request) returns (ValidateResourceConfig.Response);
+
+  rpc ReadResource(ReadResource.Request) returns (ReadResource.Response);
+  rpc PlanResourceChange(PlanResourceChange.Request) returns (PlanResourceChange.Response);
+  rpc ApplyResourceChange(ApplyResourceChange.Request) returns (ApplyResourceChange.Response);
+  rpc ImportResourceState(ImportResourceState.Request) returns (ImportResourceState.Response);
 }
 
 message GetPluginSchema {
@@ -38,11 +74,51 @@ message GetPluginSchema {
 
   message Response {
     string id = 1;
-    string name = 2;
-    string version = 3;
-    string description = 4;
+    string version = 2;
+    string description = 3;
 
-    repeated OperatingSystem supported_os = 5;
-    repeated LinuxDistribution supported_linux_distro = 6;
+    repeated OperatingSystem supported_os = 4;
+    repeated LinuxDistribution supported_linux_distro = 5;
+  }
+}
+
+message ValidateResourceConfig {
+  message Request {
+  }
+
+  message Response {
+    repeated Diagnostic diagnostics = 1;
+  }
+}
+
+message ReadResource {
+  message Request {
+  }
+
+  message Response {
+  }
+}
+
+message PlanResourceChange {
+  message Request {
+  }
+
+  message Response {
+  }
+}
+
+message ApplyResourceChange {
+  message Request {
+  }
+
+  message Response {
+  }
+}
+
+message ImportResourceState {
+  message Request {
+  }
+
+  message Response {
   }
 }

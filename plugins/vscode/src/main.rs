@@ -4,7 +4,7 @@ use dotsync_plugin::{start, OperatingSystems, Plugin};
 struct VSCode;
 
 impl Plugin for VSCode {
-    const NAME: &'static str = "VSCode";
+    const ID: &'static str = "vscode";
 
     fn description() -> String {
         "VSCode plugin".to_string()

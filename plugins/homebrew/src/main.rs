@@ -4,7 +4,7 @@ use dotsync_plugin::{start, OperatingSystems, Plugin};
 struct Homebrew;
 
 impl Plugin for Homebrew {
-    const NAME: &'static str = "Homebrew";
+    const ID: &'static str = "brew";
 
     fn description() -> String {
         "Homebrew plugin".to_string()

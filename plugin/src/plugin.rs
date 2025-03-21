@@ -6,7 +6,7 @@ use crate::{
 };
 
 pub trait Plugin: Default + Send + Sync + 'static {
-    const NAME: &'static str;
+    const ID: &'static str;
 
     fn description() -> String;
 
@@ -25,9 +25,7 @@ where
         let os = P::get_supported_operating_systems();
 
         let response = get_plugin_schema::Response {
-            // TODO: Fix the name to id
-            id: P::NAME.to_string(),
-            name: P::NAME.to_string(),
+            id: P::ID.to_string(),
             version: env!("CARGO_PKG_VERSION").to_string(),
             description: P::description(),
             supported_os: os.supported_os(),
