@@ -1,0 +1,39 @@
+name: Linting
+on: [pull_request]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    permissions:
+      checks: read
+    needs: [lockfile, lint]
+    steps:
+      - name: Wait for checks
+        uses: poseidon/wait-for-status-checks@v0.6.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          match_pattern: test
+  lockfile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install rust
+        uses: dtolnay/rust-toolchain@1.79.0
+      - name: Lockfile check
+        run: cargo update -w --locked
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install rust
+        uses: dtolnay/rust-toolchain@1.79.0
+        with:
+          components: rustfmt, clippy
+      - name: Clippy check
+        run: cargo lint
+      - name: Format check
+        run: cargo format-check

@@ -1,6 +1,18 @@
-name = "dotsync"
-description = "Command line utility to manage dotfiles"
-repository = "termapps/dotsync"
-license = "MIT"
-homepage = "https://github.com/termapps/dotsync"
+repository = "termapps/cli-clap"
 
+exclude = ["aur"]
+
+[homebrew]
+repository = "termapps/homebrew-tap"
+
+[aur_bin]
+name = "cli-clap"
+
+[scoop]
+repository = "termapps/scoop-bucket"
+
+[nix]
+repository = "termapps/nixpkgs"
+
+lockfile = false
+path     = "%n.nix"

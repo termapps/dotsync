@@ -1,38 +1,30 @@
-use std::{io, process::exit};
+use std::io::Write;
 
-#[derive(Debug, thiserror::Error)]
-pub enum Error {
-    #[error("{0}")]
-    Tonic(#[from] tonic::transport::Error),
-    #[error("{0}")]
-    Io(#[from] io::Error),
-}
+use anstream::{eprintln, stderr, stdout};
+use eyre::Result as EyreResult;
+use owo_colors::OwoColorize;
+use proc_exit::Code;
 
-impl Error {
-    fn print(self) -> io::Result<()> {
-        eprintln!("error: {self}");
-
-        Ok(())
-    }
-
-    fn code(&self) -> i32 {
-        1
-    }
-}
-
-pub type Result<T = ()> = std::result::Result<T, Error>;
+pub type Result<T = ()> = EyreResult<T>;
 
 pub fn finish(result: Result) {
     let code = if let Some(e) = result.err() {
-        let code = e.code();
+        // Use `e.is::<Error>()` to check for a specific error
+        // in order to wrap all instances of it.
+        let err = e;
 
-        e.print().unwrap();
-        code
+        eprintln!("{}: {err}", "error".red().bold());
+        Code::FAILURE
     } else {
-        0
+        Code::SUCCESS
     };
 
-    // TODO: Flush stdout and stderr
-
     exit(code);
+}
+
+pub fn exit(code: Code) {
+    stdout().flush().unwrap();
+    stderr().flush().unwrap();
+
+    code.process_exit();
 }
