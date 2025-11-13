@@ -12,12 +12,12 @@ use crate::error::Result;
 #[derive(Debug, Parser)]
 pub struct Hello {
     /// The name of the person to greet
-    name: String,
+    pub name: String,
 }
 
 impl Hello {
     #[instrument(name = "hello", skip_all)]
-    pub fn run(self) -> Result {
+    pub(crate) fn run(&self) -> Result {
         if self.name == "world" {
             return Err(eyre!("You cannot use cliche"));
         }
