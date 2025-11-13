@@ -64,6 +64,13 @@ nix profile install github:termapps/nixpkgs#dotsync
 ```
 
 <!-- omit from toc -->
+#### With [NPM](https://npmjs.com)
+
+```
+npm install -g @termapps/dotsync
+```
+
+<!-- omit from toc -->
 #### Direct
 
 Pre-built binary executables are available at [releases page](https://github.com/termapps/dotsync/releases).
@@ -73,7 +80,7 @@ Download, unarchive the binary, and then put the executable in `$PATH`.
 <!-- publisher install end -->
 <!-- omit from toc -->
 ## Contributors
-Here is a list of [Contributors](http://github.com/termapps/dotsync/contributors)
+Here is a list of [Contributors](https://github.com/termapps/dotsync/contributors)
 
 <!-- omit from toc -->
 ### TODO
@@ -87,7 +94,7 @@ MIT/X11
 
 <!-- omit from toc -->
 ## Bug Reports
-Report [here](http://github.com/termapps/dotsync/issues).
+Report [here](https://github.com/termapps/dotsync/issues).
 
 <!-- omit from toc -->
 ## Creator

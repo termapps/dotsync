@@ -1,4 +1,4 @@
-repository = "termapps/cli-clap"
+repository = "termapps/dotsync"
 
 exclude = ["aur"]
 
@@ -6,7 +6,7 @@ exclude = ["aur"]
 repository = "termapps/homebrew-tap"
 
 [aur_bin]
-name = "cli-clap"
+name = "dotsync"
 
 [scoop]
 repository = "termapps/scoop-bucket"
@@ -16,3 +16,6 @@ repository = "termapps/nixpkgs"
 
 lockfile = false
 path     = "%n.nix"
+
+[npm]
+name = "@termapps/dotsync"

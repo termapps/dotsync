@@ -9,19 +9,20 @@ jobs:
     permissions:
       checks: read
     needs: [lockfile, lint]
+    if: always()
     steps:
       - name: Wait for checks
         uses: poseidon/wait-for-status-checks@v0.6.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          match_pattern: test
+          match_pattern: lockfile|lint|test
   lockfile:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install rust
-        uses: dtolnay/rust-toolchain@1.79.0
+        uses: dtolnay/rust-toolchain@1.88.0
       - name: Lockfile check
         run: cargo update -w --locked
   lint:
@@ -30,7 +31,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install rust
-        uses: dtolnay/rust-toolchain@1.79.0
+        uses: dtolnay/rust-toolchain@1.88.0
         with:
           components: rustfmt, clippy
       - name: Clippy check

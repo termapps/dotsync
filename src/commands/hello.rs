@@ -1,4 +1,4 @@
-use std::io::{stdout, Write};
+use std::io::{Write, stdout};
 
 use clap::Parser;
 use tracing::instrument;
@@ -11,7 +11,7 @@ pub struct Hello {}
 
 impl Hello {
     #[instrument(name = "hello", skip_all)]
-    pub async fn run(self) -> Result {
+    pub(crate) async fn run(&self) -> Result {
         PluginServiceClient::connect("http://[::1]:50051").await?;
 
         stdout().flush()?;
