@@ -5,7 +5,8 @@ use clap::Parser;
 use dotsync::{App, error};
 use tracing_subscriber::prelude::*;
 
-fn main() {
+#[tokio::main]
+async fn main() {
     let program = App::parse();
 
     program.color.write_global();
@@ -20,7 +21,7 @@ fn main() {
         )
         .init();
 
-    let result = program.run();
+    let result = program.run().await;
 
     error::finish(result);
 }

@@ -2,17 +2,17 @@ use clap::Parser;
 
 use crate::error::Result;
 
-pub mod hello;
+pub mod plugin;
 
 #[derive(Debug, Parser)]
 pub enum Subcommands {
-    Hello(hello::Hello),
+    Plugin(plugin::Plugin),
 }
 
 impl Subcommands {
-    pub(crate) fn run(&self) -> Result {
+    pub(crate) async fn run(&self) -> Result {
         match self {
-            Self::Hello(x) => x.run(),
+            Self::Plugin(x) => x.run().await,
         }
     }
 }
