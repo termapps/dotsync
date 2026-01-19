@@ -14,9 +14,9 @@ license    = "MIT"
 readme     = "README.md"
 
 [workspace.dependencies]
-tokio = { version = "1.27.0", features = ["full"] }
+serde = { version = "1.0.217", features = ["derive"] }
 
-dotsync-plugin = { path = "plugin" }
+dotsync-plugin = { version = "0.0.1", path = "plugin" }
 
 [workspace.metadata.workspaces]
 no_individual_tags = true
@@ -48,9 +48,12 @@ tracing             = "0.1.41"
 tracing-log         = { version = "0.2.0", default-features = false, features = ["log-tracer", "std"] }
 tracing-subscriber  = "=0.3.19"
 
-tokio = { workspace = true }
+reqwest       = { version = "0.12.12", default-features = false, features = ["json", "rustls-tls"] }
+wasmtime      = "29.0.1"
+wasmtime-wasi = "29.0.1"
 
 dotsync-plugin = { workspace = true }
+serde          = { workspace = true }
 
 [dev-dependencies]
 expect-test = "1.4.1"

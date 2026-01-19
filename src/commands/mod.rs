@@ -10,9 +10,9 @@ pub enum Subcommands {
 }
 
 impl Subcommands {
-    pub(crate) async fn run(&self) -> Result {
+    pub(crate) fn run(&self) -> Result {
         match self {
-            Self::Hello(x) => x.run().await,
+            Self::Hello(x) => x.run(),
         }
     }
 }

@@ -136,87 +136,87 @@ impl OperatingSystems {
         Self(self.0 | 1 << (2 + distribution as u64))
     }
 
-    pub(crate) fn supported_os(&self) -> Vec<i32> {
+    pub fn supported_os(&self) -> Vec<i32> {
         let mut supported_os = Vec::new();
 
         if self.0 & 1 << 0 != 0 {
-            supported_os.push(OperatingSystem::MacOS);
+            supported_os.push(OperatingSystem::MacOS as i32);
         }
 
         if self.0 & 1 << 1 != 0 {
-            supported_os.push(OperatingSystem::Windows);
+            supported_os.push(OperatingSystem::Windows as i32);
         }
 
-        supported_os.iter().map(|os| *os as i32).collect()
+        supported_os
     }
 
-    pub(crate) fn supported_linux_distro(&self) -> Vec<i32> {
+    pub fn supported_linux_distro(&self) -> Vec<i32> {
         let mut supported_linux_distro = Vec::new();
 
         if self.0 & 1 << 3 != 0 {
-            supported_linux_distro.push(LinuxDistribution::Debian);
+            supported_linux_distro.push(LinuxDistribution::Debian as i32);
         }
 
         if self.0 & 1 << 4 != 0 {
-            supported_linux_distro.push(LinuxDistribution::Ubuntu);
+            supported_linux_distro.push(LinuxDistribution::Ubuntu as i32);
         }
 
         if self.0 & 1 << 5 != 0 {
-            supported_linux_distro.push(LinuxDistribution::Fedora);
+            supported_linux_distro.push(LinuxDistribution::Fedora as i32);
         }
 
         if self.0 & 1 << 6 != 0 {
-            supported_linux_distro.push(LinuxDistribution::CentOS);
+            supported_linux_distro.push(LinuxDistribution::CentOS as i32);
         }
 
         if self.0 & 1 << 7 != 0 {
-            supported_linux_distro.push(LinuxDistribution::RHEL);
+            supported_linux_distro.push(LinuxDistribution::RHEL as i32);
         }
 
         if self.0 & 1 << 8 != 0 {
-            supported_linux_distro.push(LinuxDistribution::Arch);
+            supported_linux_distro.push(LinuxDistribution::Arch as i32);
         }
 
         if self.0 & 1 << 9 != 0 {
-            supported_linux_distro.push(LinuxDistribution::Manjaro);
+            supported_linux_distro.push(LinuxDistribution::Manjaro as i32);
         }
 
         if self.0 & 1 << 10 != 0 {
-            supported_linux_distro.push(LinuxDistribution::OpenSUSE);
+            supported_linux_distro.push(LinuxDistribution::OpenSUSE as i32);
         }
 
         if self.0 & 1 << 11 != 0 {
-            supported_linux_distro.push(LinuxDistribution::Gentoo);
+            supported_linux_distro.push(LinuxDistribution::Gentoo as i32);
         }
 
         if self.0 & 1 << 12 != 0 {
-            supported_linux_distro.push(LinuxDistribution::Alpine);
+            supported_linux_distro.push(LinuxDistribution::Alpine as i32);
         }
 
         if self.0 & 1 << 13 != 0 {
-            supported_linux_distro.push(LinuxDistribution::Solus);
+            supported_linux_distro.push(LinuxDistribution::Solus as i32);
         }
 
         if self.0 & 1 << 14 != 0 {
-            supported_linux_distro.push(LinuxDistribution::Mint);
+            supported_linux_distro.push(LinuxDistribution::Mint as i32);
         }
 
         if self.0 & 1 << 15 != 0 {
-            supported_linux_distro.push(LinuxDistribution::PopOS);
+            supported_linux_distro.push(LinuxDistribution::PopOS as i32);
         }
 
         if self.0 & 1 << 16 != 0 {
-            supported_linux_distro.push(LinuxDistribution::NixOS);
+            supported_linux_distro.push(LinuxDistribution::NixOS as i32);
         }
 
         if self.0 & 1 << 17 != 0 {
-            supported_linux_distro.push(LinuxDistribution::Void);
+            supported_linux_distro.push(LinuxDistribution::Void as i32);
         }
 
         if self.0 & 1 << 18 != 0 {
-            supported_linux_distro.push(LinuxDistribution::Kali);
+            supported_linux_distro.push(LinuxDistribution::Kali as i32);
         }
 
-        supported_linux_distro.iter().map(|os| *os as i32).collect()
+        supported_linux_distro
     }
 }

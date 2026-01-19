@@ -5,12 +5,11 @@ struct Homebrew;
 
 impl Plugin for Homebrew {
     const ID: &'static str = "brew";
-
-    fn description() -> String {
-        "Homebrew plugin".to_string()
-    }
+    const DESCRIPTION: &'static str = "Homebrew plugin";
 
     fn get_supported_operating_systems() -> OperatingSystems {
         OperatingSystems::new().macos().linux_all()
     }
 }
+
+dotsync_plugin::export_plugin!(Homebrew);

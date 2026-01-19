@@ -1,11 +1,10 @@
-use crate::{
-    OperatingSystems,
-};
+use crate::OperatingSystems;
 
 pub trait Plugin: Default + Send + Sync + 'static {
     const ID: &'static str;
+    const DESCRIPTION: &'static str;
 
-    fn description() -> String;
+    const DEPENDENCIES: &'static [&'static str] = &[];
 
     fn get_supported_operating_systems() -> OperatingSystems;
 }

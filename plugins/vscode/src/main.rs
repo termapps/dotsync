@@ -5,12 +5,11 @@ struct VSCode;
 
 impl Plugin for VSCode {
     const ID: &'static str = "vscode";
-
-    fn description() -> String {
-        "VSCode plugin".to_string()
-    }
+    const DESCRIPTION: &'static str = "VSCode plugin";
 
     fn get_supported_operating_systems() -> OperatingSystems {
         OperatingSystems::all()
     }
 }
+
+dotsync_plugin::export_plugin!(VSCode);

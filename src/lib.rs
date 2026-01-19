@@ -25,8 +25,8 @@ pub struct App {
 }
 
 impl App {
-    pub async fn run(self) -> Result {
-        self.cmd.run().await
+    pub fn run(self) -> Result {
+        self.cmd.run()
     }
 
     pub fn new(cmd: Subcommands) -> Self {
