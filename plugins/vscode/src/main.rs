@@ -1,4 +1,4 @@
-use dotsync_plugin::{start, OperatingSystems, Plugin};
+use dotsync_plugin::{OperatingSystems, Plugin};
 
 #[derive(Default)]
 struct VSCode;
@@ -13,8 +13,4 @@ impl Plugin for VSCode {
     fn get_supported_operating_systems() -> OperatingSystems {
         OperatingSystems::all()
     }
-}
-
-fn main() {
-    start::<VSCode>(5051)
 }

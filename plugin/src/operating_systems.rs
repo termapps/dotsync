@@ -1,4 +1,98 @@
-use crate::{service::OperatingSystem, LinuxDistribution};
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
+#[repr(i32)]
+pub enum OperatingSystem {
+    UnspecifiedOS = 0,
+    MacOS = 1,
+    Windows = 2,
+}
+
+impl OperatingSystem {
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            OperatingSystem::UnspecifiedOS => "UNSPECIFIED_O_S",
+            OperatingSystem::MacOS => "MAC_O_S",
+            OperatingSystem::Windows => "WINDOWS",
+        }
+    }
+
+    pub fn from_str_name(value: &str) -> Option<Self> {
+        match value {
+            "UNSPECIFIED_O_S" => Some(Self::UnspecifiedOS),
+            "MAC_O_S" => Some(Self::MacOS),
+            "WINDOWS" => Some(Self::Windows),
+            _ => None,
+        }
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
+#[repr(i32)]
+pub enum LinuxDistribution {
+    UnspecifiedDistro = 0,
+    Debian = 1,
+    Ubuntu = 2,
+    Fedora = 3,
+    CentOS = 4,
+    RHEL = 5,
+    Arch = 6,
+    Manjaro = 7,
+    OpenSUSE = 8,
+    Gentoo = 9,
+    Alpine = 10,
+    Solus = 11,
+    Mint = 12,
+    PopOS = 13,
+    NixOS = 14,
+    Void = 15,
+    Kali = 16,
+}
+
+impl LinuxDistribution {
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            LinuxDistribution::UnspecifiedDistro => "UNSPECIFIED_DISTRO",
+            LinuxDistribution::Debian => "DEBIAN",
+            LinuxDistribution::Ubuntu => "UBUNTU",
+            LinuxDistribution::Fedora => "FEDORA",
+            LinuxDistribution::CentOS => "CENT_O_S",
+            LinuxDistribution::RHEL => "R_H_E_L",
+            LinuxDistribution::Arch => "ARCH",
+            LinuxDistribution::Manjaro => "MANJARO",
+            LinuxDistribution::OpenSUSE => "OPEN_S_U_S_E",
+            LinuxDistribution::Gentoo => "GENTOO",
+            LinuxDistribution::Alpine => "ALPINE",
+            LinuxDistribution::Solus => "SOLUS",
+            LinuxDistribution::Mint => "MINT",
+            LinuxDistribution::PopOS => "POP_O_S",
+            LinuxDistribution::NixOS => "NIX_O_S",
+            LinuxDistribution::Void => "VOID",
+            LinuxDistribution::Kali => "Kali",
+        }
+    }
+
+    pub fn from_str_name(value: &str) -> Option<Self> {
+        match value {
+            "UNSPECIFIED_DISTRO" => Some(Self::UnspecifiedDistro),
+            "DEBIAN" => Some(Self::Debian),
+            "UBUNTU" => Some(Self::Ubuntu),
+            "FEDORA" => Some(Self::Fedora),
+            "CENT_O_S" => Some(Self::CentOS),
+            "R_H_E_L" => Some(Self::RHEL),
+            "ARCH" => Some(Self::Arch),
+            "MANJARO" => Some(Self::Manjaro),
+            "OPEN_S_U_S_E" => Some(Self::OpenSUSE),
+            "GENTOO" => Some(Self::Gentoo),
+            "ALPINE" => Some(Self::Alpine),
+            "SOLUS" => Some(Self::Solus),
+            "MINT" => Some(Self::Mint),
+            "POP_O_S" => Some(Self::PopOS),
+            "NIX_O_S" => Some(Self::NixOS),
+            "VOID" => Some(Self::Void),
+            "Kali" => Some(Self::Kali),
+            _ => None,
+        }
+    }
+}
 
 pub struct OperatingSystems(u64);
 
