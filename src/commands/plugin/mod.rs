@@ -42,9 +42,9 @@ impl Plugin {
 
 #[derive(Clone, Debug)]
 pub struct PluginId {
-    owner: String,
-    name: String,
-    repo: String,
+    pub owner: String,
+    pub name: String,
+    pub repo: String,
 }
 
 impl FromStr for PluginId {

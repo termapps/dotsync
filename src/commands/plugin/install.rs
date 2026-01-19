@@ -1,17 +1,20 @@
 use std::{
+    collections::HashSet,
     fs::{File, create_dir_all},
     io::Write as _,
+    str::FromStr,
 };
 
 use clap::Parser;
 use eyre::eyre;
 use reqwest::Client;
 use serde::Deserialize;
-use tracing::instrument;
+use tracing::{info, instrument};
 
 use crate::{
     commands::plugin::{PluginId, plugin_path},
     error::Result,
+    runtime::PluginRuntime,
 };
 
 #[derive(Debug, Deserialize)]
@@ -34,13 +37,56 @@ pub struct Install {
 impl Install {
     #[instrument(name = "install", skip_all)]
     pub(crate) async fn run(&self) -> Result {
+        let mut installed = HashSet::new();
+
+        self.install_recursive(&self.plugin, &mut installed).await
+    }
+
+    async fn install_recursive(
+        &self,
+        plugin: &PluginId,
+        installed: &mut HashSet<String>,
+    ) -> Result {
+        let plugin_str = plugin.to_string();
+
+        if installed.contains(&plugin_str) {
+            return Ok(());
+        }
+
+        let out_path = plugin_path(plugin)?;
+
+        if out_path.exists() {
+            info!("plugin {} already installed", plugin);
+            installed.insert(plugin_str);
+            return Ok(());
+        }
+
+        info!("installing plugin {}", plugin);
+
+        self.download_plugin(plugin).await?;
+        installed.insert(plugin_str);
+
+        let runtime = PluginRuntime::new()?;
+        let mut loaded = runtime.load(&out_path)?;
+        let dependencies = loaded.dependencies()?;
+
+        for dep in dependencies {
+            let dep_id = PluginId::from_str(&dep)?;
+
+            Box::pin(self.install_recursive(&dep_id, installed)).await?;
+        }
+
+        Ok(())
+    }
+
+    async fn download_plugin(&self, plugin: &PluginId) -> Result {
         // TODO: If debug assertion (in dev), use the wasm file from `target/release`
 
         let client = Client::builder().user_agent("dotsync").build()?;
 
         let release_url = format!(
             "https://api.github.com/repos/{}/releases/latest",
-            self.plugin.repo
+            plugin.repo
         );
 
         let release: Release = client
@@ -54,13 +100,13 @@ impl Install {
         let asset = release
             .assets
             .into_iter()
-            .find(|a| a.name.starts_with(&self.plugin.name) && a.name.ends_with(".wasm"))
+            .find(|a| a.name.starts_with(&plugin.name) && a.name.ends_with(".wasm"))
             .ok_or_else(|| {
                 eyre!(
                     "no release asset found matching {}*.wasm in repo {} for plugin {}",
-                    self.plugin.name,
-                    self.plugin.repo,
-                    self.plugin,
+                    plugin.name,
+                    plugin.repo,
+                    plugin,
                 )
             })?;
 
@@ -72,7 +118,7 @@ impl Install {
             .bytes()
             .await?;
 
-        let out_path = plugin_path(&self.plugin)?;
+        let out_path = plugin_path(plugin)?;
 
         if let Some(parent) = out_path.parent() {
             create_dir_all(parent)?;

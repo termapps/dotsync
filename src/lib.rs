@@ -5,6 +5,7 @@ use colorchoice_clap::Color;
 use crate::{commands::Subcommands, error::Result};
 
 pub mod error;
+pub mod runtime;
 mod styles;
 
 pub mod commands;
