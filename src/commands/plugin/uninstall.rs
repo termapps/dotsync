@@ -21,7 +21,7 @@ pub struct Uninstall {
 
 impl Uninstall {
     #[instrument(name = "uninstall", skip_all)]
-    pub(crate) async fn run(&self) -> Result {
+    pub(crate) fn run(&self) -> Result {
         let base = plugins_dir()?;
         let owner_dir = base.join(&self.plugin.owner);
         let wasm_path = owner_dir.join(format!("{}.wasm", self.plugin.name));

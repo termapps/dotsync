@@ -1,4 +1,4 @@
-use dotsync_plugin::{Config, OperatingSystems, Plugin};
+use dotsync_plugin::{Config, OperatingSystems, Plugin, register};
 
 #[derive(Default, Config)]
 struct HomebrewConfig {}
@@ -21,4 +21,4 @@ impl Plugin for Homebrew {
     }
 }
 
-dotsync_plugin::export_plugin!(Homebrew);
+register!(Homebrew);

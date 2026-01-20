@@ -12,10 +12,10 @@ pub enum Subcommands {
 }
 
 impl Subcommands {
-    pub(crate) async fn run(&self) -> Result {
+    pub(crate) fn run(&self) -> Result {
         match self {
-            Self::Plugin(x) => x.run().await,
-            Self::Run(x) => x.run().await,
+            Self::Plugin(x) => x.run(),
+            Self::Run(x) => x.run(),
         }
     }
 }

@@ -11,7 +11,7 @@ pub struct List;
 
 impl List {
     #[instrument(name = "list", skip_all)]
-    pub(crate) async fn run(&self) -> Result {
+    pub(crate) fn run(&self) -> Result {
         let base = plugins_dir()?;
 
         if !base.exists() {

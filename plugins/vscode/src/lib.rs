@@ -1,4 +1,4 @@
-use dotsync_plugin::{Config, OperatingSystems, Plugin};
+use dotsync_plugin::{Config, OperatingSystems, Plugin, register};
 
 #[derive(Default, Config)]
 struct VSCodeConfig {}
@@ -21,4 +21,4 @@ impl Plugin for VSCode {
     }
 }
 
-dotsync_plugin::export_plugin!(VSCode);
+register!(VSCode);

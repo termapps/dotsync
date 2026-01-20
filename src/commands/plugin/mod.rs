@@ -31,11 +31,11 @@ pub enum Subcommands {
 
 impl Plugin {
     #[instrument(name = "plugin", skip_all)]
-    pub(crate) async fn run(&self) -> Result {
+    pub(crate) fn run(&self) -> Result {
         match &self.cmd {
-            Subcommands::Install(x) => x.run().await,
-            Subcommands::Uninstall(x) => x.run().await,
-            Subcommands::List(x) => x.run().await,
+            Subcommands::Install(x) => x.run(),
+            Subcommands::Uninstall(x) => x.run(),
+            Subcommands::List(x) => x.run(),
         }
     }
 }

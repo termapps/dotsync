@@ -1,21 +1,21 @@
 use std::collections::HashMap;
 
-use dotsync_plugin::{Config, OperatingSystems, Plugin};
+use dotsync_plugin::{Config, OperatingSystems, Plugin, register};
 
 #[derive(Default, Config)]
-struct CmdConfig {
+struct CommandConfig {
     env: Option<HashMap<String, String>>,
     commands: Vec<String>,
 }
 
 #[derive(Default)]
-struct Cmd;
+struct Command;
 
-impl Plugin for Cmd {
-    const ID: &'static str = "cmd";
+impl Plugin for Command {
+    const ID: &'static str = "command";
     const DESCRIPTION: &'static str = "Command runner plugin";
 
-    type Config = CmdConfig;
+    type Config = CommandConfig;
 
     fn get_supported_operating_systems() -> OperatingSystems {
         OperatingSystems::all()
@@ -23,13 +23,15 @@ impl Plugin for Cmd {
 
     fn run(&mut self, config: Self::Config) -> Result<(), String> {
         let env_map = config.env.unwrap_or_default();
-        let env: Vec<(&str, &str)> = env_map
+
+        let env = env_map
             .iter()
             .map(|(k, v)| (k.as_str(), v.as_str()))
-            .collect();
+            .collect::<Vec<_>>();
 
         for command in config.commands {
             let output = dotsync_plugin::run_command(&command, &env)?;
+
             if !output.success() {
                 return Err(format!(
                     "command `{}` failed with exit code {:?}\nstderr: {}",
@@ -37,8 +39,9 @@ impl Plugin for Cmd {
                 ));
             }
         }
+
         Ok(())
     }
 }
 
-dotsync_plugin::export_plugin!(Cmd);
+register!(Command);

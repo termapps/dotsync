@@ -2,6 +2,8 @@ use proc_macro::TokenStream;
 use quote::{format_ident, quote};
 use syn::{Data, DeriveInput, Fields, parse_macro_input};
 
+// TODO: Can simply add more attributes instead of doing all this.
+
 #[proc_macro_derive(Config)]
 pub fn derive_config(input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as DeriveInput);
@@ -49,13 +51,13 @@ pub fn derive_config(input: TokenStream) -> TokenStream {
         }
 
         impl ::dotsync_plugin::schemars::JsonSchema for #name {
-            fn schema_name() -> ::std::string::String {
-                ::std::string::String::from(stringify!(#name))
+            fn schema_name() -> ::dotsync_plugin::schemars::_private::alloc::borrow::Cow<'static, str> {
+                ::dotsync_plugin::schemars::_private::alloc::borrow::Cow::Borrowed(stringify!(#name))
             }
 
             fn json_schema(
-                generator: &mut ::dotsync_plugin::schemars::r#gen::SchemaGenerator,
-            ) -> ::dotsync_plugin::schemars::schema::Schema {
+                generator: &mut ::dotsync_plugin::schemars::generate::SchemaGenerator,
+            ) -> ::dotsync_plugin::schemars::Schema {
                 #[derive(::dotsync_plugin::schemars::JsonSchema)]
                 #[schemars(crate = "::dotsync_plugin::schemars")]
                 struct #inner_name {

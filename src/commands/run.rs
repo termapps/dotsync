@@ -1,13 +1,11 @@
-use std::{fs::read_to_string, str::FromStr};
+use std::{fs::read_to_string, str::FromStr, sync::Arc};
 
 use clap::Parser;
 use serde::Deserialize;
 use serde_json::Value;
 use tracing::{info, instrument};
 
-use crate::commands::plugin::{PluginId, install::Install, plugin_path};
-use crate::error::Result;
-use crate::runtime::{Host, PluginRuntime};
+use crate::{commands::plugin::PluginId, error::Result, runtime::Runtime};
 
 #[derive(Debug, Deserialize)]
 struct Config {
@@ -25,105 +23,21 @@ struct PluginEntry {
 #[derive(Debug, Parser)]
 pub struct Run;
 
-struct Executor {
-    runtime: PluginRuntime,
-}
-
-impl Executor {
-    fn run_plugin(&self, plugin_id: &PluginId, config_json: &str) -> Result<()> {
-        tokio::task::block_in_place(|| {
-            tokio::runtime::Handle::current().block_on(async {
-                let install = Install {
-                    plugin: plugin_id.clone(),
-                };
-                install.run().await
-            })
-        })?;
-
-        let out_path = plugin_path(plugin_id)?;
-        let host = SubrunHost {
-            executor: self,
-        };
-
-        let mut loaded = self.runtime.load(&out_path, host)?;
-
-        info!("running plugin {}", plugin_id);
-        loaded.run(config_json)
-    }
-}
-
-struct SubrunHost<'a> {
-    executor: &'a Executor,
-}
-
-impl Host for SubrunHost<'_> {
-    fn subrun(&mut self, plugin_id: String, config_json: String) -> std::result::Result<(), String> {
-        let id = PluginId::from_str(&plugin_id).map_err(|e| e.to_string())?;
-
-        self.executor
-            .run_plugin(&id, &config_json)
-            .map_err(|e| e.to_string())
-    }
-
-    fn run_command(
-        &mut self,
-        command: String,
-        env: Vec<(String, String)>,
-    ) -> std::result::Result<crate::runtime::CommandOutput, String> {
-        use std::process::Command;
-
-        let output = Command::new("sh")
-            .arg("-c")
-            .arg(&command)
-            .envs(env)
-            .output()
-            .map_err(|e| format!("failed to execute command: {}", e))?;
-
-        Ok(crate::runtime::CommandOutput {
-            stdout: String::from_utf8_lossy(&output.stdout).into_owned(),
-            stderr: String::from_utf8_lossy(&output.stderr).into_owned(),
-            exit_code: output.status.code(),
-        })
-    }
-
-    fn resolve_path(&mut self, path: String) -> std::result::Result<String, String> {
-        use std::path::PathBuf;
-
-        let p = PathBuf::from(&path);
-
-        let parent = p.parent().unwrap_or(std::path::Path::new("."));
-        let base = p.file_name();
-
-        let parent_real = std::fs::canonicalize(parent)
-            .map_err(|e| format!("failed to resolve path '{}': {}", path, e))?;
-
-        let abs = match base {
-            Some(name) => parent_real.join(name),
-            None => parent_real,
-        };
-
-        abs.to_str()
-            .map(|s| s.to_string())
-            .ok_or_else(|| format!("path '{}' contains non-UTF8 characters", path))
-    }
-}
-
 impl Run {
     #[instrument(name = "run", skip_all)]
-    pub(crate) async fn run(&self) -> Result {
+    pub(crate) fn run(&self) -> Result {
         let content = read_to_string("config.json")?;
         let config = serde_json::from_str::<Config>(&content)?;
 
         info!("found {} plugins in config", config.plugins.len());
 
-        let runtime = PluginRuntime::new()?;
-        let executor = Executor { runtime };
+        let runtime = Arc::new(Runtime::default());
 
         for entry in &config.plugins {
             let plugin_id = PluginId::from_str(&entry.id)?;
             let config_json = serde_json::to_string(&entry.config)?;
 
-            executor.run_plugin(&plugin_id, &config_json)?;
+            runtime.run_plugin(&plugin_id, &config_json)?;
         }
 
         Ok(())

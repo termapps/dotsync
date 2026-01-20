@@ -1,18 +1,17 @@
+pub use dotsync_macros::Config;
+pub use schemars;
+pub use serde;
+
 mod operating_systems;
 mod plugin;
 
 pub use operating_systems::{LinuxDistribution, OperatingSystem, OperatingSystems};
 pub use plugin::Plugin;
 
-pub use dotsync_macros::Config;
-pub use schemars;
-pub use serde;
-
 #[cfg(target_arch = "wasm32")]
 pub mod bindings {
     wit_bindgen::generate!({
         world: "plugin",
-        path: "wit",
     });
 }
 
@@ -49,10 +48,11 @@ impl CommandOutput {
 
 #[cfg(target_arch = "wasm32")]
 pub fn run_command(command: &str, env: &[(&str, &str)]) -> Result<CommandOutput, String> {
-    let env: Vec<(String, String)> = env
+    let env = env
         .iter()
         .map(|(k, v)| (k.to_string(), v.to_string()))
-        .collect();
+        .collect::<Vec<_>>();
+
     bindings::dotsync::plugin::host::run_command(command, &env).map(|o| CommandOutput {
         stdout: o.stdout,
         stderr: o.stderr,
@@ -117,7 +117,7 @@ pub fn map_linux_distro(
 
 #[macro_export]
 #[cfg(target_arch = "wasm32")]
-macro_rules! export_plugin {
+macro_rules! register {
     ($plugin_type:ty) => {
         fn main() {}
 
@@ -182,7 +182,7 @@ macro_rules! export_plugin {
 
 #[macro_export]
 #[cfg(not(target_arch = "wasm32"))]
-macro_rules! export_plugin {
+macro_rules! register {
     ($plugin_type:ty) => {
         fn main() {}
     };

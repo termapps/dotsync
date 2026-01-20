@@ -5,10 +5,11 @@ use colorchoice_clap::Color;
 use crate::{commands::Subcommands, error::Result};
 
 pub mod error;
-pub mod runtime;
 mod styles;
 
 pub mod commands;
+
+mod runtime;
 
 /// Command line utility to manage dotfiles
 #[derive(Debug, Parser)]
@@ -26,8 +27,8 @@ pub struct App {
 }
 
 impl App {
-    pub async fn run(self) -> Result {
-        self.cmd.run().await
+    pub fn run(self) -> Result {
+        self.cmd.run()
     }
 
     pub fn new(cmd: Subcommands) -> Self {

@@ -1,5 +1,5 @@
 [package]
-name    = "dotsync-plugin-cmd"
+name    = "dotsync-plugin-command"
 version = "0.0.1"
 
 description = "Command runner plugin for dotsync"

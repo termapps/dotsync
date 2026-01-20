@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use dotsync_plugin::{Config, OperatingSystems, Plugin};
+use dotsync_plugin::{Config, OperatingSystems, Plugin, register};
 
 #[derive(Default, Config)]
 struct LinkConfig {
@@ -46,4 +46,4 @@ impl Plugin for Link {
     }
 }
 
-dotsync_plugin::export_plugin!(Link);
+register!(Link);

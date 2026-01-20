@@ -3,39 +3,20 @@ use std::{
     fs::{File, create_dir_all},
     io::Write as _,
     str::FromStr,
+    sync::Arc,
 };
 
 use clap::Parser;
 use eyre::eyre;
-use reqwest::Client;
+use reqwest::blocking::Client;
 use serde::Deserialize;
 use tracing::{info, instrument};
 
 use crate::{
     commands::plugin::{PluginId, plugin_path},
     error::Result,
-    runtime::{Host, PluginRuntime},
+    runtime::Runtime,
 };
-
-struct NoopHost;
-
-impl Host for NoopHost {
-    fn subrun(&mut self, _plugin_id: String, _config_json: String) -> std::result::Result<(), String> {
-        Err("subrun not available during install".to_string())
-    }
-
-    fn run_command(
-        &mut self,
-        _command: String,
-        _env: Vec<(String, String)>,
-    ) -> std::result::Result<crate::runtime::CommandOutput, String> {
-        Err("run_command not available during install".to_string())
-    }
-
-    fn resolve_path(&mut self, _path: String) -> std::result::Result<String, String> {
-        Err("resolve_path not available during install".to_string())
-    }
-}
 
 #[derive(Debug, Deserialize)]
 struct Release {
@@ -56,17 +37,13 @@ pub struct Install {
 
 impl Install {
     #[instrument(name = "install", skip_all)]
-    pub(crate) async fn run(&self) -> Result {
+    pub(crate) fn run(&self) -> Result {
         let mut installed = HashSet::new();
 
-        self.install_recursive(&self.plugin, &mut installed).await
+        self.install_recursive(&self.plugin, &mut installed)
     }
 
-    async fn install_recursive(
-        &self,
-        plugin: &PluginId,
-        installed: &mut HashSet<String>,
-    ) -> Result {
+    fn install_recursive(&self, plugin: &PluginId, installed: &mut HashSet<String>) -> Result {
         let plugin_str = plugin.to_string();
 
         if installed.contains(&plugin_str) {
@@ -83,23 +60,25 @@ impl Install {
 
         info!("installing plugin {}", plugin);
 
-        self.download_plugin(plugin).await?;
+        self.download_plugin(plugin)?;
         installed.insert(plugin_str);
 
-        let runtime = PluginRuntime::new()?;
-        let mut loaded = runtime.load(&out_path, NoopHost)?;
-        let dependencies = loaded.dependencies()?;
+        let runtime = Arc::new(Runtime::default());
+
+        let mut plugin = runtime.load_plugin(plugin)?;
+
+        let dependencies = plugin.dependencies()?;
 
         for dep in dependencies {
             let dep_id = PluginId::from_str(&dep)?;
 
-            Box::pin(self.install_recursive(&dep_id, installed)).await?;
+            self.install_recursive(&dep_id, installed)?;
         }
 
         Ok(())
     }
 
-    async fn download_plugin(&self, plugin: &PluginId) -> Result {
+    fn download_plugin(&self, plugin: &PluginId) -> Result {
         // TODO: If debug assertion (in dev), use the wasm file from `target/release`
 
         let client = Client::builder().user_agent("dotsync").build()?;
@@ -109,13 +88,7 @@ impl Install {
             plugin.repo
         );
 
-        let release: Release = client
-            .get(release_url)
-            .send()
-            .await?
-            .error_for_status()?
-            .json()
-            .await?;
+        let release: Release = client.get(release_url).send()?.error_for_status()?.json()?;
 
         let asset = release
             .assets
@@ -132,11 +105,9 @@ impl Install {
 
         let bytes = client
             .get(asset.browser_download_url)
-            .send()
-            .await?
+            .send()?
             .error_for_status()?
-            .bytes()
-            .await?;
+            .bytes()?;
 
         let out_path = plugin_path(plugin)?;
 
