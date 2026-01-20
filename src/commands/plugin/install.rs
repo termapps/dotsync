@@ -32,6 +32,7 @@ struct Asset {
 /// Installs a plugin
 #[derive(Debug, Parser)]
 pub struct Install {
+    /// Identifier of the plugin
     pub plugin: PluginId,
 }
 

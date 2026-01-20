@@ -53,5 +53,6 @@ world plugin {
   export supported-linux-distributions: func() -> list<linux-distribution>;
 
   export config-schema: func() -> string;
+  export import-config: func() -> result<string, string>;
   export run: func(config-json: string) -> result<_, string>;
 }

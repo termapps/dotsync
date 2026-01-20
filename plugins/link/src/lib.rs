@@ -26,6 +26,7 @@ impl Plugin for Link {
 
             let mkdir = format!("mkdir -p \"$(dirname '{}')\"", target);
             let output = dotsync_plugin::run_command(&mkdir, &[])?;
+
             if !output.success() {
                 return Err(format!(
                     "failed to create parent directory for {}: {}",
@@ -35,6 +36,7 @@ impl Plugin for Link {
 
             let ln = format!("ln -sf '{}' '{}'", abs_source, target);
             let output = dotsync_plugin::run_command(&ln, &[])?;
+
             if !output.success() {
                 return Err(format!(
                     "failed to create symlink {} -> {}: {}",

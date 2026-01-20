@@ -167,6 +167,13 @@ macro_rules! register {
                 <$plugin_type as $crate::Plugin>::config_schema()
             }
 
+            fn import_config() -> Result<String, String> {
+                let mut plugin = <$plugin_type as Default>::default();
+                let config = plugin.import()?;
+                $crate::__internal_serde_json::to_string(&config)
+                    .map_err(|e| format!("failed to serialize config: {e}"))
+            }
+
             fn run(config_json: String) -> Result<(), String> {
                 let cfg = $crate::__internal_serde_json::from_str::<
                     <$plugin_type as $crate::Plugin>::Config,

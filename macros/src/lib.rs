@@ -27,6 +27,8 @@ pub fn derive_config(input: TokenStream) -> TokenStream {
         Fields::Unit => vec![],
     };
 
+    let field_count = field_names.len();
+
     let from_inner = if field_names.is_empty() {
         quote! { #name {} }
     } else {
@@ -47,6 +49,18 @@ pub fn derive_config(input: TokenStream) -> TokenStream {
 
                 let inner = <#inner_name as ::dotsync_plugin::serde::Deserialize>::deserialize(deserializer)?;
                 Ok(#from_inner)
+            }
+        }
+
+        impl ::dotsync_plugin::serde::Serialize for #name {
+            fn serialize<S>(&self, serializer: S) -> ::core::result::Result<S::Ok, S::Error>
+            where
+                S: ::dotsync_plugin::serde::Serializer,
+            {
+                use ::dotsync_plugin::serde::ser::SerializeStruct;
+                let mut state = serializer.serialize_struct(stringify!(#name), #field_count)?;
+                #( state.serialize_field(stringify!(#field_names), &self.#field_names)?; )*
+                state.end()
             }
         }
 

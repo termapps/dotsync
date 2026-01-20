@@ -16,6 +16,7 @@ use crate::{
 /// Uninstalls a plugin
 #[derive(Debug, Parser)]
 pub struct Uninstall {
+    /// Identifier of the plugin
     pub plugin: PluginId,
 }
 
