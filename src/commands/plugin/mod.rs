@@ -40,7 +40,7 @@ impl Plugin {
     }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
 pub struct PluginId {
     pub owner: String,
     pub name: String,
@@ -90,7 +90,7 @@ fn plugins_dir() -> Result<PathBuf> {
     Ok(base)
 }
 
-fn plugin_path(id: &PluginId) -> Result<PathBuf> {
+pub fn plugin_path(id: &PluginId) -> Result<PathBuf> {
     let mut base = plugins_dir()?;
 
     base.push(&id.owner);

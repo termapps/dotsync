@@ -4,6 +4,10 @@ mod plugin;
 pub use operating_systems::{LinuxDistribution, OperatingSystem, OperatingSystems};
 pub use plugin::Plugin;
 
+pub use dotsync_macros::Config;
+pub use schemars;
+pub use serde;
+
 #[cfg(target_arch = "wasm32")]
 pub mod bindings {
     wit_bindgen::generate!({
@@ -15,6 +19,21 @@ pub mod bindings {
 #[cfg(target_arch = "wasm32")]
 #[doc(hidden)]
 pub use bindings as __internal_bindings;
+
+#[cfg(target_arch = "wasm32")]
+#[doc(hidden)]
+pub use serde_json as __internal_serde_json;
+
+#[cfg(target_arch = "wasm32")]
+pub fn subrun<C: serde::Serialize>(plugin_id: &str, config: &C) -> Result<(), String> {
+    let config_json = serde_json::to_string(config).map_err(|e| e.to_string())?;
+    bindings::dotsync::plugin::host::subrun(plugin_id, &config_json)
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+pub fn subrun<C: serde::Serialize>(_plugin_id: &str, _config: &C) -> Result<(), String> {
+    Err("subrun is only available in wasm plugins".to_string())
+}
 
 #[cfg(target_arch = "wasm32")]
 #[doc(hidden)]
@@ -102,6 +121,20 @@ macro_rules! export_plugin {
                     .into_iter()
                     .map(|s| $crate::map_linux_distro(s))
                     .collect()
+            }
+
+            fn config_schema() -> String {
+                <$plugin_type as $crate::Plugin>::config_schema()
+            }
+
+            fn run(config_json: String) -> Result<(), String> {
+                let cfg = $crate::__internal_serde_json::from_str::<
+                    <$plugin_type as $crate::Plugin>::Config,
+                >(&config_json)
+                .map_err(|e| format!("invalid config JSON: {e}"))?;
+
+                let mut plugin = <$plugin_type as Default>::default();
+                plugin.run(cfg)
             }
         }
     };

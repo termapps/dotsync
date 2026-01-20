@@ -1,8 +1,8 @@
 [package]
-name    = "dotsync-plugin"
+name    = "dotsync-macros"
 version = "0.0.1"
 
-description = "Plugin framework for dotsync"
+description = "Proc macros for dotsync"
 
 authors      = { workspace = true }
 categories   = { workspace = true }
@@ -13,11 +13,10 @@ readme       = { workspace = true }
 repository   = { workspace = true }
 rust-version = { workspace = true }
 
+[lib]
+proc-macro = true
+
 [dependencies]
-dotsync-macros = { workspace = true }
-
-serde      = { workspace = true }
-serde_json = { workspace = true }
-
-schemars    = "0.8"
-wit-bindgen = "0.36.0"
+proc-macro2 = "1"
+quote       = "1"
+syn         = "2"

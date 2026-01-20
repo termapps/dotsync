@@ -14,8 +14,16 @@ use tracing::{info, instrument};
 use crate::{
     commands::plugin::{PluginId, plugin_path},
     error::Result,
-    runtime::PluginRuntime,
+    runtime::{Host, PluginRuntime},
 };
+
+struct NoopHost;
+
+impl Host for NoopHost {
+    fn subrun(&mut self, _plugin_id: String, _config_json: String) -> std::result::Result<(), String> {
+        Err("subrun not available during install".to_string())
+    }
+}
 
 #[derive(Debug, Deserialize)]
 struct Release {
@@ -67,7 +75,7 @@ impl Install {
         installed.insert(plugin_str);
 
         let runtime = PluginRuntime::new()?;
-        let mut loaded = runtime.load(&out_path)?;
+        let mut loaded = runtime.load(&out_path, NoopHost)?;
         let dependencies = loaded.dependencies()?;
 
         for dep in dependencies {

@@ -28,12 +28,21 @@ interface operating-systems {
   }
 }
 
+interface host {
+  subrun: func(plugin-id: string, config-json: string) -> result<_, string>;
+}
+
 world plugin {
   use operating-systems.{operating-system, linux-distribution};
+
+  import host;
 
   export id: func() -> string;
   export description: func() -> string;
   export dependencies: func() -> list<string>;
   export supported-operating-systems: func() -> list<operating-system>;
   export supported-linux-distributions: func() -> list<linux-distribution>;
+
+  export config-schema: func() -> string;
+  export run: func(config-json: string) -> result<_, string>;
 }
