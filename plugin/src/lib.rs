@@ -35,6 +35,36 @@ pub fn subrun<C: serde::Serialize>(_plugin_id: &str, _config: &C) -> Result<(), 
     Err("subrun is only available in wasm plugins".to_string())
 }
 
+pub struct CommandOutput {
+    pub stdout: String,
+    pub stderr: String,
+    pub exit_code: Option<i32>,
+}
+
+impl CommandOutput {
+    pub fn success(&self) -> bool {
+        self.exit_code == Some(0)
+    }
+}
+
+#[cfg(target_arch = "wasm32")]
+pub fn run_command(command: &str, env: &[(&str, &str)]) -> Result<CommandOutput, String> {
+    let env: Vec<(String, String)> = env
+        .iter()
+        .map(|(k, v)| (k.to_string(), v.to_string()))
+        .collect();
+    bindings::dotsync::plugin::host::run_command(command, &env).map(|o| CommandOutput {
+        stdout: o.stdout,
+        stderr: o.stderr,
+        exit_code: o.exit_code,
+    })
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+pub fn run_command(_command: &str, _env: &[(&str, &str)]) -> Result<CommandOutput, String> {
+    Err("run_command is only available in wasm plugins".to_string())
+}
+
 #[cfg(target_arch = "wasm32")]
 #[doc(hidden)]
 pub fn map_operating_system(

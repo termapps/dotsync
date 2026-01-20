@@ -16,7 +16,7 @@ mod bindings {
     });
 }
 
-pub use bindings::dotsync::plugin::host::Host;
+pub use bindings::dotsync::plugin::host::{CommandOutput, Host};
 use bindings::Plugin;
 
 pub struct PluginState<H: Host> {
@@ -42,6 +42,14 @@ impl<H: Host> Host for PluginState<H> {
         config_json: String,
     ) -> std::result::Result<(), String> {
         self.host.subrun(plugin_id, config_json)
+    }
+
+    fn run_command(
+        &mut self,
+        command: String,
+        env: Vec<(String, String)>,
+    ) -> std::result::Result<CommandOutput, String> {
+        self.host.run_command(command, env)
     }
 }
 

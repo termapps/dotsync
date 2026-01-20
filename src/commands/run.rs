@@ -64,6 +64,27 @@ impl Host for SubrunHost<'_> {
             .run_plugin(&id, &config_json)
             .map_err(|e| e.to_string())
     }
+
+    fn run_command(
+        &mut self,
+        command: String,
+        env: Vec<(String, String)>,
+    ) -> std::result::Result<crate::runtime::CommandOutput, String> {
+        use std::process::Command;
+
+        let output = Command::new("sh")
+            .arg("-c")
+            .arg(&command)
+            .envs(env)
+            .output()
+            .map_err(|e| format!("failed to execute command: {}", e))?;
+
+        Ok(crate::runtime::CommandOutput {
+            stdout: String::from_utf8_lossy(&output.stdout).into_owned(),
+            stderr: String::from_utf8_lossy(&output.stderr).into_owned(),
+            exit_code: output.status.code(),
+        })
+    }
 }
 
 impl Run {

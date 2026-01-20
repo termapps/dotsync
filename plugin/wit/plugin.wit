@@ -29,7 +29,14 @@ interface operating-systems {
 }
 
 interface host {
+  record command-output {
+    stdout: string,
+    stderr: string,
+    exit-code: option<s32>,
+  }
+
   subrun: func(plugin-id: string, config-json: string) -> result<_, string>;
+  run-command: func(command: string, env: list<tuple<string, string>>) -> result<command-output, string>;
 }
 
 world plugin {

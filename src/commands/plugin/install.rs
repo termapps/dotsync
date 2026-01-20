@@ -23,6 +23,14 @@ impl Host for NoopHost {
     fn subrun(&mut self, _plugin_id: String, _config_json: String) -> std::result::Result<(), String> {
         Err("subrun not available during install".to_string())
     }
+
+    fn run_command(
+        &mut self,
+        _command: String,
+        _env: Vec<(String, String)>,
+    ) -> std::result::Result<crate::runtime::CommandOutput, String> {
+        Err("run_command not available during install".to_string())
+    }
 }
 
 #[derive(Debug, Deserialize)]

@@ -677,6 +677,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "dotsync-plugin-cmd"
+version = "0.0.1"
+dependencies = [
+ "dotsync-plugin",
+]
+
+[[package]]
 name = "dotsync-plugin-homebrew"
 version = "0.0.1"
 dependencies = [
