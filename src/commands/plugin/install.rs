@@ -31,6 +31,10 @@ impl Host for NoopHost {
     ) -> std::result::Result<crate::runtime::CommandOutput, String> {
         Err("run_command not available during install".to_string())
     }
+
+    fn resolve_path(&mut self, _path: String) -> std::result::Result<String, String> {
+        Err("resolve_path not available during install".to_string())
+    }
 }
 
 #[derive(Debug, Deserialize)]

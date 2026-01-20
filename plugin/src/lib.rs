@@ -66,6 +66,16 @@ pub fn run_command(_command: &str, _env: &[(&str, &str)]) -> Result<CommandOutpu
 }
 
 #[cfg(target_arch = "wasm32")]
+pub fn resolve_path(path: &str) -> Result<String, String> {
+    bindings::dotsync::plugin::host::resolve_path(path)
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+pub fn resolve_path(_path: &str) -> Result<String, String> {
+    Err("resolve_path is only available in wasm plugins".to_string())
+}
+
+#[cfg(target_arch = "wasm32")]
 #[doc(hidden)]
 pub fn map_operating_system(
     i: i32,

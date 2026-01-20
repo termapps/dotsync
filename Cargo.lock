@@ -691,6 +691,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "dotsync-plugin-link"
+version = "0.0.1"
+dependencies = [
+ "dotsync-plugin",
+]
+
+[[package]]
 name = "dotsync-plugin-vscode"
 version = "0.0.1"
 dependencies = [

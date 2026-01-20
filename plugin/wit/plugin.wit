@@ -37,6 +37,7 @@ interface host {
 
   subrun: func(plugin-id: string, config-json: string) -> result<_, string>;
   run-command: func(command: string, env: list<tuple<string, string>>) -> result<command-output, string>;
+  resolve-path: func(path: string) -> result<string, string>;
 }
 
 world plugin {

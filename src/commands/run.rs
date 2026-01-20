@@ -85,6 +85,27 @@ impl Host for SubrunHost<'_> {
             exit_code: output.status.code(),
         })
     }
+
+    fn resolve_path(&mut self, path: String) -> std::result::Result<String, String> {
+        use std::path::PathBuf;
+
+        let p = PathBuf::from(&path);
+
+        let parent = p.parent().unwrap_or(std::path::Path::new("."));
+        let base = p.file_name();
+
+        let parent_real = std::fs::canonicalize(parent)
+            .map_err(|e| format!("failed to resolve path '{}': {}", path, e))?;
+
+        let abs = match base {
+            Some(name) => parent_real.join(name),
+            None => parent_real,
+        };
+
+        abs.to_str()
+            .map(|s| s.to_string())
+            .ok_or_else(|| format!("path '{}' contains non-UTF8 characters", path))
+    }
 }
 
 impl Run {

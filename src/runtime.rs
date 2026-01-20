@@ -51,6 +51,10 @@ impl<H: Host> Host for PluginState<H> {
     ) -> std::result::Result<CommandOutput, String> {
         self.host.run_command(command, env)
     }
+
+    fn resolve_path(&mut self, path: String) -> std::result::Result<String, String> {
+        self.host.resolve_path(path)
+    }
 }
 
 pub struct PluginRuntime {
