@@ -1,6 +1,6 @@
-use dotsync_plugin::{Config, OperatingSystems, Plugin, register};
+use dotsync_plugin::{OperatingSystems, Plugin, config, register};
 
-#[derive(Default, Config)]
+#[config]
 struct VSCodeConfig {}
 
 #[derive(Default)]

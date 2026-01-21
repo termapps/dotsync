@@ -1,4 +1,4 @@
-pub use dotsync_macros::Config;
+pub use dotsync_macros::config;
 pub use schemars;
 pub use serde;
 

@@ -1,8 +1,8 @@
 use std::collections::HashMap;
 
-use dotsync_plugin::{Config, OperatingSystems, Plugin, register};
+use dotsync_plugin::{OperatingSystems, Plugin, config, register};
 
-#[derive(Default, Config)]
+#[config]
 struct LinkConfig {
     links: HashMap<String, String>,
 }
