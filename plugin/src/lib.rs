@@ -12,6 +12,7 @@ pub use plugin::Plugin;
 pub mod bindings {
     wit_bindgen::generate!({
         world: "plugin",
+        pub_export_macro: true,
     });
 }
 
@@ -119,8 +120,6 @@ pub fn map_linux_distro(
 #[cfg(target_arch = "wasm32")]
 macro_rules! register {
     ($plugin_type:ty) => {
-        fn main() {}
-
         struct WasmPlugin;
 
         use $crate::__internal_bindings::dotsync::plugin::operating_systems::{
@@ -184,13 +183,7 @@ macro_rules! register {
                 plugin.run(cfg)
             }
         }
-    };
-}
 
-#[macro_export]
-#[cfg(not(target_arch = "wasm32"))]
-macro_rules! register {
-    ($plugin_type:ty) => {
-        fn main() {}
+        $crate::__internal_bindings::export!(WasmPlugin with_types_in $crate::__internal_bindings);
     };
 }

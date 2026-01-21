@@ -9,6 +9,7 @@ struct VSCode;
 impl Plugin for VSCode {
     const ID: &'static str = "vscode";
     const DESCRIPTION: &'static str = "VSCode plugin";
+    const DEPENDENCIES: &'static [&'static str] = &["link"];
 
     type Config = VSCodeConfig;
 

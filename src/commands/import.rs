@@ -16,7 +16,7 @@ impl Import {
     #[instrument(name = "import", skip_all)]
     pub(crate) fn run(&self) -> Result {
         let runtime = Arc::new(Runtime::default());
-        let mut plugin = runtime.load_plugin(&self.plugin)?;
+        let mut plugin = runtime.load_plugin_with_install(&self.plugin)?;
 
         info!("importing configuration for plugin {}", self.plugin);
 

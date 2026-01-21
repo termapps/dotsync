@@ -6,6 +6,9 @@ use std::{
     sync::Arc,
 };
 
+use wasmtime::component::ResourceTable;
+use wasmtime_wasi::{WasiCtx, WasiCtxBuilder, WasiCtxView, WasiView};
+
 use crate::{
     commands::plugin::PluginId,
     runtime::{CommandOutput, Host, Runtime},
@@ -13,11 +16,26 @@ use crate::{
 
 pub(crate) struct State {
     executor: Arc<Runtime>,
+    ctx: WasiCtx,
+    table: ResourceTable,
 }
 
 impl State {
     pub(crate) fn new(executor: Arc<Runtime>) -> Self {
-        Self { executor }
+        Self {
+            executor,
+            ctx: WasiCtxBuilder::new().build(),
+            table: ResourceTable::new(),
+        }
+    }
+}
+
+impl WasiView for State {
+    fn ctx(&mut self) -> WasiCtxView<'_> {
+        WasiCtxView {
+            ctx: &mut self.ctx,
+            table: &mut self.table,
+        }
     }
 }
 

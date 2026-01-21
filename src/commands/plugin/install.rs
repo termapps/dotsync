@@ -5,6 +5,13 @@ use std::{
     str::FromStr,
     sync::Arc,
 };
+#[cfg(debug_assertions)]
+use std::{
+    env::current_dir,
+    fs::copy,
+    path::Path,
+    process::{Command, Stdio},
+};
 
 use clap::Parser;
 use eyre::eyre;
@@ -34,6 +41,10 @@ struct Asset {
 pub struct Install {
     /// Identifier of the plugin
     pub plugin: PluginId,
+
+    /// Force upgrade plugin
+    #[arg(short, long)]
+    pub force: bool,
 }
 
 impl Install {
@@ -53,7 +64,7 @@ impl Install {
 
         let out_path = plugin_path(plugin)?;
 
-        if out_path.exists() {
+        if out_path.exists() && !cfg!(debug_assertions) && !self.force {
             info!("plugin {} already installed", plugin);
             installed.insert(plugin_str);
             return Ok(());
@@ -80,7 +91,15 @@ impl Install {
     }
 
     fn download_plugin(&self, plugin: &PluginId) -> Result {
-        // TODO: If debug assertion (in dev), use the wasm file from `target/release`
+        let out_path = plugin_path(plugin)?;
+
+        if let Some(parent) = out_path.parent() {
+            create_dir_all(parent)?;
+        }
+
+        if cfg!(debug_assertions) && plugin.owner == "dotsync" {
+            return self.copy_local_plugin(plugin, &out_path);
+        }
 
         let client = Client::builder().user_agent("dotsync").build()?;
 
@@ -110,16 +129,35 @@ impl Install {
             .error_for_status()?
             .bytes()?;
 
-        let out_path = plugin_path(plugin)?;
-
-        if let Some(parent) = out_path.parent() {
-            create_dir_all(parent)?;
-        }
-
         let mut file = File::create(&out_path)?;
 
         file.write_all(&bytes)?;
         file.flush()?;
+
+        Ok(())
+    }
+
+    #[cfg(debug_assertions)]
+    fn copy_local_plugin(&self, plugin: &PluginId, out_path: &Path) -> Result {
+        let package = format!("dotsync-plugin-{}", plugin.name);
+
+        let status = Command::new("cargo")
+            .args(["build", "-p", &package, "--target", "wasm32-wasip2"])
+            .stdout(Stdio::inherit())
+            .stderr(Stdio::inherit())
+            .status()?;
+
+        if !status.success() {
+            return Err(eyre!("failed to build plugin {}", package));
+        }
+
+        let src_path = current_dir()?
+            .join("target")
+            .join("wasm32-wasip2")
+            .join("debug")
+            .join(format!("dotsync_plugin_{}.wasm", plugin.name));
+
+        copy(&src_path, &out_path)?;
 
         Ok(())
     }

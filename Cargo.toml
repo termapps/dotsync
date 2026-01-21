@@ -54,9 +54,10 @@ dotsync-plugin = { workspace = true }
 serde          = { workspace = true }
 serde_json     = { workspace = true }
 
-dirs     = "6.0.0"
-reqwest  = { version = "0.13.1", features = ["blocking", "json"] }
-wasmtime = "41.0.0"
+dirs          = "6.0.0"
+reqwest       = { version = "0.13.1", features = ["blocking", "json"] }
+wasmtime      = "41.0.0"
+wasmtime-wasi = "41.0.0"
 
 [dev-dependencies]
 expect-test = "1.4.1"
