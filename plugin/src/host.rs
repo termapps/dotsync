@@ -22,6 +22,7 @@ pub trait PluginHost {
 
     fn resolve_path(&self, path: &str) -> Result<String, String>;
 
+    fn confirm(&self, message: &str, default: bool) -> Result<bool, String>;
 }
 
 impl<T: Plugin> PluginHost for T {
@@ -49,5 +50,7 @@ impl<T: Plugin> PluginHost for T {
         host::resolve_path(path)
     }
 
+    fn confirm(&self, message: &str, default: bool) -> Result<bool, String> {
+        host::confirm(message, default)
     }
 }

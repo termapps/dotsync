@@ -55,6 +55,7 @@ serde          = { workspace = true }
 serde_json     = { workspace = true }
 
 dirs          = "6.0.0"
+inquire       = "0.9.2"
 reqwest       = { version = "0.13.1", features = ["blocking", "json"] }
 wasmtime      = "41.0.0"
 wasmtime-wasi = "41.0.0"

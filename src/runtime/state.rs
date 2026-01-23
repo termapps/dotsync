@@ -6,6 +6,7 @@ use std::{
     sync::Arc,
 };
 
+use inquire::Confirm;
 use wasmtime::component::ResourceTable;
 use wasmtime_wasi::{WasiCtx, WasiCtxBuilder, WasiCtxView, WasiView};
 
@@ -85,5 +86,11 @@ impl Host for State {
             .map(|s| s.to_string())
             .ok_or_else(|| format!("path '{path}' contains non-UTF8 characters"))
     }
+
+    fn confirm(&mut self, message: String, default: bool) -> Result<bool, String> {
+        Confirm::new(&message)
+            .with_default(default)
+            .prompt()
+            .map_err(|e| format!("failed to prompt: {e}"))
     }
 }
