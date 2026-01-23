@@ -1,4 +1,4 @@
-use dotsync_plugin::{OperatingSystems, Plugin, config, register, run_command};
+use dotsync_plugin::prelude::*;
 
 #[config]
 struct HomebrewConfig {
@@ -12,12 +12,12 @@ struct Homebrew;
 
 impl Homebrew {
     fn get_list(&self, command: &str) -> Result<Vec<String>, String> {
-        let output = run_command(command, &[])?;
+        let output = self.run_command(command, &[])?;
 
         if !output.success() {
             return Err(format!(
-                "command `{}` failed with exit code {:?}\nstderr: {}",
-                command, output.exit_code, output.stderr
+                "command `{command}` failed with exit code {:?}\nstderr: {}",
+                output.exit_code, output.stderr
             ));
         }
 
@@ -31,13 +31,13 @@ impl Homebrew {
 
     fn install_items(&self, command: &str, items: &[String]) -> Result<(), String> {
         for item in items {
-            let cmd = format!("{} {}", command, item);
-            let output = run_command(&cmd, &[])?;
+            let cmd = format!("{command} {item}");
+            let output = self.run_command(&cmd, &[])?;
 
             if !output.success() {
                 return Err(format!(
-                    "command `{}` failed with exit code {:?}\nstderr: {}",
-                    cmd, output.exit_code, output.stderr
+                    "command `{cmd}` failed with exit code {:?}\nstderr: {}",
+                    output.exit_code, output.stderr
                 ));
             }
         }

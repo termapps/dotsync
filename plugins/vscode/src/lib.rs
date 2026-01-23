@@ -1,4 +1,4 @@
-use dotsync_plugin::{OperatingSystems, Plugin, config, register};
+use dotsync_plugin::{Plugin, config, register, types::OperatingSystems};
 
 #[config]
 struct VSCodeConfig {}

@@ -58,7 +58,7 @@ impl Host for State {
             .arg(&command)
             .envs(env)
             .output()
-            .map_err(|e| format!("failed to execute command: {}", e))?;
+            .map_err(|e| format!("failed to execute command: {e}"))?;
 
         Ok(CommandOutput {
             stdout: String::from_utf8_lossy(&output.stdout).into_owned(),
@@ -73,8 +73,8 @@ impl Host for State {
         let parent = p.parent().unwrap_or(Path::new("."));
         let base = p.file_name();
 
-        let parent_real = canonicalize(parent)
-            .map_err(|e| format!("failed to resolve path '{}': {}", path, e))?;
+        let parent_real =
+            canonicalize(parent).map_err(|e| format!("failed to resolve path '{path}': {e}"))?;
 
         let abs = match base {
             Some(name) => parent_real.join(name),
@@ -83,6 +83,7 @@ impl Host for State {
 
         abs.to_str()
             .map(|s| s.to_string())
-            .ok_or_else(|| format!("path '{}' contains non-UTF8 characters", path))
+            .ok_or_else(|| format!("path '{path}' contains non-UTF8 characters"))
+    }
     }
 }

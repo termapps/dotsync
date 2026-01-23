@@ -19,10 +19,8 @@ pub fn config(_attr: TokenStream, item: TokenStream) -> TokenStream {
             ::core::default::Default,
             ::dotsync_plugin::serde::Serialize,
             ::dotsync_plugin::serde::Deserialize,
-            ::dotsync_plugin::schemars::JsonSchema,
         )]
         #[serde(crate = "::dotsync_plugin::serde")]
-        #[schemars(crate = "::dotsync_plugin::schemars")]
         #vis struct #name #fields
     };
 

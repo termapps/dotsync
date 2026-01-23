@@ -7,7 +7,6 @@ use wasmtime::{
     component::{Component, HasSelf, Linker},
 };
 
-
 use crate::{
     commands::plugin::{PluginId, install::Install, plugin_path},
     error::Result,

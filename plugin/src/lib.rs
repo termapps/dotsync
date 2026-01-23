@@ -1,189 +1,88 @@
+use std::marker::PhantomData;
+
+use serde_json::{from_str, to_string};
+
+use crate::{
+    wasm::{map_linux_distro, map_operating_system},
+    wit::{
+        Guest,
+        dotsync::plugin::operating_systems::{
+            LinuxDistribution as WasmLinuxDistribution, OperatingSystem as WasmOperatingSystem,
+        },
+    },
+};
+
 pub use dotsync_macros::config;
-pub use schemars;
 pub use serde;
 
-mod operating_systems;
+pub mod host;
 mod plugin;
+pub mod prelude;
+pub mod types;
+mod wasm;
+#[doc(hidden)]
+pub mod wit;
 
-pub use operating_systems::{LinuxDistribution, OperatingSystem, OperatingSystems};
+pub use host::PluginHost;
 pub use plugin::Plugin;
 
-#[cfg(target_arch = "wasm32")]
-pub mod bindings {
-    wit_bindgen::generate!({
-        world: "plugin",
-        pub_export_macro: true,
-    });
-}
-
-#[cfg(target_arch = "wasm32")]
 #[doc(hidden)]
-pub use bindings as __internal_bindings;
+pub struct Component<T>(PhantomData<T>);
 
-#[cfg(target_arch = "wasm32")]
-#[doc(hidden)]
-pub use serde_json as __internal_serde_json;
-
-#[cfg(target_arch = "wasm32")]
-pub fn subrun<C: serde::Serialize>(plugin_id: &str, config: &C) -> Result<(), String> {
-    let config_json = serde_json::to_string(config).map_err(|e| e.to_string())?;
-    bindings::dotsync::plugin::host::subrun(plugin_id, &config_json)
-}
-
-#[cfg(not(target_arch = "wasm32"))]
-pub fn subrun<C: serde::Serialize>(_plugin_id: &str, _config: &C) -> Result<(), String> {
-    Err("subrun is only available in wasm plugins".to_string())
-}
-
-pub struct CommandOutput {
-    pub stdout: String,
-    pub stderr: String,
-    pub exit_code: Option<i32>,
-}
-
-impl CommandOutput {
-    pub fn success(&self) -> bool {
-        self.exit_code == Some(0)
+impl<T> Guest for Component<T>
+where
+    T: Plugin,
+{
+    fn id() -> String {
+        T::ID.to_string()
     }
-}
 
-#[cfg(target_arch = "wasm32")]
-pub fn run_command(command: &str, env: &[(&str, &str)]) -> Result<CommandOutput, String> {
-    let env = env
-        .iter()
-        .map(|(k, v)| (k.to_string(), v.to_string()))
-        .collect::<Vec<_>>();
-
-    bindings::dotsync::plugin::host::run_command(command, &env).map(|o| CommandOutput {
-        stdout: o.stdout,
-        stderr: o.stderr,
-        exit_code: o.exit_code,
-    })
-}
-
-#[cfg(not(target_arch = "wasm32"))]
-pub fn run_command(_command: &str, _env: &[(&str, &str)]) -> Result<CommandOutput, String> {
-    Err("run_command is only available in wasm plugins".to_string())
-}
-
-#[cfg(target_arch = "wasm32")]
-pub fn resolve_path(path: &str) -> Result<String, String> {
-    bindings::dotsync::plugin::host::resolve_path(path)
-}
-
-#[cfg(not(target_arch = "wasm32"))]
-pub fn resolve_path(_path: &str) -> Result<String, String> {
-    Err("resolve_path is only available in wasm plugins".to_string())
-}
-
-#[cfg(target_arch = "wasm32")]
-#[doc(hidden)]
-pub fn map_operating_system(
-    i: i32,
-) -> __internal_bindings::dotsync::plugin::operating_systems::OperatingSystem {
-    use __internal_bindings::dotsync::plugin::operating_systems::OperatingSystem as WOS;
-    match i {
-        1 => WOS::MacOS,
-        2 => WOS::Windows,
-        _ => WOS::UnspecifiedOS,
+    fn description() -> String {
+        T::DESCRIPTION.to_string()
     }
-}
 
-#[cfg(target_arch = "wasm32")]
-#[doc(hidden)]
-pub fn map_linux_distro(
-    i: i32,
-) -> __internal_bindings::dotsync::plugin::operating_systems::LinuxDistribution {
-    use __internal_bindings::dotsync::plugin::operating_systems::LinuxDistribution as WLD;
-    match i {
-        1 => WLD::Debian,
-        2 => WLD::Ubuntu,
-        3 => WLD::Fedora,
-        4 => WLD::CentOS,
-        5 => WLD::RHEL,
-        6 => WLD::Arch,
-        7 => WLD::Manjaro,
-        8 => WLD::OpenSUSE,
-        9 => WLD::Gentoo,
-        10 => WLD::Alpine,
-        11 => WLD::Solus,
-        12 => WLD::Mint,
-        13 => WLD::PopOS,
-        14 => WLD::NixOS,
-        15 => WLD::Void,
-        16 => WLD::Kali,
-        _ => WLD::UnspecifiedDistro,
+    fn dependencies() -> Vec<String> {
+        T::DEPENDENCIES.iter().map(|s| s.to_string()).collect()
+    }
+
+    fn supported_operating_systems() -> Vec<WasmOperatingSystem> {
+        T::get_supported_operating_systems()
+            .supported_os()
+            .into_iter()
+            .map(map_operating_system)
+            .collect()
+    }
+
+    fn supported_linux_distributions() -> Vec<WasmLinuxDistribution> {
+        T::get_supported_operating_systems()
+            .supported_linux_distro()
+            .into_iter()
+            .map(map_linux_distro)
+            .collect()
+    }
+
+    fn import_config() -> Result<String, String> {
+        let mut plugin = T::default();
+
+        let config = plugin.import()?;
+
+        to_string(&config).map_err(|e| format!("failed to serialize config: {e}"))
+    }
+
+    fn run(config_json: String) -> Result<(), String> {
+        let cfg = from_str::<T::Config>(&config_json)
+            .map_err(|e| format!("failed to deserialize config: {e}"))?;
+
+        let mut plugin = T::default();
+
+        plugin.run(cfg)
     }
 }
 
 #[macro_export]
-#[cfg(target_arch = "wasm32")]
 macro_rules! register {
     ($plugin_type:ty) => {
-        struct WasmPlugin;
-
-        use $crate::__internal_bindings::dotsync::plugin::operating_systems::{
-            LinuxDistribution as WasmLinuxDistribution, OperatingSystem as WasmOperatingSystem,
-        };
-
-        impl $crate::__internal_bindings::Guest for WasmPlugin {
-            fn id() -> String {
-                <$plugin_type as $crate::Plugin>::ID.to_string()
-            }
-
-            fn description() -> String {
-                <$plugin_type as $crate::Plugin>::DESCRIPTION.to_string()
-            }
-
-            fn dependencies() -> Vec<String> {
-                <$plugin_type as $crate::Plugin>::DEPENDENCIES
-                    .iter()
-                    .map(|s| (*s).to_string())
-                    .collect()
-            }
-
-            fn supported_operating_systems() -> Vec<WasmOperatingSystem> {
-                let os = <$plugin_type as $crate::Plugin>::get_supported_operating_systems();
-                let supported = os.supported_os();
-
-                supported
-                    .into_iter()
-                    .map(|s| $crate::map_operating_system(s))
-                    .collect()
-            }
-
-            fn supported_linux_distributions() -> Vec<WasmLinuxDistribution> {
-                let os = <$plugin_type as $crate::Plugin>::get_supported_operating_systems();
-                let supported = os.supported_linux_distro();
-
-                supported
-                    .into_iter()
-                    .map(|s| $crate::map_linux_distro(s))
-                    .collect()
-            }
-
-            fn config_schema() -> String {
-                <$plugin_type as $crate::Plugin>::config_schema()
-            }
-
-            fn import_config() -> Result<String, String> {
-                let mut plugin = <$plugin_type as Default>::default();
-                let config = plugin.import()?;
-                $crate::__internal_serde_json::to_string(&config)
-                    .map_err(|e| format!("failed to serialize config: {e}"))
-            }
-
-            fn run(config_json: String) -> Result<(), String> {
-                let cfg = $crate::__internal_serde_json::from_str::<
-                    <$plugin_type as $crate::Plugin>::Config,
-                >(&config_json)
-                .map_err(|e| format!("invalid config JSON: {e}"))?;
-
-                let mut plugin = <$plugin_type as Default>::default();
-                plugin.run(cfg)
-            }
-        }
-
-        $crate::__internal_bindings::export!(WasmPlugin with_types_in $crate::__internal_bindings);
+        type __DotsyncPluginExport = $crate::Component<$plugin_type>;
+        $crate::wit::export!(__DotsyncPluginExport with_types_in $crate::wit);
     };
 }

@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use dotsync_plugin::{OperatingSystems, Plugin, config, register};
+use dotsync_plugin::prelude::*;
 
 #[config]
 struct LinkConfig {
@@ -22,28 +22,29 @@ impl Plugin for Link {
 
     fn run(&mut self, config: Self::Config) -> Result<(), String> {
         for (source, target) in config.links {
-            let abs_source = dotsync_plugin::resolve_path(&source)?;
+            let abs_source = self.resolve_path(&source)?;
 
-            let mkdir = format!("mkdir -p \"$(dirname '{}')\"", target);
-            let output = dotsync_plugin::run_command(&mkdir, &[])?;
+            let mkdir = format!("mkdir -p \"$(dirname '{target}')\"");
+            let output = self.run_command(&mkdir, &[])?;
 
             if !output.success() {
                 return Err(format!(
-                    "failed to create parent directory for {}: {}",
-                    target, output.stderr
+                    "failed to create parent directory for {target}: {}",
+                    output.stderr
                 ));
             }
 
-            let ln = format!("ln -sf '{}' '{}'", abs_source, target);
-            let output = dotsync_plugin::run_command(&ln, &[])?;
+            let ln = format!("ln -sf '{abs_source}' '{target}'");
+            let output = self.run_command(&ln, &[])?;
 
             if !output.success() {
                 return Err(format!(
-                    "failed to create symlink {} -> {}: {}",
-                    source, target, output.stderr
+                    "failed to create symlink {source} -> {target}: {}",
+                    output.stderr
                 ));
             }
         }
+
         Ok(())
     }
 }

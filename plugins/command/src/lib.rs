@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use dotsync_plugin::{OperatingSystems, Plugin, config, register};
+use dotsync_plugin::prelude::*;
 
 #[config]
 struct CommandConfig {
@@ -30,12 +30,12 @@ impl Plugin for Command {
             .collect::<Vec<_>>();
 
         for command in config.commands {
-            let output = dotsync_plugin::run_command(&command, &env)?;
+            let output = self.run_command(&command, &env)?;
 
             if !output.success() {
                 return Err(format!(
-                    "command `{}` failed with exit code {:?}\nstderr: {}",
-                    command, output.exit_code, output.stderr
+                    "command `{command}` failed with exit code {:?}\nstderr: {}",
+                    output.exit_code, output.stderr
                 ));
             }
         }

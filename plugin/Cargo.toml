@@ -19,5 +19,4 @@ dotsync-macros = { workspace = true }
 serde      = { workspace = true }
 serde_json = { workspace = true }
 
-schemars    = "1.2.0"
 wit-bindgen = "0.51.0"

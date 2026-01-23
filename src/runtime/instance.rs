@@ -31,12 +31,6 @@ impl PluginInstance {
             .map_err(|e| eyre!("failed to call plugin's dependencies: {}", e))
     }
 
-    pub fn config_schema(&mut self) -> Result<String> {
-        self.instance
-            .call_config_schema(&mut self.store)
-            .map_err(|e| eyre!("failed to call plugin's config_schema: {}", e))
-    }
-
     pub fn import_config(&mut self) -> Result<String> {
         self.instance
             .call_import_config(&mut self.store)
